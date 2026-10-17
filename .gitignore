@@ -16,6 +16,8 @@ tracker_local.sqlite
 .env
 .env.local
 .env.*.local
+.env.deploy
+.env*.deploy
 
 # Editor directories
 .vscode/

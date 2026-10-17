@@ -6,10 +6,15 @@ DirectoryIndex index.html index.php
 # Prevent directory browsing
 Options -Indexes
 
-# Protect sensitive database and environment files
-<FilesMatch "\.(sqlite|sqlite3|sql|log|env|md)$">
-    Order allow,deny
-    Deny from all
+# Protect sensitive database, config, environment and server files from direct web access
+<FilesMatch "^(\.env.*|config\.php|.*\.sql|.*\.sqlite.*|.*\.log|.*\.md|package.*\.json)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
 </FilesMatch>
 
 # Character encoding
@@ -18,7 +23,6 @@ AddDefaultCharset UTF-8
 # Rewrite Rules for Single Page App & API
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
 
     # Allow direct access to physical files (CSS, JS, images, /api/*.php)
     RewriteCond %{REQUEST_FILENAME} -f [OR]
@@ -26,7 +30,7 @@ AddDefaultCharset UTF-8
     RewriteRule ^ - [L]
 
     # Don't rewrite API endpoints
-    RewriteCond %{REQUEST_URI} ^/api/ [NC]
+    RewriteCond %{REQUEST_URI} api/ [NC]
     RewriteRule ^ - [L]
 
     # Route all other URLs to index.html for React SPA client-side routing

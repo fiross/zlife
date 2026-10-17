@@ -3,7 +3,7 @@
  * Interfaces with PHP / MySQL backend with credentials & session support
  */
 
-const API_BASE = '/api';
+const API_BASE = './api';
 
 async function apiFetch(endpoint, options = {}) {
   const config = {

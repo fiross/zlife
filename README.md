@@ -45,18 +45,27 @@ Open your browser to: **http://localhost:5173** (Vite proxies all `/api/*` calls
 
 ---
 
-## 🌐 Building & Deploying to Hostinger Shared Hosting
+## 🌐 Direct Deployment to Hostinger from Antigravity IDE
 
-1. **Build Production React Bundle:**
-   ```bash
-   npm run build
-   ```
-   This generates optimized, minified static files in the `dist/` directory.
+You can deploy updates directly from Antigravity IDE to Hostinger with a single command:
 
-2. **Upload to Hostinger `public_html`:**
-   - Upload the contents of `dist/` (`index.html`, `assets/`, etc.) into your Hostinger `public_html` directory.
-   - Upload the `api/` folder and `config.php` to `public_html`.
-   - Upload `.htaccess` to ensure API routes and permissions are preserved.
+```bash
+npm run deploy
+```
+
+### How It Works:
+1. Automatically executes `npm run build` to generate the latest production bundle with portable relative paths (`base: './'`).
+2. Securely connects to your hosting FTP using credentials stored in `.env.deploy` (which is strictly git-ignored).
+3. Cleans up any hosting default placeholders (such as `default.php`).
+4. Preserves your live database credentials in `config.php` (never accidentally overwrites production database settings).
+5. Synchronizes `dist/index.html`, `dist/assets/*`, `api/*`, and `.htaccess` directly into your target hosting folder.
+6. Your live site is updated and immediately accessible.
+
+### Quick Deploy (Skip Build):
+If you only changed PHP API files or `.htaccess` and don't need to rebuild React:
+```bash
+npm run deploy:quick
+```
 
 3. **Configure MySQL on Hostinger:**
    - In Hostinger hPanel, create a MySQL database and user under **Databases > MySQL Databases**.
