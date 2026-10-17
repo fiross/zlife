@@ -1,16 +1,34 @@
 # Apache / Hostinger Shared Hosting Configuration
 
-# Enable DirectoryIndex
-DirectoryIndex index.php index.html
+# Prioritize React HTML index over PHP index
+DirectoryIndex index.html index.php
 
 # Prevent directory browsing
 Options -Indexes
 
-# Protect sensitive database files if stored locally
-<FilesMatch "\.(sqlite|sql|log)$">
+# Protect sensitive database and environment files
+<FilesMatch "\.(sqlite|sqlite3|sql|log|env|md)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
 # Character encoding
 AddDefaultCharset UTF-8
+
+# Rewrite Rules for Single Page App & API
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Allow direct access to physical files (CSS, JS, images, /api/*.php)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Don't rewrite API endpoints
+    RewriteCond %{REQUEST_URI} ^/api/ [NC]
+    RewriteRule ^ - [L]
+
+    # Route all other URLs to index.html for React SPA client-side routing
+    RewriteRule ^ index.html [L]
+</IfModule>

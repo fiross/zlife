@@ -60,11 +60,11 @@ CREATE TABLE IF NOT EXISTS `z_logs` (
 -- --------------------------------------------------------
 
 -- Default Passcodes:
--- Parent passcode: '0023' (bcrypt hashed)
--- Teacher passcode: '5678' (bcrypt hashed)
+-- Parent passcode: '0023' (verified bcrypt hash)
+-- Teacher passcode: '5678' (verified bcrypt hash)
 INSERT INTO `users` (`id`, `passcode_hash`, `role`) VALUES
-(1, '$2y$10$WqTqGekbK00w9N3kI3jVzO4R6vYg3m9pU2eD5qX7rF0wN8yG4pZ5C', 'parent'),
-(2, '$2y$10$7vN3kJ3jVzO4R6vYg3m9pU2eD5qX7rF0wN8yG4pZ5CWqTqGekbK00', 'teacher')
+(1, '$2y$10$zt4QSLSRx5.bmNhdN1cM9ed4g/UZqizU2HbGW4lu.DnR4wp2UUFX2', 'parent'),
+(2, '$2y$10$8p1pl02PzSIfzoiT5n0W4eqGXFzMabbraDFMyfHNGXGby1svz7A.m', 'teacher')
 ON DUPLICATE KEY UPDATE `id`=`id`;
 
 -- Default Student Settings
@@ -81,8 +81,10 @@ INSERT INTO `master_lists` (`category`, `item_name`, `is_active`) VALUES
 ('mood', 'Hyperactive', 1),
 ('mood', 'Sensory Overload', 1),
 ('mood', 'Withdrawn', 1),
+('mood', 'Sensory Seeking', 1),
 ('medication', 'Focalin (Morning)', 1),
 ('medication', 'Melatonin (Night)', 1),
+('medication', 'Guanfacine (Evening)', 1),
 ('food', 'High-Protein/High-Fat', 1),
 ('food', 'High-Sugar', 1),
 ('food', 'Salty/Crunchy', 1),
