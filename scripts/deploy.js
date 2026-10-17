@@ -138,20 +138,17 @@ async function deploy() {
     // D. Upload dist/assets/ -> assets/
     const localAssetsDir = path.join(distDir, 'assets');
     if (fs.existsSync(localAssetsDir)) {
-      await client.ensureDir('assets');
+      await client.cd(REMOTE_DIR);
       await client.uploadFromDir(localAssetsDir, 'assets');
       console.log('   ✔ assets/ (compiled JS, CSS, fonts, SVG icons)');
-      // Return to root directory
-      await client.cd(REMOTE_DIR);
     }
 
     // E. Upload api/ -> api/
     const localApiDir = path.join(ROOT_DIR, 'api');
     if (fs.existsSync(localApiDir)) {
-      await client.ensureDir('api');
+      await client.cd(REMOTE_DIR);
       await client.uploadFromDir(localApiDir, 'api');
       console.log('   ✔ api/ (PHP REST API: auth, settings, lists, logs, passcodes)');
-      await client.cd(REMOTE_DIR);
     }
 
     console.log('\n\x1b[32m====================================================\x1b[0m');
