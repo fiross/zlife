@@ -159,48 +159,6 @@ export default function PasscodeLock({ onAuthenticated }) {
             <Delete size={22} />
           </button>
         </div>
-
-        {/* Quick Roles Reminder / Direct Tap */}
-        <div className="lock-hints">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span>🔑 <strong>Parent:</strong> <code>0023</code> (Full Access)</span>
-            <button
-              type="button"
-              onClick={() => attemptLogin('0023')}
-              style={{
-                background: '#0d9488',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '6px',
-                padding: '2px 8px',
-                fontSize: '0.72rem',
-                fontWeight: '700',
-                cursor: 'pointer'
-              }}
-            >
-              Fill
-            </button>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
-            <span>👨‍🏫 <strong>Teacher:</strong> <code>5678</code> (Summary View)</span>
-            <button
-              type="button"
-              onClick={() => attemptLogin('5678')}
-              style={{
-                background: '#7c3aed',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '6px',
-                padding: '2px 8px',
-                fontSize: '0.72rem',
-                fontWeight: '700',
-                cursor: 'pointer'
-              }}
-            >
-              Fill
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
