@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { api } from './api';
 import PasscodeLock from './components/PasscodeLock';
 import Header from './components/Header';
@@ -203,7 +204,8 @@ export default function App() {
   }
 
   return (
-    <div className="app-container" id="app-root">
+    <>
+      <div className="app-container" id="app-root">
       {/* Header */}
       <Header
         settings={settings}
@@ -237,30 +239,35 @@ export default function App() {
         />
       )}
 
-      {/* Admin Modal (Parent Only) */}
-      {role === 'parent' && (
-        <AdminModal
-          isOpen={adminOpen}
-          onClose={() => setAdminOpen(false)}
-          currentSettings={settings}
-          onSettingsUpdated={setSettings}
-          onListsUpdated={loadMasterData}
-        />
-      )}
-
-      {/* Sensory SOS Modal */}
-      <SensorySOSModal
-        isOpen={sosOpen}
-        onClose={() => setSosOpen(false)}
-      />
-
       {/* Toast Feedback */}
       {toastMessage && (
         <div className="toast-notice" id="toast-message">
-          <CheckCircle2 size={18} color="var(--green-mint)" />
+          <CheckCircle2 size={18} color="#10b981" />
           <span>{toastMessage}</span>
         </div>
       )}
     </div>
+
+    {/* Admin Modal (Parent Only) - Portaled to document.body for true viewport centering */}
+    {role === 'parent' && adminOpen && createPortal(
+      <AdminModal
+        isOpen={adminOpen}
+        onClose={() => setAdminOpen(false)}
+        currentSettings={settings}
+        onSettingsUpdated={setSettings}
+        onListsUpdated={loadMasterData}
+      />,
+      document.body
+    )}
+
+    {/* Sensory SOS Modal - Portaled to document.body */}
+    {sosOpen && createPortal(
+      <SensorySOSModal
+        isOpen={sosOpen}
+        onClose={() => setSosOpen(false)}
+      />,
+      document.body
+    )}
+  </>
   );
 }

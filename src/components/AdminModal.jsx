@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check } from 'lucide-react';
+import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check, ShieldCheck, Sparkles, School } from 'lucide-react';
 import { api } from '../api';
 
 const CATEGORIES = [
@@ -11,6 +11,44 @@ const CATEGORIES = [
   { id: 'exercise', label: 'Exercise & Sports', icon: '🏓' },
   { id: 'food', label: 'Food & Nutrition', icon: '🥑' }
 ];
+
+const ITEM_ICONS = {
+  'Focalin (Morning)': '☀️',
+  'Melatonin (Night)': '🌙',
+  'Guanfacine (Evening)': '🌅',
+  'Calm': '😌',
+  'Happy': '😊',
+  'Aggressive': '😡',
+  'Anxiety': '😰',
+  'Hyperactive': '⚡',
+  'Sensory Overload': '💥',
+  'Withdrawn': '😶',
+  'Sensory Seeking': '✨',
+  'Ear Covering': '🎧',
+  'Food Grabbing': '🥪',
+  'Cover with Blanket (Cocooning)': '🛋️',
+  'Impulsive Pacing': '👣',
+  'Sound Sensitivity': '🔊',
+  'Self-Regulation (Stimming)': '🌀',
+  'Joint Compression': '🤲',
+  'Neutral Warmth': '🧣',
+  'Walk': '🚶',
+  'Earmuffs (Walker\'s Electronics)': '🎧',
+  'Visual Timer': '⏳',
+  'Oral Sensory (Gum/Crunch)': '🍬',
+  'Visual Board Prompt': '📋',
+  'Music Class': '🎵',
+  'Keyboard': '🎹',
+  'Speech': '💬',
+  'Pickleball': '🏓',
+  'Badminton': '🏸',
+  'Yoga': '🧘',
+  'Exercise General': '🏃',
+  'High-Protein/High-Fat': '🥑',
+  'High-Sugar': '🧁',
+  'Salty/Crunchy': '🥨',
+  'General Meal': '🍽️'
+};
 
 export default function AdminModal({ isOpen, onClose, currentSettings, onSettingsUpdated, onListsUpdated }) {
   const [activeTab, setActiveTab] = useState('lists');
@@ -139,68 +177,70 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
   const currentCategoryItems = allLists[selectedCategory] || [];
 
   return (
-    <div className="modal-overlay" id="admin-modal-overlay">
-      <div className="modal-sheet">
-        <div className="modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div className="section-icon-badge" style={{ background: 'var(--navy-light)', color: 'var(--navy-slate)' }}>
-              <ListFilter size={18} />
+    <div className="modal-overlay" id="admin-modal-overlay" onClick={(e) => {
+      if (e.target.id === 'admin-modal-overlay') onClose();
+    }}>
+      <div className="modal-sheet admin-modal-sheet" onClick={(e) => e.stopPropagation()}>
+        {/* Modal Header */}
+        <div className="modal-header admin-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="section-icon-badge" style={{ background: 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)', color: '#ffffff' }}>
+              <ListFilter size={20} />
             </div>
             <div>
-              <h2 style={{ fontSize: '1.1rem', color: 'var(--navy-slate)' }}>Admin Configuration</h2>
-              <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Parent Management Portal</p>
+              <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--slate-navy)' }}>Admin Configuration</h2>
+              <p style={{ fontSize: '0.76rem', color: '#64748b', fontWeight: '600' }}>Manage profile, passcodes & dynamic checklist options</p>
             </div>
           </div>
-          <button type="button" className="btn-icon" onClick={onClose} id="close-admin-btn">
+          <button type="button" className="btn-icon" onClick={onClose} id="close-admin-btn" title="Close">
             <X size={20} />
           </button>
         </div>
 
-        {/* Tab navigation */}
-        <div style={{ padding: '12px 20px 0' }}>
-          <div className="tab-list">
+        {/* Tab Navigation */}
+        <div style={{ padding: '14px 20px 0' }}>
+          <div className="admin-tabs-bar">
             <button
               type="button"
-              className={`tab-btn ${activeTab === 'lists' ? 'active' : ''}`}
+              className={`admin-tab-btn ${activeTab === 'lists' ? 'is-active' : ''}`}
               onClick={() => setActiveTab('lists')}
             >
-              Lists & Meds
+              <span>📋</span> Lists & Meds
             </button>
             <button
               type="button"
-              className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`}
+              className={`admin-tab-btn ${activeTab === 'profile' ? 'is-active' : ''}`}
               onClick={() => setActiveTab('profile')}
             >
-              Profile & Bio
+              <span>👤</span> Student Profile
             </button>
             <button
               type="button"
-              className={`tab-btn ${activeTab === 'passcodes' ? 'active' : ''}`}
+              className={`admin-tab-btn ${activeTab === 'passcodes' ? 'is-active' : ''}`}
               onClick={() => setActiveTab('passcodes')}
             >
-              Passcodes
+              <span>🔑</span> Passcodes
             </button>
           </div>
         </div>
 
-        <div className="modal-body">
+        <div className="modal-body" style={{ padding: '16px 20px 24px' }}>
 
           {/* TAB 1: DYNAMIC MASTER LISTS & MEDS */}
           {activeTab === 'lists' && (
             <div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '10px' }}>
-                Manage checklist options. Toggle items inactive to hide them without losing past logs.
+              <p style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: '600', marginBottom: '10px' }}>
+                Manage daily options. Inactive items are hidden from daily logging without affecting historical data.
               </p>
 
-              {/* Category selector pills */}
-              <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '8px', scrollbarWidth: 'none' }}>
+              {/* Category Pills Selector */}
+              <div className="admin-category-pills">
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat.id}
                     type="button"
-                    className={`preset-chip ${selectedCategory === cat.id ? 'active' : ''}`}
+                    className={`admin-cat-pill ${selectedCategory === cat.id ? 'is-active' : ''}`}
                     onClick={() => setSelectedCategory(cat.id)}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                   >
                     <span>{cat.icon}</span>
                     <span>{cat.label}</span>
@@ -208,171 +248,171 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
                 ))}
               </div>
 
-              {/* Add new item form */}
-              <form onSubmit={handleAddItem} style={{ display: 'flex', gap: '8px', margin: '12px 0' }}>
+              {/* Add New Item Form */}
+              <form onSubmit={handleAddItem} className="admin-add-form">
                 <input
                   type="text"
-                  placeholder={`Add new ${selectedCategory} item...`}
+                  placeholder={`Add custom item to ${selectedCategory}...`}
                   value={newItemName}
                   onChange={(e) => setNewItemName(e.target.value)}
-                  style={{
-                    flex: 1,
-                    height: '42px',
-                    padding: '0 12px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                    fontSize: '0.86rem'
-                  }}
+                  className="admin-input-styled"
                   id="new-item-input"
                 />
-                <button type="submit" className="btn btn-primary" style={{ padding: '0 16px' }} id="add-item-btn">
-                  <Plus size={16} /> Add
+                <button type="submit" className="btn btn-primary" style={{ height: '46px', padding: '0 20px', whiteSpace: 'nowrap' }} id="add-item-btn">
+                  <Plus size={18} /> Add
                 </button>
               </form>
 
               {listMessage && (
-                <div style={{ color: 'var(--teal-primary)', fontSize: '0.8rem', fontWeight: '600', marginBottom: '8px' }}>
+                <div style={{ color: '#059669', fontSize: '0.84rem', fontWeight: '700', marginBottom: '10px' }}>
                   ✓ {listMessage}
                 </div>
               )}
 
               {/* Items List */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '280px', overflowY: 'auto' }}>
-                {currentCategoryItems.map((item) => (
-                  <div
-                    key={item.id}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '8px 12px',
-                      borderRadius: 'var(--radius-md)',
-                      background: item.is_active ? 'var(--bg-page)' : '#f8fafc',
-                      border: '1px solid var(--border-subtle)',
-                      opacity: item.is_active ? 1 : 0.55
-                    }}
-                  >
-                    <span style={{
-                      fontSize: '0.86rem',
-                      fontWeight: '600',
-                      textDecoration: item.is_active ? 'none' : 'line-through'
-                    }}>
-                      {item.item_name}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleToggleItem(item)}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        color: item.is_active ? 'var(--teal-primary)' : 'var(--text-light)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.78rem',
-                        fontWeight: '600'
-                      }}
-                      title={item.is_active ? 'Hide from daily tracker' : 'Show on daily tracker'}
-                    >
-                      {item.is_active ? (
-                        <>
-                          <Eye size={16} /> Active
-                        </>
-                      ) : (
-                        <>
-                          <EyeOff size={16} /> Inactive
-                        </>
-                      )}
-                    </button>
-                  </div>
-                ))}
+              <div className="admin-items-list">
+                {listLoading ? (
+                  <div style={{ textAlign: 'center', padding: '20px', color: '#64748b' }}>Loading items...</div>
+                ) : currentCategoryItems.length === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '20px', color: '#94a3b8' }}>No items in this category yet.</div>
+                ) : (
+                  currentCategoryItems.map((item) => {
+                    const icon = ITEM_ICONS[item.item_name] || '✨';
+                    return (
+                      <div
+                        key={item.id}
+                        className={`admin-item-row ${item.is_active ? '' : 'is-inactive'}`}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <span style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            background: item.is_active ? '#ecfdf5' : '#f1f5f9',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '1.1rem',
+                            border: '1px solid #e2e8f0'
+                          }}>
+                            {icon}
+                          </span>
+                          <span style={{
+                            fontSize: '0.9rem',
+                            fontWeight: '700',
+                            color: item.is_active ? '#1e293b' : '#94a3b8',
+                            textDecoration: item.is_active ? 'none' : 'line-through'
+                          }}>
+                            {item.item_name}
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleToggleItem(item)}
+                          className={`admin-toggle-badge ${item.is_active ? 'active-state' : 'inactive-state'}`}
+                          title={item.is_active ? 'Click to hide from tracker' : 'Click to restore to tracker'}
+                        >
+                          {item.is_active ? (
+                            <>
+                              <Eye size={15} /> Active
+                            </>
+                          ) : (
+                            <>
+                              <EyeOff size={15} /> Hidden
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
           )}
 
           {/* TAB 2: PROFILE & BIO */}
           {activeTab === 'profile' && (
-            <form onSubmit={handleSaveProfile} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div>
-                <label style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
-                  TEENAGER NAME
+            <form onSubmit={handleSaveProfile} className="admin-form-card">
+              <div className="admin-field-group">
+                <label className="admin-field-label">
+                  <User size={15} color="#0f766e" /> TEENAGER NAME
                 </label>
                 <input
                   type="text"
                   value={profile.z_name}
                   onChange={(e) => setProfile({ ...profile, z_name: e.target.value })}
                   required
-                  style={{ width: '100%', height: '42px', padding: '0 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}
+                  className="admin-input-styled"
                   id="profile-name-input"
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
-                    AGE
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="admin-field-group">
+                  <label className="admin-field-label">
+                    <span>🎂</span> AGE
                   </label>
                   <input
                     type="number"
                     value={profile.z_age}
                     onChange={(e) => setProfile({ ...profile, z_age: parseInt(e.target.value) || 0 })}
                     required
-                    style={{ width: '100%', height: '42px', padding: '0 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}
+                    className="admin-input-styled"
                     id="profile-age-input"
                   />
                 </div>
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
-                    CLASS / GRADE
+                <div className="admin-field-group">
+                  <label className="admin-field-label">
+                    <span>🎒</span> CLASS / GRADE
                   </label>
                   <input
                     type="text"
                     value={profile.z_class}
                     onChange={(e) => setProfile({ ...profile, z_class: e.target.value })}
                     required
-                    style={{ width: '100%', height: '42px', padding: '0 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}
+                    className="admin-input-styled"
                     id="profile-class-input"
                   />
                 </div>
               </div>
 
-              <div>
-                <label style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
-                  SCHOOL NAME
+              <div className="admin-field-group">
+                <label className="admin-field-label">
+                  <School size={15} color="#0f766e" /> SCHOOL NAME
                 </label>
                 <input
                   type="text"
                   value={profile.z_school}
                   onChange={(e) => setProfile({ ...profile, z_school: e.target.value })}
                   required
-                  style={{ width: '100%', height: '42px', padding: '0 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}
+                  className="admin-input-styled"
                   id="profile-school-input"
                 />
               </div>
 
               {profileSuccess && (
-                <div style={{ color: 'var(--teal-primary)', fontSize: '0.84rem', fontWeight: '600' }}>
+                <div style={{ color: '#059669', fontSize: '0.86rem', fontWeight: '700' }}>
                   ✓ {profileSuccess}
                 </div>
               )}
 
-              <button type="submit" className="btn btn-primary" disabled={profileSaving} style={{ marginTop: '8px' }}>
-                <Save size={16} /> {profileSaving ? 'Saving...' : 'Update Profile'}
+              <button type="submit" className="btn btn-primary" disabled={profileSaving} style={{ height: '48px', marginTop: '6px' }}>
+                <Save size={18} /> {profileSaving ? 'Saving...' : 'Update Profile Details'}
               </button>
             </form>
           )}
 
           {/* TAB 3: PASSCODE MANAGEMENT */}
           {activeTab === 'passcodes' && (
-            <form onSubmit={handleSavePasscodes} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                Update numeric passcodes. Must be at least 4 numeric digits.
+            <form onSubmit={handleSavePasscodes} className="admin-form-card">
+              <p style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: '600' }}>
+                Change numeric passcodes for login access. Passcodes must be at least 4 digits.
               </p>
 
-              <div>
-                <label style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
-                  NEW PARENT PASSCODE (Leave blank to keep unchanged)
+              <div className="admin-field-group">
+                <label className="admin-field-label">
+                  <ShieldCheck size={16} color="#0f766e" /> NEW PARENT PASSCODE (Leave blank to keep unchanged)
                 </label>
                 <input
                   type="password"
@@ -380,14 +420,14 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
                   placeholder="e.g. 0023"
                   value={parentPasscode}
                   onChange={(e) => setParentPasscode(e.target.value)}
-                  style={{ width: '100%', height: '42px', padding: '0 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}
+                  className="admin-input-styled"
                   id="new-parent-passcode-input"
                 />
               </div>
 
-              <div>
-                <label style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
-                  NEW TEACHER PASSCODE (Leave blank to keep unchanged)
+              <div className="admin-field-group">
+                <label className="admin-field-label">
+                  <Key size={16} color="#7c3aed" /> NEW TEACHER PASSCODE (Leave blank to keep unchanged)
                 </label>
                 <input
                   type="password"
@@ -395,25 +435,25 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
                   placeholder="e.g. 5678"
                   value={teacherPasscode}
                   onChange={(e) => setTeacherPasscode(e.target.value)}
-                  style={{ width: '100%', height: '42px', padding: '0 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}
+                  className="admin-input-styled"
                   id="new-teacher-passcode-input"
                 />
               </div>
 
               {passError && (
-                <div style={{ color: 'var(--danger-rose)', fontSize: '0.82rem', fontWeight: '600' }}>
+                <div style={{ color: '#e11d48', fontSize: '0.84rem', fontWeight: '700' }}>
                   {passError}
                 </div>
               )}
 
               {passSuccess && (
-                <div style={{ color: 'var(--teal-primary)', fontSize: '0.84rem', fontWeight: '600' }}>
+                <div style={{ color: '#059669', fontSize: '0.86rem', fontWeight: '700' }}>
                   ✓ {passSuccess}
                 </div>
               )}
 
-              <button type="submit" className="btn btn-primary" disabled={passSaving} style={{ marginTop: '8px' }}>
-                <Key size={16} /> {passSaving ? 'Updating...' : 'Update Passcodes'}
+              <button type="submit" className="btn btn-primary" disabled={passSaving} style={{ height: '48px', marginTop: '6px' }}>
+                <Key size={18} /> {passSaving ? 'Updating...' : 'Save New Passcodes'}
               </button>
             </form>
           )}
