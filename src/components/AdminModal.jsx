@@ -3,13 +3,13 @@ import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check } from 'lucide
 import { api } from '../api';
 
 const CATEGORIES = [
-  { id: 'medication', label: 'Medications' },
-  { id: 'mood', label: 'Moods' },
-  { id: 'behavior', label: 'Sensory Behaviors' },
-  { id: 'intervention', label: 'Calming Interventions' },
-  { id: 'activity', label: 'Creative & Skills' },
-  { id: 'exercise', label: 'Exercise & Sports' },
-  { id: 'food', label: 'Food Categories' }
+  { id: 'medication', label: 'Medications', icon: '💊' },
+  { id: 'mood', label: 'Moods', icon: '😊' },
+  { id: 'behavior', label: 'Sensory Behaviors', icon: '🎧' },
+  { id: 'intervention', label: 'Interventions', icon: '🤲' },
+  { id: 'activity', label: 'Creative & Skills', icon: '🎵' },
+  { id: 'exercise', label: 'Exercise & Sports', icon: '🏓' },
+  { id: 'food', label: 'Food & Nutrition', icon: '🥑' }
 ];
 
 export default function AdminModal({ isOpen, onClose, currentSettings, onSettingsUpdated, onListsUpdated }) {
@@ -200,8 +200,10 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
                     type="button"
                     className={`preset-chip ${selectedCategory === cat.id ? 'active' : ''}`}
                     onClick={() => setSelectedCategory(cat.id)}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                   >
-                    {cat.label}
+                    <span>{cat.icon}</span>
+                    <span>{cat.label}</span>
                   </button>
                 ))}
               </div>

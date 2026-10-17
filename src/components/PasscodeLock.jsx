@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Delete, ShieldAlert } from 'lucide-react';
+import { Lock, Delete, ShieldAlert, Sparkles, KeyRound } from 'lucide-react';
 import { api } from '../api';
+
+const KEYPAD_BUTTONS = [
+  { digit: '1', letters: '—' },
+  { digit: '2', letters: 'ABC' },
+  { digit: '3', letters: 'DEF' },
+  { digit: '4', letters: 'GHI' },
+  { digit: '5', letters: 'JKL' },
+  { digit: '6', letters: 'MNO' },
+  { digit: '7', letters: 'PQRS' },
+  { digit: '8', letters: 'TUV' },
+  { digit: '9', letters: 'WXYZ' },
+];
 
 export default function PasscodeLock({ onAuthenticated }) {
   const [pin, setPin] = useState('');
@@ -67,17 +79,17 @@ export default function PasscodeLock({ onAuthenticated }) {
     <div className="lock-screen-overlay" id="passcode-lock-screen">
       <div className={`lock-card ${isShaking ? 'shake-anim' : ''}`}>
         <div className="lock-icon-wrap">
-          <Lock size={28} />
+          <KeyRound size={28} />
         </div>
 
-        <h2 style={{ fontSize: '1.4rem', color: 'var(--navy-slate)', marginBottom: '4px' }}>
+        <h2 style={{ fontSize: '1.45rem', fontWeight: '800', color: 'var(--slate-navy)', marginBottom: '4px' }}>
           Daily Tracker Lock
         </h2>
-        <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)' }}>
-          Enter numeric passcode to unlock
+        <p style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: '600' }}>
+          Enter 4-digit passcode to unlock
         </p>
 
-        {/* PIN Dots (visualizes 4 slots) */}
+        {/* Illuminated PIN Dots */}
         <div className="pin-dots-row">
           {[0, 1, 2, 3].map((index) => (
             <div
@@ -89,9 +101,9 @@ export default function PasscodeLock({ onAuthenticated }) {
 
         {error && (
           <div style={{
-            color: 'var(--danger-rose)',
-            fontSize: '0.82rem',
-            fontWeight: '600',
+            color: 'var(--coral-accent)',
+            fontSize: '0.84rem',
+            fontWeight: '700',
             marginBottom: '14px',
             display: 'flex',
             alignItems: 'center',
@@ -102,9 +114,9 @@ export default function PasscodeLock({ onAuthenticated }) {
           </div>
         )}
 
-        {/* 3x4 Numeric Keypad */}
+        {/* Tactile 3x4 Keypad with Letters */}
         <div className="keypad-grid">
-          {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((digit) => (
+          {KEYPAD_BUTTONS.map(({ digit, letters }) => (
             <button
               key={digit}
               type="button"
@@ -113,7 +125,8 @@ export default function PasscodeLock({ onAuthenticated }) {
               disabled={loading}
               id={`keypad-${digit}`}
             >
-              {digit}
+              <span className="keypad-digit">{digit}</span>
+              <span className="keypad-letters">{letters}</span>
             </button>
           ))}
           <button
@@ -132,7 +145,8 @@ export default function PasscodeLock({ onAuthenticated }) {
             disabled={loading}
             id="keypad-0"
           >
-            0
+            <span className="keypad-digit">0</span>
+            <span className="keypad-letters">+</span>
           </button>
           <button
             type="button"
@@ -140,14 +154,52 @@ export default function PasscodeLock({ onAuthenticated }) {
             onClick={handleBackspace}
             disabled={loading || pin.length === 0}
             id="keypad-backspace"
+            title="Backspace"
           >
-            <Delete size={20} />
+            <Delete size={22} />
           </button>
         </div>
 
+        {/* Quick Roles Reminder / Direct Tap */}
         <div className="lock-hints">
-          <div>🔑 <strong>Parent Passcode:</strong> 0023 (Full Access)</div>
-          <div>👨‍🏫 <strong>Teacher Passcode:</strong> 5678 (Summary View)</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>🔑 <strong>Parent:</strong> <code>0023</code> (Full Access)</span>
+            <button
+              type="button"
+              onClick={() => attemptLogin('0023')}
+              style={{
+                background: '#0d9488',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '2px 8px',
+                fontSize: '0.72rem',
+                fontWeight: '700',
+                cursor: 'pointer'
+              }}
+            >
+              Fill
+            </button>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
+            <span>👨‍🏫 <strong>Teacher:</strong> <code>5678</code> (Summary View)</span>
+            <button
+              type="button"
+              onClick={() => attemptLogin('5678')}
+              style={{
+                background: '#7c3aed',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '2px 8px',
+                fontSize: '0.72rem',
+                fontWeight: '700',
+                cursor: 'pointer'
+              }}
+            >
+              Fill
+            </button>
+          </div>
         </div>
       </div>
     </div>
