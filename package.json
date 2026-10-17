@@ -1,0 +1,21 @@
+{
+  "name": "zlife-new",
+  "version": "1.0.0",
+  "description": "A lightweight, mobile-responsive web application designed for parents and teachers to track daily routines, mood, sleep, dynamic medications, sensory behaviors, and calming interventions for Zeba.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "^1.59.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.4"
+  }
+}

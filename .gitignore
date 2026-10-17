@@ -1,0 +1,29 @@
+# Node dependencies
+node_modules/
+.npm
+
+# Production build artifacts
+dist/
+dist-ssr/
+
+# Local databases & logs
+*.sqlite
+*.sqlite3
+*.log
+tracker_local.sqlite
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor directories
+.vscode/
+.idea/
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+Thumbs.db

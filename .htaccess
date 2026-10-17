@@ -1,0 +1,16 @@
+# Apache / Hostinger Shared Hosting Configuration
+
+# Enable DirectoryIndex
+DirectoryIndex index.php index.html
+
+# Prevent directory browsing
+Options -Indexes
+
+# Protect sensitive database files if stored locally
+<FilesMatch "\.(sqlite|sql|log)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Character encoding
+AddDefaultCharset UTF-8

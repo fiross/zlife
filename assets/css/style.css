@@ -1,0 +1,379 @@
+/* 
+ * Daily Tracker - Warm Pediatric Theme & Mobile-First High-Contrast Styles
+ * Designed for effortless mobile logging and accessibility
+ */
+
+:root {
+    --primary-color: #2a9d8f;
+    --primary-hover: #21867a;
+    --primary-soft: rgba(42, 157, 143, 0.12);
+    --secondary-color: #e76f51;
+    --secondary-hover: #d25a3c;
+    --accent-sun: #f4a261;
+    --accent-navy: #264653;
+    --bg-warm: #f7faf9;
+    --card-bg: #ffffff;
+    --text-main: #2b3a42;
+    --text-muted: #6c757d;
+    --border-color: #e2e8f0;
+    --touch-target: 48px;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-warm);
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
+}
+
+/* Typography & Utilities */
+.text-slate { color: var(--accent-navy); }
+.bg-warm-light { background-color: var(--bg-warm); }
+.bg-primary-soft { background-color: var(--primary-soft); color: var(--primary-color); }
+.letter-spacing { letter-spacing: 0.05em; }
+.x-small { font-size: 0.78rem; }
+
+/* Passcode Lock Keypad */
+.pin-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    background: transparent;
+    transition: all 0.2s ease-in-out;
+}
+.pin-dot.filled {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: scale(1.15);
+}
+
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.keypad-btn {
+    height: 64px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-navy);
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s ease-out;
+}
+
+.keypad-btn:active {
+    background-color: #cbd5e1;
+    transform: scale(0.94);
+}
+
+.keypad-btn.btn-secondary-action {
+    background-color: #f8fafc;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+}
+
+/* Sensory SOS Alert Button & Pulse */
+.btn-sos {
+    background: linear-gradient(135deg, #e76f51, #f4a261);
+    color: #ffffff;
+    font-weight: 800;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 18px;
+    box-shadow: 0 4px 14px rgba(231, 111, 81, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    animation: sosPulse 2.5s infinite;
+}
+
+@keyframes sosPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 111, 81, 0.6); }
+    70% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(231, 111, 81, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 111, 81, 0); }
+}
+
+/* Date Navigator */
+.date-nav-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.nav-arrow-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    border: none;
+    color: var(--accent-navy);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+}
+
+.nav-arrow-btn:hover, .nav-arrow-btn:active {
+    background: #e2e8f0;
+}
+
+/* Category Sections & Cards */
+.tracker-section-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(38, 70, 83, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--accent-navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+/* High-Contrast Interactive Toggle Pills */
+.toggle-pills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.toggle-pill-item {
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+}
+
+.toggle-pill-item input[type="checkbox"],
+.toggle-pill-item input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pill-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    color: #334155;
+    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: var(--touch-target);
+}
+
+/* Hover & Active for Pills */
+.pill-label:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+/* Checked State - Medication */
+.pill-medication input:checked + .pill-label {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #065f46;
+    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Checked State - Mood */
+.pill-mood input:checked + .pill-label {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    color: #1d4ed8;
+    box-shadow: 0 3px 10px rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Checked State - Sensory Behavior */
+.pill-behavior input:checked + .pill-label {
+    background: #fff7ed;
+    border-color: #f97316;
+    color: #9a3412;
+    box-shadow: 0 3px 10px rgba(249, 115, 22, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Checked State - Interventions */
+.pill-intervention input:checked + .pill-label {
+    background: #f0fdfa;
+    border-color: #14b8a6;
+    color: #0f766e;
+    box-shadow: 0 3px 10px rgba(20, 184, 166, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Checked State - Activity & Exercise */
+.pill-activity input:checked + .pill-label {
+    background: #f5f3ff;
+    border-color: #8b5cf6;
+    color: #5b21b6;
+    box-shadow: 0 3px 10px rgba(139, 92, 246, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Checked State - Food */
+.pill-food input:checked + .pill-label {
+    background: #fdf2f8;
+    border-color: #ec4899;
+    color: #9d174d;
+    box-shadow: 0 3px 10px rgba(236, 72, 153, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Indicator Icon */
+.pill-check-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    font-size: 11px;
+    color: #ffffff;
+    transition: background 0.15s ease;
+}
+
+input:checked + .pill-label .pill-check-icon {
+    background: currentColor;
+    color: #ffffff;
+}
+
+/* Sleep Stepper */
+.sleep-stepper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.sleep-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #e2e8f0;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sleep-btn:active {
+    background: #cbd5e1;
+}
+
+.sleep-input {
+    width: 100px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border-radius: 14px;
+    border: 2px solid #cbd5e1;
+    padding: 8px 12px;
+    color: var(--accent-navy);
+}
+
+/* Sticky Save Button Bar on Mobile */
+.sticky-save-bar {
+    position: sticky;
+    bottom: 16px;
+    z-index: 100;
+    margin-top: 24px;
+}
+
+.btn-save-main {
+    background: linear-gradient(135deg, var(--primary-color), #21867a);
+    color: #ffffff;
+    border: none;
+    font-size: 1.15rem;
+    font-weight: 800;
+    padding: 16px 28px;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(42, 157, 143, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-save-main:hover {
+    background: linear-gradient(135deg, #21867a, #1a6d63);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(42, 157, 143, 0.5);
+}
+
+/* Voice Input Microphone Button */
+.btn-mic {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-weight: 600;
+    color: var(--accent-navy);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-mic.recording {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #b91c1c;
+    animation: micPulse 1.2s infinite;
+}
+
+@keyframes micPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Animation Utilities */
+.animate-shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+    40%, 60% { transform: translate3d(3px, 0, 0); }
+}
+
+/* Teacher View Only Banner */
+.teacher-banner {
+    background: #e0f2fe;
+    border: 1px solid #bae6fd;
+    color: #0369a1;
+    border-radius: 16px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+}
