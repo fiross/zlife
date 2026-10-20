@@ -39,7 +39,13 @@ export default function App() {
 
   // Modals
   const [adminOpen, setAdminOpen] = useState(false);
+  const [adminTab, setAdminTab] = useState('history');
   const [sosOpen, setSosOpen] = useState(false);
+
+  const handleOpenAdmin = (tab = 'history') => {
+    setAdminTab(tab);
+    setAdminOpen(true);
+  };
 
   // Check initial session
   useEffect(() => {
@@ -211,7 +217,8 @@ export default function App() {
       <Header
         settings={settings}
         role={role}
-        onOpenAdmin={() => setAdminOpen(true)}
+        onOpenAdmin={() => handleOpenAdmin('lists')}
+        onOpenHistory={() => handleOpenAdmin('history')}
         onOpenSOS={() => setSosOpen(true)}
         onLogout={handleLogout}
       />
@@ -257,6 +264,11 @@ export default function App() {
         currentSettings={settings}
         onSettingsUpdated={setSettings}
         onListsUpdated={loadMasterData}
+        onSelectDate={(date) => {
+          setSelectedDate(date);
+          setAdminOpen(false);
+        }}
+        initialTab={adminTab}
       />,
       document.body
     )}

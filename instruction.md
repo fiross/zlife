@@ -37,8 +37,10 @@ Create lightweight, secure PHP endpoints under `/api/` returning UTF-8 JSON with
 6. `GET /api/lists.php`: Returns active master list items grouped by category. Accepts `?all=1` to include inactive items for Admin view.
 7. `POST /api/lists.php`: Add new item or toggle `is_active` soft-delete state (Parent role strictly required).
 8. `GET /api/logs.php?date=YYYY-MM-DD`: Fetches log for requested date, parsing JSON fields into native JSON arrays.
-9. `POST /api/logs.php`: Upserts daily log for date using `INSERT ... ON DUPLICATE KEY UPDATE` (or SQLite fallback). Parent role strictly required.
-10. `POST /api/passcodes.php`: Updates parent and teacher numeric PINs with validation (Parent role strictly required).
+9. `GET /api/logs.php?all=1`: Fetches all historical care logs in reverse chronological order with parsed JSON fields (Parent role strictly required).
+10. `GET /api/logs.php?export=csv`: Streams a formatted UTF-8 CSV download containing all care logs with column headings (Parent role strictly required).
+11. `POST /api/logs.php`: Upserts daily log for date using `INSERT ... ON DUPLICATE KEY UPDATE` (or SQLite fallback). Parent role strictly required.
+12. `POST /api/passcodes.php`: Updates parent and teacher numeric PINs with validation (Parent role strictly required).
 
 ---
 
@@ -78,9 +80,10 @@ Build a single-page React app with client-side state management and instant, opt
 - **Sticky Save Footer (Parent Only):** Sticky footer with high-contrast "Save Daily Log" button and toast notification on save.
 
 ### 5. Admin Configuration Modal (Parent-Only)
-- **Tab 1: Lists & Medications:** Select category, add custom items (e.g. new prescription medication), and toggle active/inactive (soft delete) to keep the daily logging checklist clean without database schema modifications.
-- **Tab 2: Profile & Bio:** Update Teenager Name, Age, Class, and School.
-- **Tab 3: Passcodes:** Securely change Parent and Teacher numeric passcodes (minimum 4 digits).
+- **Tab 1: All Logs History & CSV Export:** Scrollable reverse-chronological feed showing all historical care logs. Displays sleep hours, mood badges, categorized items (medications, sensory behaviors, interventions, activities, food), and prominent observation comments. Features keyword search, mood filter, quick "Open in Dashboard" action to jump to any date, and a one-click "Export CSV" button with standardized column headings and UTF-8 BOM encoding.
+- **Tab 2: Lists & Medications:** Select category, add custom items (e.g. new prescription medication), and toggle active/inactive (soft delete) to keep the daily logging checklist clean without database schema modifications.
+- **Tab 3: Profile & Bio:** Update Teenager Name, Age, Class, and School.
+- **Tab 4: Passcodes:** Securely change Parent and Teacher numeric passcodes (minimum 4 digits).
 
 ---
 

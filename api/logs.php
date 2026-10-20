@@ -11,6 +11,78 @@ $pdo = get_db_connection();
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
+    // If requesting all logs (for Parent History & Export)
+    if (isset($_GET['all']) || (isset($_GET['action']) && $_GET['action'] === 'all') || isset($_GET['export'])) {
+        require_api_role('parent'); // Parent only
+        
+        $limit = isset($_GET['limit']) ? max(1, min(5000, intval($_GET['limit']))) : 2000;
+        $stmt = $pdo->prepare("SELECT * FROM z_logs ORDER BY log_date DESC LIMIT :limit");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        
+        $logs = [];
+        foreach ($rows as $row) {
+            $logs[] = [
+                'id' => (int)$row['id'],
+                'log_date' => $row['log_date'],
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at'],
+                'overall_mood' => $row['overall_mood'] ?? '',
+                'sleep_hours' => (float)$row['sleep_hours'],
+                'medications' => json_decode($row['medications_json'] ?: '[]', true) ?: [],
+                'sensory_behaviors' => json_decode($row['sensory_behavior_json'] ?: '[]', true) ?: [],
+                'interventions' => json_decode($row['interventions_json'] ?: '[]', true) ?: [],
+                'activities' => json_decode($row['activities_json'] ?: '[]', true) ?: [],
+                'food' => json_decode($row['food_json'] ?: '[]', true) ?: [],
+                'notes' => $row['notes'] ?? '',
+                'exists' => true
+            ];
+        }
+
+        if (isset($_GET['export']) && $_GET['export'] === 'csv') {
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename="care_logs_' . date('Y-m-d') . '.csv"');
+            $out = fopen('php://output', 'w');
+            fputs($out, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
+            fputcsv($out, [
+                'Log Date',
+                'Day of Week',
+                'Sleep (Hours)',
+                'Overall Mood',
+                'Medications',
+                'Sensory Behaviors',
+                'Calming Interventions',
+                'Activities & Sports',
+                'Food & Nutrition',
+                'Comments & Observations',
+                'Created At',
+                'Updated At'
+            ], ',', '"', "\\");
+            foreach ($logs as $l) {
+                $dayName = date('l', strtotime($l['log_date']));
+                fputcsv($out, [
+                    $l['log_date'],
+                    $dayName,
+                    $l['sleep_hours'],
+                    $l['overall_mood'],
+                    implode('; ', $l['medications']),
+                    implode('; ', $l['sensory_behaviors']),
+                    implode('; ', $l['interventions']),
+                    implode('; ', $l['activities']),
+                    implode('; ', $l['food']),
+                    $l['notes'],
+                    $l['created_at'],
+                    $l['updated_at']
+                ], ',', '"', "\\");
+            }
+            fclose($out);
+            exit;
+        }
+
+        json_response(['success' => true, 'data' => $logs, 'count' => count($logs)]);
+    }
+
     $date = $_GET['date'] ?? date('Y-m-d');
     
     // Validate date format YYYY-MM-DD

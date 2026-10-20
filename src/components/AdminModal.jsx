@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check, ShieldCheck, Sparkles, School } from 'lucide-react';
+import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check, ShieldCheck, Sparkles, School, FileSpreadsheet } from 'lucide-react';
 import { api } from '../api';
+import LogHistoryTab from './LogHistoryTab';
 
 const CATEGORIES = [
   { id: 'medication', label: 'Medications', icon: '💊' },
@@ -50,8 +51,16 @@ const ITEM_ICONS = {
   'General Meal': '🍽️'
 };
 
-export default function AdminModal({ isOpen, onClose, currentSettings, onSettingsUpdated, onListsUpdated }) {
-  const [activeTab, setActiveTab] = useState('lists');
+export default function AdminModal({
+  isOpen,
+  onClose,
+  currentSettings,
+  onSettingsUpdated,
+  onListsUpdated,
+  onSelectDate,
+  initialTab = 'history'
+}) {
+  const [activeTab, setActiveTab] = useState(initialTab || 'history');
   
   // Profile State
   const [profile, setProfile] = useState({
@@ -79,6 +88,9 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
 
   useEffect(() => {
     if (isOpen) {
+      if (initialTab) {
+        setActiveTab(initialTab);
+      }
       loadAllLists();
       if (currentSettings) {
         setProfile({
@@ -89,7 +101,7 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
         });
       }
     }
-  }, [isOpen, currentSettings]);
+  }, [isOpen, initialTab, currentSettings]);
 
   const loadAllLists = async () => {
     try {
@@ -202,8 +214,17 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
           <div className="admin-tabs-bar">
             <button
               type="button"
+              className={`admin-tab-btn ${activeTab === 'history' ? 'is-active' : ''}`}
+              onClick={() => setActiveTab('history')}
+              id="tab-history-btn"
+            >
+              <span>📊</span> All Logs & Export
+            </button>
+            <button
+              type="button"
               className={`admin-tab-btn ${activeTab === 'lists' ? 'is-active' : ''}`}
               onClick={() => setActiveTab('lists')}
+              id="tab-lists-btn"
             >
               <span>📋</span> Lists & Meds
             </button>
@@ -211,6 +232,7 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
               type="button"
               className={`admin-tab-btn ${activeTab === 'profile' ? 'is-active' : ''}`}
               onClick={() => setActiveTab('profile')}
+              id="tab-profile-btn"
             >
               <span>👤</span> Student Profile
             </button>
@@ -218,13 +240,19 @@ export default function AdminModal({ isOpen, onClose, currentSettings, onSetting
               type="button"
               className={`admin-tab-btn ${activeTab === 'passcodes' ? 'is-active' : ''}`}
               onClick={() => setActiveTab('passcodes')}
+              id="tab-passcodes-btn"
             >
               <span>🔑</span> Passcodes
             </button>
           </div>
         </div>
 
-        <div className="modal-body" style={{ padding: '16px 20px 24px' }}>
+        <div className="modal-body" style={{ padding: activeTab === 'history' ? '14px 18px 24px' : '16px 20px 24px' }}>
+
+          {/* TAB 0: ALL LOGS HISTORY & CSV EXPORT */}
+          {activeTab === 'history' && (
+            <LogHistoryTab onSelectDate={onSelectDate} />
+          )}
 
           {/* TAB 1: DYNAMIC MASTER LISTS & MEDS */}
           {activeTab === 'lists' && (
