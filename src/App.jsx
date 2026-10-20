@@ -24,6 +24,8 @@ export default function App() {
   const [log, setLog] = useState({
     sleep_hours: 0,
     overall_mood: '',
+    is_menstruating: false,
+    flow_intensity: 'Medium',
     medications: [],
     sensory_behaviors: [],
     interventions: [],
@@ -161,6 +163,8 @@ export default function App() {
         log_date: selectedDate,
         sleep_hours: log.sleep_hours,
         overall_mood: log.overall_mood,
+        is_menstruating: Boolean(log.is_menstruating),
+        flow_intensity: log.is_menstruating ? (log.flow_intensity || 'Medium') : null,
         medications: log.medications,
         sensory_behaviors: log.sensory_behaviors,
         interventions: log.interventions,

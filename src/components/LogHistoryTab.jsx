@@ -73,14 +73,14 @@ export default function LogHistoryTab({ onSelectDate }) {
         const query = searchQuery.toLowerCase().trim();
         const inDate = (log.log_date || '').toLowerCase().includes(query);
         const inNotes = (log.notes || '').toLowerCase().includes(query);
-        const inMood = (log.overall_mood || '').toLowerCase().includes(query);
+        const inCycle = (log.is_menstruating ? 'menstruating period flow cycle' : '').includes(query);
         const inMeds = Array.isArray(log.medications) && log.medications.some((m) => m.toLowerCase().includes(query));
         const inBehaviors = Array.isArray(log.sensory_behaviors) && log.sensory_behaviors.some((b) => b.toLowerCase().includes(query));
         const inInterventions = Array.isArray(log.interventions) && log.interventions.some((i) => i.toLowerCase().includes(query));
         const inActivities = Array.isArray(log.activities) && log.activities.some((a) => a.toLowerCase().includes(query));
         const inFood = Array.isArray(log.food) && log.food.some((f) => f.toLowerCase().includes(query));
 
-        return inDate || inNotes || inMood || inMeds || inBehaviors || inInterventions || inActivities || inFood;
+        return inDate || inNotes || inMood || inCycle || inMeds || inBehaviors || inInterventions || inActivities || inFood;
       }
 
       return true;
@@ -275,6 +275,12 @@ export default function LogHistoryTab({ onSelectDate }) {
                     <span className="history-sleep-badge" title="Sleep hours recorded">
                       <Moon size={12} /> {item.sleep_hours || 0}h
                     </span>
+
+                    {item.is_menstruating && (
+                      <span className="history-cycle-badge" title={`Menstruating (${item.flow_intensity || 'Medium'} Flow)`}>
+                        🩸 {item.flow_intensity || 'Medium'}
+                      </span>
+                    )}
 
                     {onSelectDate && (
                       <button

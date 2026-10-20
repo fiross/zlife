@@ -109,6 +109,8 @@ function init_database(PDO $pdo, $driver = 'mysql') {
                 updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 overall_mood TEXT,
                 sleep_hours REAL DEFAULT 0,
+                is_menstruating INTEGER DEFAULT 0,
+                flow_intensity TEXT DEFAULT NULL,
                 medications_json TEXT,
                 sensory_behavior_json TEXT,
                 interventions_json TEXT,
@@ -151,6 +153,8 @@ function init_database(PDO $pdo, $driver = 'mysql') {
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 overall_mood VARCHAR(100) NULL,
                 sleep_hours DECIMAL(4,1) DEFAULT 0.0,
+                is_menstruating TINYINT(1) DEFAULT 0,
+                flow_intensity VARCHAR(20) NULL,
                 medications_json TEXT NULL,
                 sensory_behavior_json TEXT NULL,
                 interventions_json TEXT NULL,
@@ -159,6 +163,31 @@ function init_database(PDO $pdo, $driver = 'mysql') {
                 notes TEXT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         ");
+    }
+
+    // Auto-migration: Ensure menstruation tracking columns exist on existing databases non-destructively
+    try {
+        if ($driver === 'sqlite') {
+            $cols = $pdo->query("PRAGMA table_info(z_logs)")->fetchAll(PDO::FETCH_COLUMN, 1);
+            if (!in_array('is_menstruating', $cols)) {
+                $pdo->exec("ALTER TABLE z_logs ADD COLUMN is_menstruating INTEGER DEFAULT 0");
+            }
+            if (!in_array('flow_intensity', $cols)) {
+                $pdo->exec("ALTER TABLE z_logs ADD COLUMN flow_intensity TEXT DEFAULT NULL");
+            }
+        } else {
+            // MySQL Engine
+            $colStmt = $pdo->query("SHOW COLUMNS FROM z_logs LIKE 'is_menstruating'");
+            if (!$colStmt->fetch()) {
+                $pdo->exec("ALTER TABLE z_logs ADD COLUMN is_menstruating TINYINT(1) DEFAULT 0 AFTER sleep_hours");
+            }
+            $colStmt2 = $pdo->query("SHOW COLUMNS FROM z_logs LIKE 'flow_intensity'");
+            if (!$colStmt2->fetch()) {
+                $pdo->exec("ALTER TABLE z_logs ADD COLUMN flow_intensity VARCHAR(20) NULL AFTER is_menstruating");
+            }
+        }
+    } catch (Exception $e) {
+        // Silently continue if columns already exist or altered
     }
 
     // 2. Seed Default Passcodes if empty
