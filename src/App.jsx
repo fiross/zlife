@@ -8,6 +8,7 @@ import LogDashboard from './components/LogDashboard';
 import AdminModal from './components/AdminModal';
 import SensorySOSModal from './components/SensorySOSModal';
 import { CheckCircle2 } from 'lucide-react';
+import { getLocalDateString } from './utils/date';
 
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -18,8 +19,8 @@ export default function App() {
   const [settings, setSettings] = useState(null);
   const [masterLists, setMasterLists] = useState(null);
 
-  // Date & Current Log
-  const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
+  // Date & Current Log (uses client's local date, avoiding UTC shift)
+  const [selectedDate, setSelectedDate] = useState(() => getLocalDateString());
   const [log, setLog] = useState({
     sleep_hours: 0,
     overall_mood: '',

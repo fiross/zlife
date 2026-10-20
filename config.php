@@ -9,6 +9,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Timezone configuration (avoids UTC drift when server defaults to UTC)
+if (getenv('APP_TIMEZONE')) {
+    date_default_timezone_set(getenv('APP_TIMEZONE'));
+} elseif (!ini_get('date.timezone')) {
+    date_default_timezone_set('America/Chicago');
+}
+
 // -------------------------------------------------------------
 // Database Connection Settings
 // -------------------------------------------------------------

@@ -1,35 +1,22 @@
 import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw } from 'lucide-react';
+import { shiftDate, formatDateDisplay, isToday, getLocalDateString } from '../utils/date';
 
 export default function DateNavigator({ selectedDate, onDateChange }) {
   const dateInputRef = useRef(null);
-
-  // Parse YYYY-MM-DD
-  const [year, month, day] = selectedDate.split('-').map(Number);
-  const currentDate = new Date(year, month - 1, day);
-
-  const todayStr = new Date().toISOString().split('T')[0];
-  const isToday = selectedDate === todayStr;
-
-  const formatDateDisplay = (dateObj) => {
-    return dateObj.toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  };
+  const isSelectedToday = isToday(selectedDate);
 
   const handlePrevDay = () => {
-    const prev = new Date(currentDate);
-    prev.setDate(prev.getDate() - 1);
-    onDateChange(prev.toISOString().split('T')[0]);
+    onDateChange(shiftDate(selectedDate, -1));
   };
 
   const handleNextDay = () => {
-    const next = new Date(currentDate);
-    next.setDate(next.getDate() + 1);
-    onDateChange(next.toISOString().split('T')[0]);
+    onDateChange(shiftDate(selectedDate, 1));
+  };
+
+  const handleJumpToToday = (e) => {
+    e.stopPropagation();
+    onDateChange(getLocalDateString());
   };
 
   const handleDatePicked = (e) => {
@@ -57,10 +44,21 @@ export default function DateNavigator({ selectedDate, onDateChange }) {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <CalendarIcon size={16} color="var(--teal-primary)" />
-          <span className="date-day-text">{formatDateDisplay(currentDate)}</span>
+          <span className="date-day-text">{formatDateDisplay(selectedDate)}</span>
         </div>
-        <span className="date-sub-badge">
-          {isToday ? 'TODAY' : 'HISTORICAL LOG'}
+        <span
+          className={`date-sub-badge ${isSelectedToday ? 'is-today' : 'is-historical'}`}
+          onClick={!isSelectedToday ? handleJumpToToday : undefined}
+          title={!isSelectedToday ? 'Click to jump to today' : undefined}
+          role={!isSelectedToday ? 'button' : undefined}
+        >
+          {isSelectedToday ? (
+            'TODAY'
+          ) : (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <RotateCcw size={10} /> HISTORICAL • JUMP TO TODAY
+            </span>
+          )}
         </span>
 
         {/* Hidden native date input for the picker */}
