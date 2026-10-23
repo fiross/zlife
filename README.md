@@ -29,7 +29,7 @@ The application enforces a strict role-based separation:
                                          │
                     ┌────────────────────┴────────────────────┐
                     ▼                                         ▼
-      Parent Passcode: 0023                     Teacher Passcode: 5678
+      Parent Passcode: 1234                     Teacher Passcode: 5678
       (Full Interactive Access)                 (View-Only Summary)
   • Record sleep, mood, notes                • View morning sleep & mood
   • Toggle medications & behaviors           • Verify morning meds administered
@@ -39,7 +39,7 @@ The application enforces a strict role-based separation:
 ```
 
 ### 1. Morning Routine (Parent at Home)
-- Parent enters passcode (`0023`).
+- Parent enters passcode (`1234`).
 - Logs previous night's sleep duration (stepper or quick chip).
 - Records morning emotional mood.
 - Toggles morning prescription medications (e.g., `Focalin (Morning)`).
@@ -66,7 +66,7 @@ The app uses a 3x4 numeric keypad with visual dot indicators and hardware keyboa
 
 | Role | Default Passcode | Permissions |
 | :--- | :--- | :--- |
-| **Parent** | `0023` | **Full Access:** Create, edit, and save daily logs; browse historical logs; export CSV; manage master lists, medications, profile, and passcodes. |
+| **Parent** | `1234` | **Full Access:** Create, edit, and save daily logs; browse historical logs; export CSV; manage master lists, medications, profile, and passcodes. |
 | **Teacher** | `5678` | **View-Only Access:** View current and historical day summaries; access Sensory SOS emergency protocols. Editing, saving, admin settings, and CSV export are strictly blocked. |
 
 *Passcodes can be securely updated at any time by parents via **Admin Configuration (`⚙️`) > Passcodes**.*
@@ -328,7 +328,7 @@ All API requests accept and return UTF-8 JSON. Cookies (`PHPSESSID`) maintain ro
 
 | Method | Endpoint | Role Required | Description |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/auth.php` | Public | Verify PIN (`{ passcode: "0023" }`), start session, return role. |
+| `POST` | `/api/auth.php` | Public | Verify PIN (`{ passcode: "1234" }`), start session, return role. |
 | `GET` | `/api/auth.php` | Public | Check active session (`{ authenticated: bool, role: string }`). |
 | `POST` | `/api/auth.php?action=logout` | Public | Destroy session and clear authentication cookie. |
 | `GET` | `/api/settings.php` | Authenticated | Retrieve Zeba's current profile details. |
@@ -367,7 +367,7 @@ npm run dev
 1. Open your browser to: **[http://localhost:5173](http://localhost:5173)**
 2. Vite automatically proxies all `/api/*` network requests to the PHP backend at `http://localhost:8000`.
 3. Log in with:
-   - **Parent PIN:** `0023`
+   - **Parent PIN:** `1234`
    - **Teacher PIN:** `5678`
 
 ---

@@ -193,7 +193,7 @@ function init_database(PDO $pdo, $driver = 'mysql') {
     // 2. Seed Default Passcodes if empty
     $checkUsers = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
     if ($checkUsers == 0) {
-        $parentHash = password_hash('0023', PASSWORD_DEFAULT);
+        $parentHash = password_hash('1234', PASSWORD_DEFAULT);
         $teacherHash = password_hash('5678', PASSWORD_DEFAULT);
         
         $stmt = $pdo->prepare("INSERT INTO users (passcode_hash, role) VALUES (?, ?)");

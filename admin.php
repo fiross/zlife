@@ -316,7 +316,7 @@ require_once __DIR__ . '/header.php';
 
                     <div class="mb-3">
                         <label class="form-label fw-bold text-secondary">New Parent Passcode (Numeric)</label>
-                        <input type="password" inputmode="numeric" pattern="[0-9]*" name="parent_passcode" class="form-control rounded-3 py-2 px-3" placeholder="Leave blank to keep current (default 0023)">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" name="parent_passcode" class="form-control rounded-3 py-2 px-3" placeholder="Leave blank to keep current (default 1234)">
                         <div class="text-muted x-small mt-1">Grants full editing, calendar, and admin configuration rights.</div>
                     </div>
 

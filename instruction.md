@@ -14,7 +14,7 @@ Maintain a single database with the following tables:
 
 ### Initial Data Seeding:
 - **Default Passcodes:**
-  - Parent Passcode: `0023` (Full interactive access, log editing, calendar, master admin)
+  - Parent Passcode: `1234` (Full interactive access, log editing, calendar, master admin)
   - Teacher Passcode: `5678` (View-only summary of today's or any historical day's log, medications administered, strictly no edit/admin access)
 - **Profile Defaults (`master_settings`):** Name: 'Zeba', Age: 15, Class: 'Grade 9', School: 'Greenwood High'
 - **Master List Seed Items (`master_lists`):**

@@ -445,7 +445,7 @@ export default function AdminModal({
                 <input
                   type="password"
                   inputMode="numeric"
-                  placeholder="e.g. 0023"
+                  placeholder="e.g. 1234"
                   value={parentPasscode}
                   onChange={(e) => setParentPasscode(e.target.value)}
                   className="admin-input-styled"
