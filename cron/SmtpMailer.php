@@ -133,18 +133,40 @@ class SmtpMailer {
                 throw new Exception("DATA command rejected: {$response}");
             }
 
-            // Prepare MIME headers
+            // Prepare RFC-5322 & RFC-2046 compliant MIME headers for maximum spam filter deliverability
+            $domain = substr(strrchr($fromEmail, "@"), 1) ?: 'zeehash.com';
+            $messageId = sprintf("<%s.%s@%s>", date('YmdHis'), bin2hex(random_bytes(8)), $domain);
+            $boundary = "----=_ZeeHash_Part_" . md5(uniqid((string)time(), true));
+
             $headers = [];
             $headers[] = "From: =?UTF-8?B?" . base64_encode($fromName) . "?= <{$fromEmail}>";
+            $headers[] = "Reply-To: <{$fromEmail}>";
+            $headers[] = "Return-Path: <{$fromEmail}>";
             $headers[] = "To: " . implode(', ', $toEmails);
             $headers[] = "Subject: =?UTF-8?B?" . base64_encode($subject) . "?=";
-            $headers[] = "MIME-Version: 1.0";
-            $headers[] = "Content-Type: text/html; charset=UTF-8";
-            $headers[] = "Content-Transfer-Encoding: 8bit";
-            $headers[] = "X-Mailer: ZeeHash Care Engine v1.0";
             $headers[] = "Date: " . date('r');
+            $headers[] = "Message-ID: {$messageId}";
+            $headers[] = "X-Mailer: ZeeHash Care Engine v1.0";
+            $headers[] = "Auto-Submitted: auto-generated";
+            $headers[] = "MIME-Version: 1.0";
+            $headers[] = "Content-Type: multipart/alternative; boundary=\"{$boundary}\"";
 
-            $fullPayload = implode("\r\n", $headers) . "\r\n\r\n" . $htmlBody . "\r\n.";
+            // Generate clean plain-text version for anti-spam heuristics (SpamAssassin, Gmail, Outlook)
+            $plainText = $this->generatePlainText($htmlBody);
+
+            $body = "--{$boundary}\r\n";
+            $body .= "Content-Type: text/plain; charset=UTF-8\r\n";
+            $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+            $body .= chunk_split(base64_encode($plainText)) . "\r\n";
+
+            $body .= "--{$boundary}\r\n";
+            $body .= "Content-Type: text/html; charset=UTF-8\r\n";
+            $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+            $body .= chunk_split(base64_encode($htmlBody)) . "\r\n";
+
+            $body .= "--{$boundary}--\r\n";
+
+            $fullPayload = implode("\r\n", $headers) . "\r\n\r\n" . $body . ".";
 
             $this->sendCommand($socket, $fullPayload);
             $response = $this->readResponse($socket);
@@ -164,6 +186,22 @@ class SmtpMailer {
             @fclose($socket);
             return false;
         }
+    }
+
+    /**
+     * Converts HTML email template into clean plain-text fallback
+     * Required by spam engines to avoid HTML-only penalization
+     */
+    private function generatePlainText(string $html): string {
+        $clean = preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', '', $html);
+        $clean = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $clean);
+        $text = preg_replace('/<\/(p|div|h[1-6]|tr|li)>/i', "\n", $clean);
+        $text = preg_replace('/<br\s*\/?>/i', "\n", $text);
+        $text = strip_tags($text);
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = preg_replace('/[ \t]+/', ' ', $text);
+        $text = preg_replace('/\n\s*\n+/', "\n\n", $text);
+        return trim($text);
     }
 
     private function sendCommand($socket, string $command) {
