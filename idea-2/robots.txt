@@ -1,0 +1,6 @@
+# Robots.txt for Zeehash.com - Z-Life AI Care Intelligence
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://zeehash.com/sitemap.xml
