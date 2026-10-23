@@ -7,7 +7,7 @@ Use a warm, pediatric-friendly design system with oversized, high-contrast touch
 ## 🗄️ DATABASE REQUIREMENTS (MySQL / SQLite Fallback)
 Maintain a single database with the following tables:
 1. `users` (`id`, `passcode_hash`, `role` ENUM('parent', 'teacher'))
-2. `master_settings` (`id`, `z_name`, `z_age`, `z_class`, `z_school`)
+2. `master_settings` (`id`, `z_name`, `z_age`, `z_class`, `z_school`, `parent_email_1`, `parent_email_2`)
 3. `master_lists` (`id`, `category` ENUM('mood', 'medication', 'food', 'behavior', 'intervention', 'exercise', 'activity'), `item_name`, `is_active` DEFAULT 1)
 4. `z_logs` (`id`, `log_date` DATE UNIQUE, `created_at`, `updated_at`, `overall_mood`, `sleep_hours` DECIMAL(4,1), `is_menstruating` TINYINT(1) DEFAULT 0, `flow_intensity` VARCHAR(20) DEFAULT NULL, `medications_json` TEXT, `sensory_behavior_json` TEXT, `interventions_json` TEXT, `activities_json` TEXT, `food_json` TEXT, `notes` TEXT)
 *(Includes automated non-destructive self-migration in `config.php` and standalone migration script `scripts/migrate_menstruation.sql`)*

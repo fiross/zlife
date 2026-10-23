@@ -331,8 +331,8 @@ All API requests accept and return UTF-8 JSON. Cookies (`PHPSESSID`) maintain ro
 | `POST` | `/api/auth.php` | Public | Verify PIN (`{ passcode: "1234" }`), start session, return role. |
 | `GET` | `/api/auth.php` | Public | Check active session (`{ authenticated: bool, role: string }`). |
 | `POST` | `/api/auth.php?action=logout` | Public | Destroy session and clear authentication cookie. |
-| `GET` | `/api/settings.php` | Authenticated | Retrieve Zeba's current profile details. |
-| `POST` | `/api/settings.php` | Parent | Update Zeba's profile (`z_name`, `z_age`, `z_class`, `z_school`). |
+| `GET` | `/api/settings.php` | Authenticated | Retrieve Zeba's current profile details & parent notification emails. |
+| `POST` | `/api/settings.php` | Parent | Update profile (`z_name`, `z_age`, `z_class`, `z_school`, `parent_email_1`, `parent_email_2`). |
 | `GET` | `/api/lists.php` | Authenticated | Retrieve active checklist items. Pass `?all=1` for all (including inactive). |
 | `POST` | `/api/lists.php` | Parent | Add new item (`action: "add"`) or toggle active status (`action: "toggle"`). |
 | `GET` | `/api/logs.php?date=YYYY-MM-DD` | Authenticated | Fetch daily log for a specific date (returns empty template if non-existent). |

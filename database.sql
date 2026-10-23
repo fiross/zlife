@@ -24,7 +24,9 @@ CREATE TABLE IF NOT EXISTS `master_settings` (
   `z_name` VARCHAR(100) NOT NULL,
   `z_age` INT NOT NULL,
   `z_class` VARCHAR(100) NOT NULL,
-  `z_school` VARCHAR(255) NOT NULL
+  `z_school` VARCHAR(255) NOT NULL,
+  `parent_email_1` VARCHAR(255) NULL,
+  `parent_email_2` VARCHAR(255) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -70,8 +72,8 @@ INSERT INTO `users` (`id`, `passcode_hash`, `role`) VALUES
 ON DUPLICATE KEY UPDATE `id`=`id`;
 
 -- Default Student Settings
-INSERT INTO `master_settings` (`id`, `z_name`, `z_age`, `z_class`, `z_school`) VALUES
-(1, 'Zeba', 15, 'Grade 9', 'Greenwood High')
+INSERT INTO `master_settings` (`id`, `z_name`, `z_age`, `z_class`, `z_school`, `parent_email_1`, `parent_email_2`) VALUES
+(1, 'Zeba', 15, 'Grade 9', 'Greenwood High', NULL, NULL)
 ON DUPLICATE KEY UPDATE `id`=`id`;
 
 -- Default Master Lists

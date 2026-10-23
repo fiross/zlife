@@ -22,11 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $age = intval($_POST['z_age'] ?? 0);
     $class = trim($_POST['z_class'] ?? '');
     $school = trim($_POST['z_school'] ?? '');
+    $email1 = trim($_POST['parent_email_1'] ?? '');
+    $email2 = trim($_POST['parent_email_2'] ?? '');
 
-    if ($name !== '' && $age > 0) {
-        $stmt = $pdo->prepare("UPDATE master_settings SET z_name = ?, z_age = ?, z_class = ?, z_school = ? WHERE id = 1");
-        $stmt->execute([$name, $age, $class, $school]);
-        $flashSuccess = "Profile details updated successfully!";
+    if ($email1 !== '' && !filter_var($email1, FILTER_VALIDATE_EMAIL)) {
+        $flashError = "Parent Email 1 must be a valid email address.";
+    } elseif ($email2 !== '' && !filter_var($email2, FILTER_VALIDATE_EMAIL)) {
+        $flashError = "Parent Email 2 must be a valid email address.";
+    } elseif ($name !== '' && $age > 0) {
+        $stmt = $pdo->prepare("
+            UPDATE master_settings 
+            SET z_name = ?, z_age = ?, z_class = ?, z_school = ?, parent_email_1 = ?, parent_email_2 = ? 
+            WHERE id = 1
+        ");
+        $stmt->execute([$name, $age, $class, $school, $email1 ?: null, $email2 ?: null]);
+        $flashSuccess = "Profile and parent email settings updated successfully!";
     } else {
         $flashError = "Name and Age are required.";
     }
@@ -291,9 +301,22 @@ require_once __DIR__ . '/header.php';
                         </div>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label class="form-label fw-bold text-secondary">School / Program</label>
                         <input type="text" name="z_school" class="form-control rounded-3 py-2 px-3" value="<?= htmlspecialchars($settings['z_school']) ?>" required>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary">Parent Email 1 (Primary)</label>
+                            <input type="email" name="parent_email_1" class="form-control rounded-3 py-2 px-3" value="<?= htmlspecialchars($settings['parent_email_1'] ?? '') ?>" placeholder="parent1@example.com">
+                            <div class="text-muted x-small mt-1">For future automated care alerts & daily reports.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary">Parent Email 2 (Secondary)</label>
+                            <input type="email" name="parent_email_2" class="form-control rounded-3 py-2 px-3" value="<?= htmlspecialchars($settings['parent_email_2'] ?? '') ?>" placeholder="parent2@example.com">
+                            <div class="text-muted x-small mt-1">Secondary parent or emergency contact.</div>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm">

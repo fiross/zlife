@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check, ShieldCheck, Sparkles, School, FileSpreadsheet } from 'lucide-react';
+import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check, ShieldCheck, Sparkles, School, FileSpreadsheet, Mail } from 'lucide-react';
 import { api } from '../api';
 import LogHistoryTab from './LogHistoryTab';
 
@@ -67,7 +67,9 @@ export default function AdminModal({
     z_name: currentSettings?.z_name || 'Zeba',
     z_age: currentSettings?.z_age || 15,
     z_class: currentSettings?.z_class || 'Grade 9',
-    z_school: currentSettings?.z_school || 'Greenwood High'
+    z_school: currentSettings?.z_school || 'Greenwood High',
+    parent_email_1: currentSettings?.parent_email_1 || '',
+    parent_email_2: currentSettings?.parent_email_2 || ''
   });
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSuccess, setProfileSuccess] = useState('');
@@ -97,7 +99,9 @@ export default function AdminModal({
           z_name: currentSettings.z_name || 'Zeba',
           z_age: currentSettings.z_age || 15,
           z_class: currentSettings.z_class || 'Grade 9',
-          z_school: currentSettings.z_school || 'Greenwood High'
+          z_school: currentSettings.z_school || 'Greenwood High',
+          parent_email_1: currentSettings.parent_email_1 || '',
+          parent_email_2: currentSettings.parent_email_2 || ''
         });
       }
     }
@@ -417,6 +421,40 @@ export default function AdminModal({
                   className="admin-input-styled"
                   id="profile-school-input"
                 />
+              </div>
+
+              <div className="admin-field-group">
+                <label className="admin-field-label">
+                  <Mail size={15} color="#0f766e" /> PARENT EMAIL 1 (Primary Notifications)
+                </label>
+                <input
+                  type="email"
+                  value={profile.parent_email_1}
+                  onChange={(e) => setProfile({ ...profile, parent_email_1: e.target.value })}
+                  placeholder="parent1@example.com"
+                  className="admin-input-styled"
+                  id="profile-email-1-input"
+                />
+                <span style={{ fontSize: '0.74rem', color: '#64748b', marginTop: '2px' }}>
+                  Primary email for future automated care alerts & summaries.
+                </span>
+              </div>
+
+              <div className="admin-field-group">
+                <label className="admin-field-label">
+                  <Mail size={15} color="#0f766e" /> PARENT EMAIL 2 (Secondary / Alternate)
+                </label>
+                <input
+                  type="email"
+                  value={profile.parent_email_2}
+                  onChange={(e) => setProfile({ ...profile, parent_email_2: e.target.value })}
+                  placeholder="parent2@example.com"
+                  className="admin-input-styled"
+                  id="profile-email-2-input"
+                />
+                <span style={{ fontSize: '0.74rem', color: '#64748b', marginTop: '2px' }}>
+                  Secondary parent or emergency caregiver contact.
+                </span>
               </div>
 
               {profileSuccess && (

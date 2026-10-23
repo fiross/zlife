@@ -90,7 +90,9 @@ function init_database(PDO $pdo, $driver = 'mysql') {
                 z_name TEXT NOT NULL,
                 z_age INTEGER NOT NULL,
                 z_class TEXT NOT NULL,
-                z_school TEXT NOT NULL
+                z_school TEXT NOT NULL,
+                parent_email_1 TEXT DEFAULT NULL,
+                parent_email_2 TEXT DEFAULT NULL
             )
         ");
         $pdo->exec("
@@ -134,7 +136,9 @@ function init_database(PDO $pdo, $driver = 'mysql') {
                 z_name VARCHAR(100) NOT NULL,
                 z_age INT NOT NULL,
                 z_class VARCHAR(100) NOT NULL,
-                z_school VARCHAR(255) NOT NULL
+                z_school VARCHAR(255) NOT NULL,
+                parent_email_1 VARCHAR(255) NULL,
+                parent_email_2 VARCHAR(255) NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         ");
         $pdo->exec("
@@ -165,7 +169,7 @@ function init_database(PDO $pdo, $driver = 'mysql') {
         ");
     }
 
-    // Auto-migration: Ensure menstruation tracking columns exist on existing databases non-destructively
+    // Auto-migration 1: Ensure menstruation tracking columns exist on existing databases non-destructively
     try {
         if ($driver === 'sqlite') {
             $cols = $pdo->query("PRAGMA table_info(z_logs)")->fetchAll(PDO::FETCH_COLUMN, 1);
@@ -184,6 +188,31 @@ function init_database(PDO $pdo, $driver = 'mysql') {
             $colStmt2 = $pdo->query("SHOW COLUMNS FROM z_logs LIKE 'flow_intensity'");
             if (!$colStmt2->fetch()) {
                 $pdo->exec("ALTER TABLE z_logs ADD COLUMN flow_intensity VARCHAR(20) NULL AFTER is_menstruating");
+            }
+        }
+    } catch (Exception $e) {
+        // Silently continue if columns already exist or altered
+    }
+
+    // Auto-migration 2: Ensure parent notification email columns exist in master_settings
+    try {
+        if ($driver === 'sqlite') {
+            $settingsCols = $pdo->query("PRAGMA table_info(master_settings)")->fetchAll(PDO::FETCH_COLUMN, 1);
+            if (!in_array('parent_email_1', $settingsCols)) {
+                $pdo->exec("ALTER TABLE master_settings ADD COLUMN parent_email_1 TEXT DEFAULT NULL");
+            }
+            if (!in_array('parent_email_2', $settingsCols)) {
+                $pdo->exec("ALTER TABLE master_settings ADD COLUMN parent_email_2 TEXT DEFAULT NULL");
+            }
+        } else {
+            // MySQL Engine
+            $colStmtEmail1 = $pdo->query("SHOW COLUMNS FROM master_settings LIKE 'parent_email_1'");
+            if (!$colStmtEmail1->fetch()) {
+                $pdo->exec("ALTER TABLE master_settings ADD COLUMN parent_email_1 VARCHAR(255) NULL AFTER z_school");
+            }
+            $colStmtEmail2 = $pdo->query("SHOW COLUMNS FROM master_settings LIKE 'parent_email_2'");
+            if (!$colStmtEmail2->fetch()) {
+                $pdo->exec("ALTER TABLE master_settings ADD COLUMN parent_email_2 VARCHAR(255) NULL AFTER parent_email_1");
             }
         }
     } catch (Exception $e) {
@@ -274,8 +303,13 @@ function get_master_settings(PDO $pdo) {
             'z_name' => 'Zeba',
             'z_age' => 15,
             'z_class' => 'Grade 9',
-            'z_school' => 'Greenwood High'
+            'z_school' => 'Greenwood High',
+            'parent_email_1' => '',
+            'parent_email_2' => ''
         ];
     }
+    // Ensure email keys exist even if null in database
+    $settings['parent_email_1'] = $settings['parent_email_1'] ?? '';
+    $settings['parent_email_2'] = $settings['parent_email_2'] ?? '';
     return $settings;
 }
