@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWorkflowTabs();
   initPitchModal();
   initSmoothScroll();
+  initGitCloneCopy();
 });
 
 /* ==========================================================================
@@ -410,6 +411,7 @@ Google for Startups Application Pitch Summary
 
 FOUNDER & CONTACT:
 - Founder & Lead Architect: Firos Shamsudeen (Father of Zeba)
+- GitHub Repository (Open Source): https://github.com/fiross/zlife.git
 - LinkedIn: https://www.linkedin.com/in/firos/
 - Contact Email: info@zeehash.com
 
@@ -481,4 +483,35 @@ function initSmoothScroll() {
       }
     });
   });
+}
+
+/* ==========================================================================
+   6. Git Clone One-Click Copy
+   ========================================================================== */
+function initGitCloneCopy() {
+  const cloneBtn = document.getElementById('copyCloneBtn');
+  const cloneCmd = document.getElementById('gitCloneCmd');
+  const cloneText = document.getElementById('copyCloneBtnText');
+  const toast = document.getElementById('copyToast');
+
+  if (cloneBtn && cloneCmd) {
+    cloneBtn.addEventListener('click', () => {
+      const textToCopy = cloneCmd.textContent.trim();
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        cloneBtn.classList.add('copied');
+        if (cloneText) cloneText.textContent = '✓ Copied!';
+        if (toast) {
+          toast.textContent = 'Git clone command copied to clipboard! 📋';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2800);
+        }
+        setTimeout(() => {
+          cloneBtn.classList.remove('copied');
+          if (cloneText) cloneText.textContent = '📋 Copy';
+        }, 3000);
+      }).catch(() => {
+        if (cloneText) cloneText.textContent = '✓ Copied!';
+      });
+    });
+  }
 }

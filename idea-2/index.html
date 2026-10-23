@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -16,7 +16,7 @@
   <meta name="author" content="Firos Shamsudeen">
   <meta name="publisher" content="Zeehash • Z-Life Non-Profit Initiative">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="theme-color" content="#0a0f1d">
+  <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://zeehash.com/">
 
   <!-- Open Graph / Facebook / LinkedIn Meta Tags -->
@@ -58,8 +58,9 @@
         "url": "https://zeehash.com/",
         "applicationCategory": "HealthApplication",
         "operatingSystem": "All, Web, PWA, iOS, Android",
-        "browserRequirements": "Requires JavaScript. Requires HTML5.",
         "description": "Adaptive care companion for neurodivergent individuals and autism that turns continuous sleep, medication, and sensory logs into proactive meltdown prevention using Google Gemini.",
+        "codeRepository": "https://github.com/fiross/zlife.git",
+        "downloadUrl": "https://github.com/fiross/zlife/archive/refs/heads/main.zip",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -198,27 +199,28 @@
   }
   </script>
 
-  <!-- Google Fonts: Outfit (Headings) + Plus Jakarta Sans (Body) + JetBrains Mono (Code/Prompts) -->
+  <!-- Google Fonts: Google Sans / Outfit / Plus Jakarta Sans / JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- Custom Stylesheet -->
+  <!-- Custom Google Theme Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- Ambient Dynamic Lighting Blobs -->
-  <div class="ambient-bg" aria-hidden="true">
-    <div class="ambient-blob blob-1"></div>
-    <div class="ambient-blob blob-2"></div>
-    <div class="ambient-blob blob-3"></div>
+  <!-- Google 4-Color Accent Strip -->
+  <div class="google-stripe" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
 
-  <!-- Top Sticky Navigation Bar -->
+  <!-- Top Sticky Navigation Bar (Google Minimalist) -->
   <nav class="navbar" id="mainNavbar">
     <div class="container nav-inner">
       <a href="#" class="brand-wrapper">
@@ -227,32 +229,39 @@
           <div class="brand-title">
             Z-Life <span class="brand-ai-badge">Gemini AI</span>
           </div>
-          <span class="brand-tagline">Neurodivergent Care Intelligence</span>
+          <span class="brand-tagline">Care Intelligence</span>
         </div>
       </a>
 
       <ul class="nav-links">
         <li><a href="#challenge">The Challenge</a></li>
-        <li><a href="#dual-role">Dual-Role Workflow</a></li>
-        <li><a href="#ai-engine">AI Engine</a></li>
-        <li><a href="#simulator">Live Simulator</a></li>
-        <li><a href="#workflows">Diagrams</a></li>
+        <li><a href="#dual-role">Dual-Role System</a></li>
+        <li><a href="#ai-engine">Gemini AI</a></li>
+        <li><a href="#simulator">Live Demo</a></li>
+        <li><a href="#workflows">Protocols</a></li>
         <li><a href="#non-profit">Non-Profit Vision</a></li>
+        <li><a href="#open-source">Open Source</a></li>
         <li><a href="#google-synergy">Google Alignment</a></li>
       </ul>
 
       <div class="nav-actions">
-        <button class="btn-theme-toggle" id="themeToggleBtn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+        <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-nav-github" title="View Source & Download on GitHub" aria-label="View Source on GitHub">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span class="nav-github-text">GitHub</span>
+        </a>
+        <button class="btn-theme-toggle" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
           ☀️
         </button>
-        <button class="btn-google" id="openPitchModalBtn">
-          <span>Google Pitch Deck</span>
+        <button class="btn-primary" id="openPitchModalBtn">
+          <span>Executive Pitch</span>
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- Hero Section (Clean, Simple, Google Style) -->
   <header class="hero-section" id="hero">
     <div class="container">
       <div class="hero-grid">
@@ -260,32 +269,36 @@
         <!-- Left: Pitch Headline & Call to Actions -->
         <div class="hero-content">
           <div class="hero-pill-badge">
-            <span class="pulse-dot"></span>
-            <span>Google for Startups • 100% Free & Non-Profit Public Benefit</span>
+            <div class="google-dots" aria-hidden="true">
+              <span class="g-dot blue"></span>
+              <span class="g-dot red"></span>
+              <span class="g-dot yellow"></span>
+              <span class="g-dot green"></span>
+            </div>
+            <span>Google for Startups • 100% Free Public Benefit Initiative</span>
           </div>
 
           <h1>
-            Empowering Autistic Lives Through <span class="gradient-text">Care Intelligence</span> & <span
-              class="gradient-text-ai">LLM Foresight</span>
+            Empowering Autistic Lives with <span class="text-google-blue">Care Intelligence</span> & Google Gemini
           </h1>
 
           <p class="hero-description">
-            Bridging the daily communication chasm between parents, special educators, and therapists. Z-Life captures
-            continuous sleep, medication, hormonal, and sensory signals—transforming raw logs into <strong>proactive,
-              personalized guidance powered by Google Gemini</strong>. A <strong>100% non-profit public benefit
-              initiative</strong> freely available for needy families with zero business monetization.
+            Bridging parents and special educators through continuous sleep, medication, and sensory tracking—transforming daily routines into proactive meltdown prevention powered by Google Gemini. 100% free and non-profit for needy families.
           </p>
 
           <div class="hero-cta-group">
             <a href="#simulator" class="btn-primary">
-              <span>⚡ Try Live Gemini Simulator</span>
+              <span>⚡ Try Live Gemini Demo</span>
               <span>→</span>
             </a>
-            <a href="#workflows" class="btn-secondary">
-              <span>View Closed-Loop Diagrams</span>
+            <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-github-pill" title="View Source & Download on GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <span>GitHub Repo</span>
             </a>
-            <button class="btn-google" id="openPitchModalBtn2">
-              <span>📋 One-Page Executive Pitch</span>
+            <button class="btn-secondary" id="openPitchModalBtn2">
+              <span>📋 View Pitch Deck</span>
             </button>
           </div>
 
@@ -300,12 +313,12 @@
               <span class="metric-label">Meltdown Reduction</span>
             </div>
             <div class="metric-item">
-              <span class="metric-val amber">10 Vectors</span>
-              <span class="metric-label">Daily Sensory Signals</span>
+              <span class="metric-val amber">10 Signals</span>
+              <span class="metric-label">Daily Sensory Vectors</span>
             </div>
             <div class="metric-item">
               <span class="metric-val indigo">&lt; 60s</span>
-              <span class="metric-label">Daily Parent Logging</span>
+              <span class="metric-label">Fast Daily Logging</span>
             </div>
           </div>
         </div>
@@ -321,12 +334,10 @@
               <div class="hfc-title">
                 <span>🤖 Gemini 1.5 Care Intelligence</span>
               </div>
-              <span class="hfc-badge">Real-Time Forecast</span>
+              <span class="hfc-badge">Proactive Forecast</span>
             </div>
             <div class="hfc-body">
-              <strong>Alert:</strong> Sleep deficit (5.5h) + high sound sensitivity reported. Elevated overload risk
-              during 11:30 AM lunch transition. <em>Recommended: 10m deep joint compression + Walker's earmuffs prior to
-                bell.</em>
+              <strong>Alert:</strong> Sleep deficit (5.5h) + high sound sensitivity reported. Elevated overload risk during 11:30 AM lunch transition. <em>Recommended: 10m deep joint compression + Walker's earmuffs prior to bell.</em>
             </div>
           </div>
         </div>
@@ -339,11 +350,10 @@
   <section class="problem-solution-section" id="challenge">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag coral">The Clinical & Human Problem</span>
-        <h2 class="section-title">Why Traditional Autism Care Breaks Down Daily</h2>
+        <span class="section-tag coral">The Human Challenge</span>
+        <h2 class="section-title">Closing the Daily Care Chasm Between Home & School</h2>
         <p class="section-subtitle">
-          Over 5 million neurodivergent children and teenagers struggle in environments not designed for their sensory
-          biology. Traditional tracking consists of forgotten paper binders and guesswork.
+          Over 5 million neurodivergent children navigate environments not designed for their sensory biology. Disconnected communication turns manageable overload into preventable crises.
         </p>
       </div>
 
@@ -351,9 +361,9 @@
         <!-- Problem Card -->
         <div class="compare-card problem-card">
           <div class="card-badge-top">❌ The Broken Status Quo</div>
-          <h3 class="compare-title">The "Disjointed Care Trap"</h3>
+          <h3 class="compare-title">The Disjointed Care Gap</h3>
           <p class="compare-desc">
-            Parents, teachers, and therapists operate in disconnected silos, leading to preventable crises.
+            Parents, teachers, and therapists operate in disconnected silos, leading to preventable meltdowns.
           </p>
 
           <ul class="compare-list">
@@ -361,24 +371,21 @@
               <div class="compare-icon">⚠️</div>
               <div class="compare-text">
                 <h4>The Morning-to-School Blind Spot</h4>
-                <p>A child suffers poor sleep or missed medication at home, but the classroom teacher arrives with zero
-                  context until a sensory meltdown occurs in 3rd period.</p>
+                <p>Poor sleep or missed medication at home leaves the teacher completely blindsided until a sensory crisis erupts in 3rd period.</p>
               </div>
             </li>
             <li class="compare-item">
               <div class="compare-icon">🔇</div>
               <div class="compare-text">
-                <h4>Misinterpreted Sensory Dysregulation</h4>
-                <p>Ear covering, motor pacing, and non-verbal stimming are frequently labeled as "behavioral defiance"
-                  instead of physiological sensory threshold breaches.</p>
+                <h4>Misinterpreted Sensory Distress</h4>
+                <p>Ear covering, pacing, and stimming are mislabeled as "defiance" rather than natural physiological sensory overload.</p>
               </div>
             </li>
             <li class="compare-item">
               <div class="compare-icon">📉</div>
               <div class="compare-text">
-                <h4>Caregiver Cognitive Exhaustion</h4>
-                <p>Parents are too overwhelmed to analyze correlation trends across sleep, hormonal cycles, sugar
-                  intake, and sensory triggers without intelligent assistance.</p>
+                <h4>Caregiver Cognitive Fatigue</h4>
+                <p>Overwhelmed parents cannot manually correlate multi-week trends across sleep, hormones, and acoustic triggers.</p>
               </div>
             </li>
           </ul>
@@ -386,8 +393,8 @@
 
         <!-- Solution Card -->
         <div class="compare-card solution-card">
-          <div class="card-badge-top">✨ The Z-Life AI Innovation</div>
-          <h3 class="compare-title">Connected, Predictive Living</h3>
+          <div class="card-badge-top">✨ The Z-Life Approach</div>
+          <h3 class="compare-title">Predictive, Connected Care</h3>
           <p class="compare-desc">
             A frictionless tactile logger connected directly to Google Gemini's reasoning engine to close the loop.
           </p>
@@ -396,25 +403,22 @@
             <li class="compare-item">
               <div class="compare-icon">⚡</div>
               <div class="compare-text">
-                <h4>Instant Dual-Role Synchronization</h4>
-                <p>Parents log morning vitals in 45 seconds; teachers immediately see a read-only safety glance and
-                  1-touch Sensory SOS protocols.</p>
+                <h4>Instant Dual-Role Sync in &lt;45s</h4>
+                <p>Parents log morning vitals rapidly; educators immediately see a read-only safety glance and 1-touch Sensory SOS.</p>
               </div>
             </li>
             <li class="compare-item">
               <div class="compare-icon">🧠</div>
               <div class="compare-text">
-                <h4>Gemini LLM Clinical Pattern Reasoning</h4>
-                <p>Instead of passive historical logs, the LLM continuously synthesizes non-linear correlations and
-                  tells caregivers exactly what best to do today.</p>
+                <h4>Gemini Multimodal Clinical Reasoning</h4>
+                <p>Instead of static charts, Gemini correlates signals to tell caregivers exactly what accommodations to provide today.</p>
               </div>
             </li>
             <li class="compare-item">
               <div class="compare-icon">🛡️</div>
               <div class="compare-text">
                 <h4>Evidence-Based Sensory SOS Guardrails</h4>
-                <p>Immediate 5-step de-escalation protocols (joint compression, Walker's earmuffs, neutral warmth)
-                  prevent meltdowns before cognitive shut down.</p>
+                <p>Immediate 5-step de-escalation protocols (joint compression, Walker's earmuffs, neutral warmth) prevent meltdowns before shutdown.</p>
               </div>
             </li>
           </ul>
@@ -430,8 +434,7 @@
         <span class="section-tag">Role-Separated Architecture</span>
         <h2 class="section-title">Designed for Real-World School & Home Dynamics</h2>
         <p class="section-subtitle">
-          Overcoming friction through a 3x4 tactile PIN keypad. Parents get full administrative and longitudinal
-          control; busy educators get zero-friction instant visibility.
+          Overcoming friction through a tactile 4-digit PIN keypad. Parents get complete longitudinal tracking; busy educators get zero-friction instant visibility.
         </p>
       </div>
 
@@ -444,10 +447,10 @@
           </div>
 
           <h3 class="role-title">Parent Interactive Command</h3>
-          <p class="role-subtitle">Comprehensive tracking, longitudinal trends, and personalized LLM analysis.</p>
+          <p class="role-subtitle">Comprehensive tracking, longitudinal trends, and personalized Gemini guidance.</p>
 
           <div class="role-feature-tags">
-            <span class="r-tag">Sleep Stepper & Chips</span>
+            <span class="r-tag">Sleep Steppers & Chips</span>
             <span class="r-tag">Dynamic Medications</span>
             <span class="r-tag">Hormonal Cycle</span>
             <span class="r-tag">Sensory Behaviors</span>
@@ -456,12 +459,9 @@
           </div>
 
           <ul class="role-bullet-list">
-            <li><span class="bullet-icon">✓</span> <strong>Morning Routine (7:30 AM):</strong> Log sleep hours, morning
-              emotional baseline, and prescription meds (e.g., Focalin).</li>
-            <li><span class="bullet-icon">✓</span> <strong>Evening Routine (8:30 PM):</strong> Record afternoon
-              enrichment (speech, piano), sensory behaviors observed, and evening melatonin.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Doctor Ready:</strong> 1-click export of structured UTF-8 CSV
-              logs with emojis for neurologist and pediatrician appointments.</li>
+            <li><span class="bullet-icon">✓</span> <strong>Morning Routine (7:30 AM):</strong> Log sleep hours, morning emotional baseline, and prescription meds (e.g., Focalin).</li>
+            <li><span class="bullet-icon">✓</span> <strong>Evening Routine (8:30 PM):</strong> Record afternoon enrichment (speech, piano), sensory behaviors observed, and evening melatonin.</li>
+            <li><span class="bullet-icon">✓</span> <strong>Doctor Ready:</strong> 1-click export of structured UTF-8 CSV logs with emojis for neurologist and pediatrician appointments.</li>
           </ul>
         </div>
 
@@ -480,16 +480,13 @@
             <span class="r-tag">Medication Verification</span>
             <span class="r-tag">Cycle Awareness Alert</span>
             <span class="r-tag">Sensory SOS Modal</span>
-            <span class="r-tag">No Login Paperwork</span>
+            <span class="r-tag">No Paperwork</span>
           </div>
 
           <ul class="role-bullet-list">
-            <li><span class="bullet-icon">✓</span> <strong>Drop-Off Check (8:15 AM):</strong> Verify within 5 seconds
-              how many hours the child slept and confirm morning medication was taken.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Cycle Dignity Banner:</strong> Compassionate alert prompts
-              teachers to offer discreet bathroom passes and heating pads.</li>
-            <li><span class="bullet-icon">✓</span> <strong>1-Touch Sensory SOS:</strong> Step-by-step calming protocols
-              during sensory overload without interrupting class instruction.</li>
+            <li><span class="bullet-icon">✓</span> <strong>Drop-Off Check (8:15 AM):</strong> Verify within 5 seconds how many hours the child slept and confirm morning medication was taken.</li>
+            <li><span class="bullet-icon">✓</span> <strong>Cycle Dignity Banner:</strong> Compassionate alert prompts teachers to offer discreet bathroom passes and heating pads.</li>
+            <li><span class="bullet-icon">✓</span> <strong>1-Touch Sensory SOS:</strong> Step-by-step calming protocols during sensory overload without interrupting class instruction.</li>
           </ul>
         </div>
       </div>
@@ -500,20 +497,17 @@
   <section class="ai-spotlight-section" id="ai-engine">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag indigo">The Core Innovation</span>
-        <h2 class="section-title">
-          From Daily Logs to <span class="gradient-text-ai">Predictive Care Recommendations</span>
-        </h2>
+        <span class="section-tag green">Core AI Innovation</span>
+        <h2 class="section-title">From Daily Logs to Predictive Care Foresight</h2>
         <p class="section-subtitle">
-          Logging alone doesn't solve autism challenges. Z-Life feeds multimodal daily signals into <strong>Google
-            Gemini</strong> to deliver proactive, individualized guidance for parents and educators.
+          Logging alone doesn't solve autism challenges. Z-Life feeds multimodal signals into <strong>Google Gemini</strong> to deliver proactive, individualized guidance for families and classrooms.
         </p>
       </div>
 
       <!-- Spotlight Visual Pipeline Graphic -->
       <div class="ai-spotlight-banner">
         <img src="llm-pipeline-illustration.jpg"
-          alt="Z-Life AI data stream pipeline showing daily logs flowing into Gemini AI brain orb and emerging as personalized care recommendations"
+          alt="Z-Life AI data stream pipeline showing daily logs flowing into Gemini AI reasoning engine and emerging as personalized care recommendations"
           class="ai-spotlight-img">
       </div>
 
@@ -523,8 +517,7 @@
           <div class="pillar-icon-box">📊</div>
           <h3 class="pillar-title">1. Longitudinal Pattern Synthesis</h3>
           <p class="pillar-desc">
-            Gemini's massive context window correlates weeks of sleep duration, nutrition (high-protein vs sugar
-            spikes), and menstrual phases to discover subtle triggers humans overlook.
+            Gemini's massive context window correlates weeks of sleep duration, nutrition spikes, and menstrual phases to discover subtle triggers humans overlook.
           </p>
         </div>
 
@@ -532,8 +525,7 @@
           <div class="pillar-icon-box">🎯</div>
           <h3 class="pillar-title">2. Proactive Calming Action Plans</h3>
           <p class="pillar-desc">
-            Instead of generic advice, Z-Life generates tailored sensory diets: exact joint compression timings,
-            Walker's earmuff protocols, weighted blankets, and oral sensory crunching.
+            Instead of generic advice, Z-Life generates tailored sensory diets: exact joint compression timings, Walker's earmuff protocols, and oral sensory chewing.
           </p>
         </div>
 
@@ -541,8 +533,7 @@
           <div class="pillar-icon-box">💬</div>
           <h3 class="pillar-title">3. Automated Teacher Handoffs</h3>
           <p class="pillar-desc">
-            Transforms complex morning home logs and narrative caregiver notes into a concise, empathetic 30-second
-            morning briefing tailored for the student's special education team.
+            Transforms complex morning home logs and narrative caregiver notes into a concise, empathetic 30-second morning briefing tailored for the student's special education team.
           </p>
         </div>
       </div>
@@ -556,8 +547,7 @@
         <span class="section-tag">Interactive Experience</span>
         <h2 class="section-title">Test the Google Gemini Care Reasoning Engine</h2>
         <p class="section-subtitle">
-          Select a realistic scenario below or tweak the daily signals to watch the AI engine synthesize care
-          recommendations in real-time.
+          Select a realistic scenario below or tweak the daily signals to watch the AI engine synthesize care recommendations in real-time.
         </p>
       </div>
 
@@ -584,7 +574,7 @@
           <div class="sim-input-col">
             <div class="sim-col-title">
               <span>📋 Daily Ingested Care Signals</span>
-              <span style="font-size:0.75rem;color:var(--text-muted);">Live Sync</span>
+              <span style="font-size:0.75rem;color:var(--text-muted);font-weight:500;">Live Sync</span>
             </div>
 
             <!-- Sleep Slider -->
@@ -626,15 +616,11 @@
                 <span>Sensory Behaviors Observed</span>
               </div>
               <div class="sim-toggle-grid">
-                <span class="sim-tag-toggle selected coral" data-category="behavior" data-val="Ear Covering">🎧 Ear
-                  Covering</span>
-                <span class="sim-tag-toggle selected amber" data-category="behavior" data-val="Sound Sensitivity">🔊
-                  Sound Sensitivity</span>
-                <span class="sim-tag-toggle selected" data-category="behavior" data-val="Impulsive Pacing">👣 Impulsive
-                  Pacing</span>
+                <span class="sim-tag-toggle selected coral" data-category="behavior" data-val="Ear Covering">🎧 Ear Covering</span>
+                <span class="sim-tag-toggle selected amber" data-category="behavior" data-val="Sound Sensitivity">🔊 Sound Sensitivity</span>
+                <span class="sim-tag-toggle selected" data-category="behavior" data-val="Impulsive Pacing">👣 Impulsive Pacing</span>
                 <span class="sim-tag-toggle" data-category="behavior" data-val="Food Grabbing">🥪 Food Grabbing</span>
-                <span class="sim-tag-toggle" data-category="behavior" data-val="Cover with Blanket (Cocooning)">🛋️
-                  Cocooning</span>
+                <span class="sim-tag-toggle" data-category="behavior" data-val="Cover with Blanket (Cocooning)">🛋️ Cocooning</span>
               </div>
             </div>
 
@@ -644,12 +630,9 @@
                 <span>Active Interventions</span>
               </div>
               <div class="sim-toggle-grid">
-                <span class="sim-tag-toggle selected" data-category="intervention"
-                  data-val="Earmuffs (Walker's Electronics)">🎧 Walker's Earmuffs</span>
-                <span class="sim-tag-toggle selected" data-category="intervention" data-val="Joint Compression">🤲 Joint
-                  Compression</span>
-                <span class="sim-tag-toggle" data-category="intervention" data-val="Neutral Warmth">🧣 Neutral
-                  Warmth</span>
+                <span class="sim-tag-toggle selected" data-category="intervention" data-val="Earmuffs (Walker's Electronics)">🎧 Walker's Earmuffs</span>
+                <span class="sim-tag-toggle selected" data-category="intervention" data-val="Joint Compression">🤲 Joint Compression</span>
+                <span class="sim-tag-toggle" data-category="intervention" data-val="Neutral Warmth">🧣 Neutral Warmth</span>
                 <span class="sim-tag-toggle" data-category="intervention" data-val="Visual Timer">⏳ Visual Timer</span>
               </div>
             </div>
@@ -680,9 +663,8 @@
             <!-- Loading Spinner State -->
             <div class="ai-loading-state" id="aiLoadingState">
               <div class="spinner-orb"></div>
-              <span style="font-weight:700;color:var(--indigo-ai);">Gemini Correlating Longitudinal Vectors...</span>
-              <span style="font-size:0.8rem;color:var(--text-muted);">Evaluating sleep deficit, acoustic triggers, and
-                sensory baseline</span>
+              <span style="font-weight:600;color:var(--google-blue);">Gemini Correlating Longitudinal Vectors...</span>
+              <span style="font-size:0.8rem;color:var(--text-muted);">Evaluating sleep deficit, acoustic triggers, and sensory baseline</span>
             </div>
 
             <!-- Output Container (Rendered via JS) -->
@@ -700,11 +682,10 @@
   <section class="workflow-section" id="workflows">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag amber">System Architecture & Workflows</span>
+        <span class="section-tag amber">System Architecture</span>
         <h2 class="section-title">Interactive Diagrams & Clinical Protocols</h2>
         <p class="section-subtitle">
-          Explore how Z-Life operates across the 24-hour day, its Google Cloud tech stack, and the emergency sensory
-          de-escalation ladder.
+          Explore how Z-Life operates across the 24-hour day, its Google Cloud tech stack, and the emergency sensory de-escalation ladder.
         </p>
       </div>
 
@@ -722,8 +703,7 @@
             <div class="step-num-badge">01</div>
             <h3 class="step-title">Morning Home Vitals</h3>
             <p class="step-desc">
-              Parent logs sleep duration, emotional state, cycle status, and morning medication in &lt;45s using tactile
-              steppers and preset chips.
+              Parent logs sleep duration, emotional state, cycle status, and morning medication in &lt;45s using tactile steppers and preset chips.
             </p>
           </div>
 
@@ -731,8 +711,7 @@
             <div class="step-num-badge">02</div>
             <h3 class="step-title">School Daytime Glance</h3>
             <p class="step-desc">
-              Teacher enters PIN 5678 to confirm morning rest and medication without interruption. Accesses 1-touch
-              Sensory SOS during high-stress moments.
+              Teacher enters PIN 5678 to confirm morning rest and medication without interruption. Accesses 1-touch Sensory SOS during high-stress moments.
             </p>
           </div>
 
@@ -740,8 +719,7 @@
             <div class="step-num-badge">03</div>
             <h3 class="step-title">Evening Sensory Follow-Up</h3>
             <p class="step-desc">
-              Parent logs afternoon activities (speech, piano), sensory behaviors observed, calming interventions
-              applied, and voice notes.
+              Parent logs afternoon activities (speech, piano), sensory behaviors observed, calming interventions applied, and voice notes.
             </p>
           </div>
 
@@ -749,8 +727,7 @@
             <div class="step-num-badge">04</div>
             <h3 class="step-title">Gemini Synthesis & Foresight</h3>
             <p class="step-desc">
-              LLM correlates the 24-hour dataset against historical baselines, generating next-morning guidance to
-              pre-emptively neutralize triggers.
+              LLM correlates the 24-hour dataset against historical baselines, generating next-morning guidance to pre-emptively neutralize triggers.
             </p>
           </div>
         </div>
@@ -765,8 +742,7 @@
               <h3 class="tech-title">Tactile Frontend SPA</h3>
             </div>
             <p>
-              Lightweight React 19 Single Page Application with zero full-page reloads, tactile 48px touch targets,
-              optimistic UI state updates, and sensory-soothing pediatric palettes.
+              Lightweight React 19 Single Page Application with zero full-page reloads, tactile 48px touch targets, optimistic UI state updates, and sensory-soothing pediatric palettes.
             </p>
           </div>
 
@@ -776,8 +752,7 @@
               <h3 class="tech-title">Google Gemini 1.5/2.0 API</h3>
             </div>
             <p>
-              Leveraging Gemini Flash for ultra-fast &lt;1s morning handoff generation and Gemini Pro with context
-              caching for deep multi-week clinical pattern discovery.
+              Leveraging Gemini Flash for ultra-fast &lt;1s morning handoff generation and Gemini Pro with context caching for deep multi-week clinical pattern discovery.
             </p>
           </div>
 
@@ -787,8 +762,7 @@
               <h3 class="tech-title">Privacy & HIPAA Readiness</h3>
             </div>
             <p>
-              Zero-PII encrypted tokenization, role-separated authentication boundaries, structured JSON logging
-              schemas, and seamless Google Cloud Healthcare API compatibility.
+              Zero-PII encrypted tokenization, role-separated authentication boundaries, structured JSON logging schemas, and seamless Google Cloud Healthcare API compatibility.
             </p>
           </div>
         </div>
@@ -801,16 +775,14 @@
             <div class="sos-step-num">Step 1</div>
             <div class="sos-icon">🎧</div>
             <h4 class="sos-title">Sound Dampening</h4>
-            <p class="sos-desc">Immediately place Walker's electronic earmuffs on child to eliminate auditory assault.
-            </p>
+            <p class="sos-desc">Immediately place Walker's electronic earmuffs on child to eliminate auditory assault.</p>
           </div>
 
           <div class="sos-ladder-card">
             <div class="sos-step-num">Step 2</div>
             <div class="sos-icon">🤲</div>
             <h4 class="sos-title">Joint Compression</h4>
-            <p class="sos-desc">Apply firm, steady rhythmic proprioceptive pressure to shoulders and elbows (10-15s
-              each).</p>
+            <p class="sos-desc">Apply firm, steady rhythmic proprioceptive pressure to shoulders and elbows (10-15s each).</p>
           </div>
 
           <div class="sos-ladder-card">
@@ -846,19 +818,16 @@
         <span class="section-tag">Strategic Acceleration</span>
         <h2 class="section-title">Why Z-Life Belongs in Google for Startups</h2>
         <p class="section-subtitle">
-          Direct synergy with Google's core mission: organizing assistive care information, democratizing healthcare AI,
-          and championing disability accessibility.
+          Direct synergy with Google's mission: organizing assistive care information, democratizing healthcare AI, and championing disability accessibility.
         </p>
       </div>
 
       <div class="synergy-grid">
         <div class="synergy-card">
           <div class="synergy-icon">🌐</div>
-          <h3 class="synergy-title">Gemini's Unmatched Long Context</h3>
+          <h3 class="synergy-title">Gemini's Long Context Window</h3>
           <p class="synergy-desc">
-            Neurodivergent care patterns unfold over months. Gemini's massive 1M+ token context window allows our engine
-            to hold an entire school year's worth of multi-vector daily logs in active memory, uncovering seasonal and
-            hormonal correlations no traditional model can match.
+            Neurodivergent care patterns unfold over months. Gemini's massive 1M+ token context window allows our engine to hold an entire school year's worth of multi-vector daily logs in active memory, uncovering subtle correlations no traditional model can detect.
           </p>
         </div>
 
@@ -866,18 +835,15 @@
           <div class="synergy-icon">♿</div>
           <h3 class="synergy-title">Global Accessibility & Social Impact</h3>
           <p class="synergy-desc">
-            1 in 36 children worldwide are diagnosed with autism, facing immense emotional and educational barriers.
-            Z-Life aligns directly with Google's Accessibility & Disability Inclusion initiatives by transforming
-            assistive tech from reactive to proactive.
+            1 in 36 children worldwide are diagnosed with autism, facing immense emotional and educational barriers. Z-Life aligns directly with Google's Accessibility & Disability Inclusion initiatives by transforming assistive tech from reactive to proactive.
           </p>
         </div>
 
         <div class="synergy-card yellow">
           <div class="synergy-icon">🤝</div>
-          <h3 class="synergy-title">Public Benefit Scaling for Underserved Classrooms</h3>
+          <h3 class="synergy-title">Scaling for Underserved Classrooms</h3>
           <p class="synergy-desc">
-            Deploying free assistive intelligence across Title-1 special education schools and autism community centers.
-            Supported through Google Cloud credits and non-profit accessibility grants rather than commercial paywalls.
+            Deploying free assistive intelligence across Title-1 special education schools and autism community centers. Supported through Google Cloud credits and non-profit accessibility grants rather than commercial paywalls.
           </p>
         </div>
       </div>
@@ -891,9 +857,7 @@
         <span class="section-tag coral">❤️ Public Benefit Initiative</span>
         <h2 class="section-title">100% Free for Needy Families • Zero Business Monetization</h2>
         <p class="section-subtitle">
-          Assistive neurocare technology should be an accessible human right, not an expensive monthly subscription.
-          Z-Life is strictly non-profit with no commercial interest, no paywalls, and no exploitation of sensitive
-          healthcare data.
+          Assistive neurocare technology should be an accessible human right, not an expensive monthly subscription. Z-Life is strictly non-profit with zero commercial interest, zero paywalls, and zero exploitation of healthcare data.
         </p>
       </div>
 
@@ -903,11 +867,7 @@
         <div class="np-pledge-text">
           <h3>The Z-Life Non-Profit Pledge</h3>
           <p>
-            Families raising children on the autism spectrum already bear massive financial and emotional strain—from
-            therapies and medical evaluations to specialized schooling. We believe technology should lift this burden,
-            never add to it. Z-Life will remain <strong>100% free forever for needy families and educators</strong>,
-            sustained exclusively through research grants, philanthropic donors, and Google AI for Social Good cloud
-            credits.
+            Families raising children on the autism spectrum already bear massive financial and emotional strain—from therapies and medical evaluations to specialized schooling. We believe technology should lift this burden, never add to it. Z-Life will remain <strong>100% free forever for needy families and educators</strong>, sustained exclusively through research grants, philanthropic donors, and Google AI for Social Good cloud credits.
           </p>
         </div>
       </div>
@@ -917,29 +877,25 @@
         <div class="np-pillar-card">
           <div class="npp-icon">🎁</div>
           <h4 class="npp-title">Free for Needy Families</h4>
-          <p class="npp-desc">Complete, unthrottled access to daily multi-vector tracking, dynamic meds, sensory SOS,
-            and AI recommendations without subscription fees or paywalls.</p>
+          <p class="npp-desc">Complete, unthrottled access to daily multi-vector tracking, dynamic meds, sensory SOS, and AI recommendations without subscription fees or paywalls.</p>
         </div>
 
         <div class="np-pillar-card">
           <div class="npp-icon">🚫</div>
           <h4 class="npp-title">Zero Business Monetization</h4>
-          <p class="npp-desc">No advertisements, no venture profit extractions, and no upsells. The system exists solely
-            to serve neurodivergent individuals and their caregivers.</p>
+          <p class="npp-desc">No advertisements, no venture profit extractions, and no upsells. The system exists solely to serve neurodivergent individuals and their caregivers.</p>
         </div>
 
         <div class="np-pillar-card">
           <div class="npp-icon">🛡️</div>
           <h4 class="npp-title">Strict Zero-Data Selling</h4>
-          <p class="npp-desc">Sensitive behavioral, emotional, and cycle logs belong strictly to the family. We never
-            monetize, aggregate, or sell health data to third-party commercial entities.</p>
+          <p class="npp-desc">Sensitive behavioral, emotional, and cycle logs belong strictly to the family. We never monetize, aggregate, or sell health data to third-party commercial entities.</p>
         </div>
 
         <div class="np-pillar-card">
           <div class="npp-icon">🤝</div>
           <h4 class="npp-title">Grant-Powered Sustainability</h4>
-          <p class="npp-desc">Designed to scale nationwide through Google Cloud for Startups non-profit credits,
-            Google.org accessibility grants, and university clinical research partnerships.</p>
+          <p class="npp-desc">Designed to scale nationwide through Google Cloud for Startups non-profit credits, Google.org accessibility grants, and university clinical research partnerships.</p>
         </div>
       </div>
 
@@ -953,10 +909,15 @@
           <h3 class="founder-name">Firos Shamsudeen</h3>
           <span class="founder-role-title">Father of Zeba • Founder & Lead Architect</span>
           <div class="founder-contact-actions">
+            <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-github">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <span>GitHub: fiross/zlife</span>
+            </a>
             <a href="https://www.linkedin.com/in/firos/" target="_blank" rel="noopener noreferrer" class="btn-linkedin">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
               </svg>
               <span>LinkedIn Profile</span>
             </a>
@@ -969,24 +930,146 @@
         <div class="founder-story">
           <div class="founder-quote-box">
             <p class="founder-quote">
-              "I built Z-Life out of love and necessity for my daughter Zeba. Watching her struggle with sensory
-              overload and seeing how proactive joint compression and sound dampening restored her daily calm proved to
-              me that data-informed care can transform lives. My solemn pledge is that Z-Life will never be a
-              profit-driven enterprise—it will remain completely free and open for every needy family, autistic child,
-              and caring educator who needs it."
+              "I built Z-Life out of love and necessity for my daughter Zeba. Watching her struggle with sensory overload and seeing how proactive joint compression and sound dampening restored her daily calm proved to me that data-informed care can transform lives. My solemn pledge is that Z-Life will never be a profit-driven enterprise—it will remain completely free and open for every needy family, autistic child, and caring educator who needs it."
             </p>
           </div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-            <span style="font-size:0.85rem;color:var(--text-muted);">Direct Contact & Partnerships:</span>
-            <a href="mailto:info@zeehash.com"
-              style="color:var(--teal-primary);font-weight:700;text-decoration:none;">info@zeehash.com</a>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:0.9rem;">
+            <span style="color:var(--text-muted);">Direct Contact &amp; Code:</span>
+            <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" style="color:var(--google-blue);font-weight:600;">github.com/fiross/zlife</a>
             <span style="color:var(--border-subtle);">•</span>
-            <a href="https://www.linkedin.com/in/firos/" target="_blank" rel="noopener noreferrer"
-              style="color:#60a5fa;font-weight:700;text-decoration:none;">linkedin.com/in/firos</a>
+            <a href="mailto:info@zeehash.com" style="color:var(--google-blue);font-weight:600;">info@zeehash.com</a>
+            <span style="color:var(--border-subtle);">•</span>
+            <a href="https://www.linkedin.com/in/firos/" target="_blank" rel="noopener noreferrer" style="color:var(--google-blue);font-weight:600;">linkedin.com/in/firos</a>
           </div>
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- SECTION: 100% OPEN SOURCE & GITHUB REPOSITORY -->
+  <section class="open-source-section" id="open-source">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag green">🔓 100% Free & Open Source</span>
+        <h2 class="section-title">Download, Deploy &amp; Self-Host the Full Repository</h2>
+        <p class="section-subtitle">
+          Z-Life is completely open-sourced on GitHub. Anyone—parents, special education schools, occupational therapists, researchers, and developers worldwide—can freely clone, download, deploy on private servers, or customize the complete platform for their own children and students.
+        </p>
+      </div>
+
+      <div class="repo-showcase-card">
+        <div class="repo-header-row">
+          <div class="repo-title-block">
+            <div class="repo-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="repo-badge-bar">
+                <span class="repo-status-pill">Public Repository</span>
+                <span class="repo-license-pill">Free &amp; Open Access</span>
+              </div>
+              <h3 class="repo-name">
+                <a href="https://github.com/fiross/zlife" target="_blank" rel="noopener noreferrer">fiross / zlife</a>
+              </h3>
+              <p class="repo-desc">
+                Tactile dual-role daily neurocare tracker, dynamic multi-signal logs, emergency Sensory SOS ladders, and Google Gemini AI predictive meltdown analysis.
+              </p>
+            </div>
+          </div>
+
+          <div class="repo-action-buttons">
+            <a href="https://github.com/fiross/zlife" target="_blank" rel="noopener noreferrer" class="btn-primary btn-repo-star">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.399 8.168-7.333-3.856-7.333 3.856 1.399-8.168-5.934-5.784 8.2-1.192zm0 5.702l-2.223 4.505-4.972.723 3.598 3.507-.849 4.953 4.446-2.338 4.446 2.338-.849-4.953 3.598-3.507-4.972-.723z"/>
+              </svg>
+              <span>View Repository on GitHub</span>
+            </a>
+            <a href="https://github.com/fiross/zlife/archive/refs/heads/main.zip" class="btn-secondary btn-repo-download" title="Download ZIP">
+              <span>📥 Download ZIP</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Terminal Clone Box with 1-click Copy -->
+        <div class="repo-clone-box">
+          <div class="clone-box-label">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="clone-box-title">Terminal Git Clone</span>
+          </div>
+          <div class="clone-command-row">
+            <code class="clone-code" id="gitCloneCmd">git clone https://github.com/fiross/zlife.git</code>
+            <button class="btn-copy-clone" id="copyCloneBtn" title="Copy git clone command">
+              <span id="copyCloneBtnText">📋 Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Highlights Grid for Self-Hosters -->
+        <div class="repo-highlights-grid">
+          <div class="repo-feature-pill">
+            <span class="rf-icon">🚀</span>
+            <div>
+              <strong>Quick Local Run</strong>
+              <span>Runs with standard PHP 8 &amp; MySQL on Mac, Linux, or Windows PCs</span>
+            </div>
+          </div>
+          <div class="repo-feature-pill">
+            <span class="rf-icon">🌐</span>
+            <div>
+              <strong>Deploy Anywhere</strong>
+              <span>Ready for Hostinger, cPanel, Apache, Nginx, or private home lab server</span>
+            </div>
+          </div>
+          <div class="repo-feature-pill">
+            <span class="rf-icon">🔒</span>
+            <div>
+              <strong>100% Private Health Data</strong>
+              <span>Self-hosted on your own hardware with zero third-party commercial data leaks</span>
+            </div>
+          </div>
+          <div class="repo-feature-pill">
+            <span class="rf-icon">🤖</span>
+            <div>
+              <strong>Google Gemini Ready</strong>
+              <span>Direct prompts &amp; pipeline ready to connect Google Gemini 1.5/2.0 API</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick 3-Step Setup Instructions -->
+        <div class="repo-quickstart">
+          <h4 class="quickstart-title">⚡ 3-Step Quick Start</h4>
+          <div class="quickstart-steps">
+            <div class="qs-step">
+              <span class="qs-num">1</span>
+              <div>
+                <strong>Clone the Repository:</strong>
+                <code>git clone https://github.com/fiross/zlife.git</code>
+              </div>
+            </div>
+            <div class="qs-step">
+              <span class="qs-num">2</span>
+              <div>
+                <strong>Database &amp; Config:</strong>
+                <span>Import <code>database.sql</code> into MySQL and configure <code>config.php</code></span>
+              </div>
+            </div>
+            <div class="qs-step">
+              <span class="qs-num">3</span>
+              <div>
+                <strong>Launch Application:</strong>
+                <span>Run <code>php -S localhost:8000</code> and open in any desktop or mobile browser</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -997,13 +1080,17 @@
         <span class="section-tag coral">Submission Ready</span>
         <h2 class="pitch-banner-title">Empowering the Future of Neurodivergent Living</h2>
         <p class="pitch-banner-subtitle">
-          Built with deep clinical empathy and validated through real daily care for Zeba. A 100% non-profit public
-          benefit initiative seeking Google for Startups support to make adaptive care intelligence freely available to
-          every needy family worldwide.
+          Built with clinical empathy and validated through real daily care for Zeba. A 100% non-profit public benefit initiative seeking Google for Startups support to make adaptive care intelligence freely available to every needy family worldwide.
         </p>
 
         <div class="pitch-banner-actions">
-          <button class="btn-primary" id="openPitchModalBtn3"
+          <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span>Download on GitHub</span>
+          </a>
+          <button class="btn-secondary" id="openPitchModalBtn3"
             onclick="document.getElementById('openPitchModalBtn').click()">
             <span>📄 View Complete Executive Pitch</span>
             <span>→</span>
@@ -1022,53 +1109,53 @@
       <button class="modal-close-btn" id="closePitchModalBtn" aria-label="Close Modal">✕</button>
 
       <div class="modal-pitch-body">
-        <span class="hero-pill-badge" style="margin-bottom:12px;">🚀 Google for Startups Accelerator Pitch
-          Document</span>
-        <h2 id="modalTitle" style="font-size:2rem;margin-bottom:8px;">Z-Life AI: Neurodivergent Care Intelligence</h2>
-        <p style="font-size:1.05rem;color:var(--teal-primary);font-weight:600;margin-bottom:12px;">
+        <div class="hero-pill-badge" style="margin-bottom:12px;">
+          <div class="google-dots" aria-hidden="true">
+            <span class="g-dot blue"></span>
+            <span class="g-dot red"></span>
+            <span class="g-dot yellow"></span>
+            <span class="g-dot green"></span>
+          </div>
+          <span>Google for Startups Accelerator Pitch Document</span>
+        </div>
+        <h2 id="modalTitle" style="font-size:1.9rem;margin-bottom:8px;">Z-Life AI: Neurodivergent Care Intelligence</h2>
+        <p style="font-size:1rem;color:var(--google-blue);font-weight:600;margin-bottom:8px;">
           Applicant Category: AI for Good • Healthcare & Assistive Accessibility Tech
         </p>
-        <p style="font-size:0.95rem;color:var(--coral-accent);font-weight:700;margin-bottom:24px;">
+        <p style="font-size:0.92rem;color:var(--google-red);font-weight:600;margin-bottom:24px;">
           🎗️ 100% Non-Profit Initiative • Free Forever for Needy Families • Zero Business Monetization
         </p>
 
         <h3>Founder & Contact Information</h3>
         <ul>
           <li><strong>Founder & Lead Architect:</strong> Firos Shamsudeen (Father of Zeba)</li>
+          <li><strong>Open Source Repository:</strong> <a href="https://github.com/fiross/zlife.git" target="_blank"
+              rel="noopener noreferrer" style="color:var(--google-blue);font-weight:600;">https://github.com/fiross/zlife.git</a> (100% Free for all families)</li>
           <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/firos/" target="_blank"
-              rel="noopener noreferrer" style="color:#60a5fa;font-weight:700;">https://www.linkedin.com/in/firos/</a>
+              rel="noopener noreferrer" style="color:var(--google-blue);font-weight:600;">https://www.linkedin.com/in/firos/</a>
           </li>
           <li><strong>Contact Email:</strong> <a href="mailto:info@zeehash.com"
-              style="color:var(--teal-primary);font-weight:700;">info@zeehash.com</a></li>
+              style="color:var(--google-blue);font-weight:600;">info@zeehash.com</a></li>
         </ul>
 
         <h3>1. The Problem</h3>
         <p>
-          Over 5 million neurodivergent children with Autism Spectrum Disorder (ASD), ADHD, and Sensory Processing
-          Differences experience severe daily dysregulation. Traditional care tracking is broken:
+          Over 5 million neurodivergent children with Autism Spectrum Disorder (ASD), ADHD, and Sensory Processing Differences experience severe daily dysregulation. Traditional care tracking is broken:
         </p>
         <ul>
-          <li><strong>Information Chasm:</strong> Home sleep and medication states are completely invisible to classroom
-            educators when the morning bell rings.</li>
-          <li><strong>Misunderstood Signals:</strong> Severe sensory distress (ear covering, pacing, non-verbal
-            shutdown) is misdiagnosed as behavioral defiance.</li>
-          <li><strong>Caregiver Burnout:</strong> Exhausted parents lack cognitive capacity to manually detect
-            multi-week correlations across diet, sleep, and hormonal cycles.</li>
+          <li><strong>Information Chasm:</strong> Home sleep and medication states are completely invisible to classroom educators when the morning bell rings.</li>
+          <li><strong>Misunderstood Signals:</strong> Severe sensory distress (ear covering, pacing, non-verbal shutdown) is misdiagnosed as behavioral defiance.</li>
+          <li><strong>Caregiver Burnout:</strong> Exhausted parents lack cognitive capacity to manually detect multi-week correlations across diet, sleep, and hormonal cycles.</li>
         </ul>
 
         <h3>2. The Z-Life Solution</h3>
         <p>
-          A fast, tactile dual-role application designed specifically for neurodivergent individuals (initially built
-          and validated for Zeba, a 15-year-old student):
+          A fast, tactile dual-role application designed specifically for neurodivergent individuals (initially built and validated for Zeba, a 15-year-old student):
         </p>
         <ul>
-          <li><strong>Dual-Role Authentication:</strong> Fast 4-digit keypad separating Parent full tracking (PIN 1234)
-            from Teacher instant safety glance and Sensory SOS (PIN 5678).</li>
-          <li><strong>10 High-Impact Clinical Vectors:</strong> Sleep duration (steppers/chips), dynamic medications,
-            emotional states, cycle/menstruation tracking, sensory behaviors, calming supports, enrichment activities,
-            food types, and narrative voice notes.</li>
-          <li><strong>Zero-Friction Adoption:</strong> Under 60 seconds per day logging with zero full-page reloads.
-          </li>
+          <li><strong>Dual-Role Authentication:</strong> Fast 4-digit keypad separating Parent full tracking (PIN 1234) from Teacher instant safety glance and Sensory SOS (PIN 5678).</li>
+          <li><strong>10 High-Impact Clinical Vectors:</strong> Sleep duration (steppers/chips), dynamic medications, emotional states, cycle/menstruation tracking, sensory behaviors, calming supports, enrichment activities, food types, and narrative voice notes.</li>
+          <li><strong>Zero-Friction Adoption:</strong> Under 60 seconds per day logging with zero full-page reloads.</li>
         </ul>
 
         <h3>3. The Core Unfair Advantage: Google Gemini LLM Engine</h3>
@@ -1076,37 +1163,35 @@
           Instead of leaving logs as dead data, Z-Life pipes structured daily signals directly into Google Gemini:
         </p>
         <ul>
-          <li><strong>Predictive Meltdown Radar:</strong> Forecasts high-risk overload time windows (e.g., loud
-            cafeteria transitions following &lt;6h sleep).</li>
-          <li><strong>Personalized Calming Prescriptions:</strong> Recommends individualized sensory diet interventions
-            (joint compression, Walker's earmuffs, oral sensory gum) before distress escalates.</li>
-          <li><strong>Automated Teacher Morning Handoff:</strong> Delivers a concise 3-bullet morning briefing so
-            educators know exactly what accommodations are needed today.</li>
+          <li><strong>Predictive Meltdown Radar:</strong> Forecasts high-risk overload time windows (e.g., loud cafeteria transitions following &lt;6h sleep).</li>
+          <li><strong>Personalized Calming Prescriptions:</strong> Recommends individualized sensory diet interventions (joint compression, Walker's earmuffs, oral sensory gum) before distress escalates.</li>
+          <li><strong>Automated Teacher Morning Handoff:</strong> Delivers a concise 3-bullet morning briefing so educators know exactly what accommodations are needed today.</li>
         </ul>
 
         <h3>4. The Non-Profit Vision: Zero Business Monetization</h3>
         <p>
-          Unlike commercial startups seeking venture returns, Z-Life is strictly a <strong>non-profit social good
-            platform</strong>:
+          Unlike commercial startups seeking venture returns, Z-Life is strictly a <strong>non-profit social good platform</strong>:
         </p>
         <ul>
-          <li><strong>100% Free for Needy Families:</strong> No subscription tiers, no paywalls, and no feature gating
-            for vulnerable caregivers.</li>
-          <li><strong>Zero Commercial Data Selling:</strong> We never sell, rent, or commercialize sensitive
-            neurodivergent health or behavioral data.</li>
-          <li><strong>Sustainability:</strong> Funded and sustained solely via Google Cloud AI for Social Good grants,
-            accessibility research fellowships, and philanthropic donors.</li>
+          <li><strong>100% Free for Needy Families:</strong> No subscription tiers, no paywalls, and no feature gating for vulnerable caregivers.</li>
+          <li><strong>Zero Commercial Data Selling:</strong> We never sell, rent, or commercialize sensitive neurodivergent health or behavioral data.</li>
+          <li><strong>Sustainability:</strong> Funded and sustained solely via Google Cloud AI for Social Good grants, accessibility research fellowships, and philanthropic donors.</li>
         </ul>
 
         <h3>5. What We Are Requesting from Google</h3>
         <ul>
-          <li>Google Cloud & Vertex AI credits to scale Gemini multimodal inference and context caching for families in
-            need.</li>
+          <li>Google Cloud & Vertex AI credits to scale Gemini multimodal inference and context caching for families in need.</li>
           <li>Mentorship from Google Health, Google Accessibility, and Google.org social impact teams.</li>
           <li>Integration support for Google Classroom and Google Workspace for Education.</li>
         </ul>
 
-        <div style="margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap;">
+        <div style="margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span>Get Code on GitHub</span>
+          </a>
           <button class="btn-primary" id="copyPitchDeckBtn">
             <span>📋 Copy Pitch Summary Text</span>
           </button>
@@ -1123,43 +1208,47 @@
     Pitch summary copied to clipboard! ✨
   </div>
 
-  <!-- Page Footer -->
+  <!-- Page Footer (Google Minimalist Clean) -->
   <footer class="footer">
     <div class="container footer-inner">
       <div class="brand-wrapper">
-        <div class="brand-icon" style="width:40px;height:40px;font-size:20px;">🧠</div>
+        <div class="brand-icon">🧠</div>
         <div style="text-align:left;">
-          <span class="brand-title" style="font-size:1.2rem;">Z-Life AI</span>
-          <span style="display:block;font-size:0.75rem;color:var(--teal-primary);font-weight:700;">A 100% Non-Profit
-            Public Benefit Initiative</span>
+          <span class="brand-title" style="font-size:1.15rem;">Z-Life AI</span>
+          <span style="display:block;font-size:0.75rem;color:var(--google-blue);font-weight:600;">A 100% Non-Profit Public Benefit Initiative</span>
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;gap:18px;margin:10px 0;flex-wrap:wrap;justify-content:center;">
-        <span style="font-size:0.9rem;color:var(--text-muted);display:inline-flex;align-items:center;gap:8px;">
+      <div style="display:flex;align-items:center;gap:18px;margin:6px 0;flex-wrap:wrap;justify-content:center;">
+        <span style="font-size:0.88rem;color:var(--text-muted);display:inline-flex;align-items:center;gap:8px;">
           <img src="Firos.png" alt="Firos & Zeba"
-            style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid var(--teal-primary);">
+            style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid var(--google-blue);">
           Founded by <strong>Firos Shamsudeen</strong> (Father of Zeba)
         </span>
         <span style="color:var(--border-subtle);">•</span>
-        <a href="https://www.linkedin.com/in/firos/" target="_blank" rel="noopener noreferrer"
-          style="color:#60a5fa;font-weight:700;font-size:0.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+        <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer"
+          style="color:var(--google-blue);font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span>GitHub Repo</span>
+        </a>
+        <span style="color:var(--border-subtle);">•</span>
+        <a href="https://www.linkedin.com/in/firos/" target="_blank" rel="noopener noreferrer"
+          style="color:var(--google-blue);font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
           </svg>
           <span>LinkedIn</span>
         </a>
         <span style="color:var(--border-subtle);">•</span>
-        <a href="mailto:info@zeehash.com"
-          style="color:var(--teal-primary);font-weight:700;font-size:0.9rem;text-decoration:none;">
+        <a href="mailto:info@zeehash.com" style="color:var(--google-blue);font-weight:600;font-size:0.88rem;text-decoration:none;">
           ✉️ info@zeehash.com
         </a>
       </div>
 
       <p class="footer-copy">
-        Prepared for Google for Startups submission • 100% Free & Open for Needy Families • Zero Business Monetization •
-        Built with clinical love for Zeba & the neurodivergent community worldwide.
+        Prepared for Google for Startups submission • 100% Free & Open for Needy Families • Zero Business Monetization • Built with clinical love for Zeba & the neurodivergent community worldwide.
       </p>
     </div>
   </footer>
