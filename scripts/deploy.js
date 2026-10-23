@@ -151,6 +151,14 @@ async function deploy() {
       console.log('   ✔ api/ (PHP REST API: auth, settings, lists, logs, passcodes)');
     }
 
+    // F. Upload cron/ -> cron/
+    const localCronDir = path.join(ROOT_DIR, 'cron');
+    if (fs.existsSync(localCronDir)) {
+      await client.cd(REMOTE_DIR);
+      await client.uploadFromDir(localCronDir, 'cron');
+      console.log('   ✔ cron/ (PHP Cron Jobs: daily_reminder, SmtpMailer, EmailTemplate)');
+    }
+
     console.log('\n\x1b[32m====================================================\x1b[0m');
     console.log('\x1b[32m🎉  DEPLOYMENT SUCCESSFUL!                          \x1b[0m');
     console.log('\x1b[32m====================================================\x1b[0m');

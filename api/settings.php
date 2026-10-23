@@ -26,6 +26,26 @@ if ($method === 'POST') {
     $email1 = trim($input['parent_email_1'] ?? '');
     $email2 = trim($input['parent_email_2'] ?? '');
 
+    // Active Challenges (Dynamic List)
+    $rawChallenges = $input['active_challenges'] ?? [];
+    if (is_string($rawChallenges)) {
+        $decoded = json_decode($rawChallenges, true);
+        $rawChallenges = is_array($decoded) ? $decoded : explode("\n", $rawChallenges);
+    }
+    $challenges = [];
+    if (is_array($rawChallenges)) {
+        foreach ($rawChallenges as $item) {
+            $trimmed = trim(is_string($item) ? $item : '');
+            if ($trimmed !== '' && !in_array($trimmed, $challenges)) {
+                $challenges[] = $trimmed;
+            }
+        }
+    }
+    $challengesJson = json_encode(array_values($challenges), JSON_UNESCAPED_UNICODE);
+
+    // Diagnostic Summary (Multi-line clinical context)
+    $diagnosticSummary = trim($input['diagnostic_summary'] ?? '');
+
     if ($name === '' || $age <= 0) {
         json_response(['success' => false, 'error' => 'Name and a valid Age are required.'], 400);
     }
@@ -40,15 +60,24 @@ if ($method === 'POST') {
 
     $stmt = $pdo->prepare("
         UPDATE master_settings 
-        SET z_name = ?, z_age = ?, z_class = ?, z_school = ?, parent_email_1 = ?, parent_email_2 = ? 
+        SET z_name = ?, z_age = ?, z_class = ?, z_school = ?, parent_email_1 = ?, parent_email_2 = ?, active_challenges = ?, diagnostic_summary = ? 
         WHERE id = 1
     ");
-    $stmt->execute([$name, $age, $class, $school, $email1 ?: null, $email2 ?: null]);
+    $stmt->execute([
+        $name,
+        $age,
+        $class,
+        $school,
+        $email1 ?: null,
+        $email2 ?: null,
+        $challengesJson,
+        $diagnosticSummary ?: null
+    ]);
 
     $updated = get_master_settings($pdo);
     json_response([
         'success' => true,
-        'message' => 'Profile & parent email settings updated successfully!',
+        'message' => 'Profile, active challenges, and diagnostic summary updated successfully!',
         'data' => $updated
     ]);
 }

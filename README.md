@@ -260,14 +260,18 @@ CREATE TABLE users (
 ```
 
 ### 2. `master_settings`
-Zeba's core profile information.
+Zeba's core profile information, parent emails, active challenges, and diagnostic clinical summary.
 ```sql
 CREATE TABLE master_settings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     z_name VARCHAR(100) NOT NULL DEFAULT 'Zeba',
     z_age INT NOT NULL DEFAULT 15,
     z_class VARCHAR(100) NOT NULL DEFAULT 'Grade 9',
-    z_school VARCHAR(255) NOT NULL DEFAULT 'Greenwood High'
+    z_school VARCHAR(255) NOT NULL DEFAULT 'Greenwood High',
+    parent_email_1 VARCHAR(255) NULL,
+    parent_email_2 VARCHAR(255) NULL,
+    active_challenges TEXT NULL,
+    diagnostic_summary TEXT NULL
 );
 ```
 
@@ -331,8 +335,8 @@ All API requests accept and return UTF-8 JSON. Cookies (`PHPSESSID`) maintain ro
 | `POST` | `/api/auth.php` | Public | Verify PIN (`{ passcode: "1234" }`), start session, return role. |
 | `GET` | `/api/auth.php` | Public | Check active session (`{ authenticated: bool, role: string }`). |
 | `POST` | `/api/auth.php?action=logout` | Public | Destroy session and clear authentication cookie. |
-| `GET` | `/api/settings.php` | Authenticated | Retrieve Zeba's current profile details & parent notification emails. |
-| `POST` | `/api/settings.php` | Parent | Update profile (`z_name`, `z_age`, `z_class`, `z_school`, `parent_email_1`, `parent_email_2`). |
+| `GET` | `/api/settings.php` | Authenticated | Retrieve Zeba's current profile, parent notification emails, active challenges, and diagnostic summary. |
+| `POST` | `/api/settings.php` | Parent | Update profile (`z_name`, `z_age`, `z_class`, `z_school`, `parent_email_1`, `parent_email_2`, `active_challenges`, `diagnostic_summary`). |
 | `GET` | `/api/lists.php` | Authenticated | Retrieve active checklist items. Pass `?all=1` for all (including inactive). |
 | `POST` | `/api/lists.php` | Parent | Add new item (`action: "add"`) or toggle active status (`action: "toggle"`). |
 | `GET` | `/api/logs.php?date=YYYY-MM-DD` | Authenticated | Fetch daily log for a specific date (returns empty template if non-existent). |

@@ -24,7 +24,7 @@ const SOS_STEPS = [
   }
 ];
 
-export default function SensorySOSModal({ isOpen, onClose }) {
+export default function SensorySOSModal({ isOpen, onClose, childName = 'your child' }) {
   if (!isOpen) return null;
 
   return (
@@ -56,7 +56,7 @@ export default function SensorySOSModal({ isOpen, onClose }) {
           <div className="sos-info-banner">
             <ShieldAlert size={20} style={{ flexShrink: 0 }} />
             <span>
-              If Zeba experiences sensory overload or emotional distress, apply these proven calming interventions in sequence:
+              If {childName} experiences sensory overload or emotional distress, apply these proven calming interventions in sequence:
             </span>
           </div>
 

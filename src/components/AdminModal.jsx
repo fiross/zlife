@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check, ShieldCheck, Sparkles, School, FileSpreadsheet, Mail } from 'lucide-react';
+import { X, User, Key, ListFilter, Plus, Eye, EyeOff, Save, Check, ShieldCheck, Sparkles, School, FileSpreadsheet, Mail, Zap, FileText } from 'lucide-react';
 import { api } from '../api';
 import LogHistoryTab from './LogHistoryTab';
+
+const SUGGESTED_CHALLENGES = [
+  'Auditory Sensitivity',
+  'Sensory Overload',
+  'Transitions & Changes',
+  'Executive Functioning',
+  'Impulsive Pacing',
+  'Emotional Dysregulation',
+  'Oral Sensory Seeking',
+  'Fine Motor Fatigue'
+];
 
 const CATEGORIES = [
   { id: 'medication', label: 'Medications', icon: '💊' },
@@ -64,13 +75,16 @@ export default function AdminModal({
   
   // Profile State
   const [profile, setProfile] = useState({
-    z_name: currentSettings?.z_name || 'Zeba',
-    z_age: currentSettings?.z_age || 15,
-    z_class: currentSettings?.z_class || 'Grade 9',
-    z_school: currentSettings?.z_school || 'Greenwood High',
+    z_name: currentSettings?.z_name || '',
+    z_age: currentSettings?.z_age ?? '',
+    z_class: currentSettings?.z_class || '',
+    z_school: currentSettings?.z_school || '',
     parent_email_1: currentSettings?.parent_email_1 || '',
-    parent_email_2: currentSettings?.parent_email_2 || ''
+    parent_email_2: currentSettings?.parent_email_2 || '',
+    active_challenges: Array.isArray(currentSettings?.active_challenges) ? currentSettings.active_challenges : [],
+    diagnostic_summary: currentSettings?.diagnostic_summary || ''
   });
+  const [newChallengeInput, setNewChallengeInput] = useState('');
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSuccess, setProfileSuccess] = useState('');
 
@@ -96,16 +110,37 @@ export default function AdminModal({
       loadAllLists();
       if (currentSettings) {
         setProfile({
-          z_name: currentSettings.z_name || 'Zeba',
-          z_age: currentSettings.z_age || 15,
-          z_class: currentSettings.z_class || 'Grade 9',
-          z_school: currentSettings.z_school || 'Greenwood High',
+          z_name: currentSettings.z_name || '',
+          z_age: currentSettings.z_age ?? '',
+          z_class: currentSettings.z_class || '',
+          z_school: currentSettings.z_school || '',
           parent_email_1: currentSettings.parent_email_1 || '',
-          parent_email_2: currentSettings.parent_email_2 || ''
+          parent_email_2: currentSettings.parent_email_2 || '',
+          active_challenges: Array.isArray(currentSettings.active_challenges) ? currentSettings.active_challenges : [],
+          diagnostic_summary: currentSettings.diagnostic_summary || ''
         });
       }
     }
   }, [isOpen, initialTab, currentSettings]);
+
+  const handleAddChallenge = (challengeText) => {
+    const textToAdd = (challengeText || newChallengeInput).trim();
+    if (!textToAdd) return;
+    if (!profile.active_challenges.includes(textToAdd)) {
+      setProfile(prev => ({
+        ...prev,
+        active_challenges: [...prev.active_challenges, textToAdd]
+      }));
+    }
+    setNewChallengeInput('');
+  };
+
+  const handleRemoveChallenge = (indexToRemove) => {
+    setProfile(prev => ({
+      ...prev,
+      active_challenges: prev.active_challenges.filter((_, idx) => idx !== indexToRemove)
+    }));
+  };
 
   const loadAllLists = async () => {
     try {
@@ -368,12 +403,13 @@ export default function AdminModal({
             <form onSubmit={handleSaveProfile} className="admin-form-card">
               <div className="admin-field-group">
                 <label className="admin-field-label">
-                  <User size={15} color="#0f766e" /> TEENAGER NAME
+                  <User size={15} color="#0f766e" /> CHILD / STUDENT NAME
                 </label>
                 <input
                   type="text"
                   value={profile.z_name}
                   onChange={(e) => setProfile({ ...profile, z_name: e.target.value })}
+                  placeholder="e.g. Child Name"
                   required
                   className="admin-input-styled"
                   id="profile-name-input"
@@ -454,6 +490,144 @@ export default function AdminModal({
                 />
                 <span style={{ fontSize: '0.74rem', color: '#64748b', marginTop: '2px' }}>
                   Secondary parent or emergency caregiver contact.
+                </span>
+              </div>
+
+              {/* Dynamic Active Challenges List */}
+              <div className="admin-field-group" style={{ background: '#f8fafc', padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <label className="admin-field-label" style={{ margin: 0 }}>
+                    <Zap size={15} color="#d97706" /> ACTIVE CHALLENGES (DYNAMIC LIST)
+                  </label>
+                  <span style={{ fontSize: '0.72rem', fontWeight: '700', color: '#64748b', background: '#e2e8f0', padding: '2px 8px', borderRadius: '10px' }}>
+                    {profile.active_challenges.length} active
+                  </span>
+                </div>
+                <span style={{ fontSize: '0.74rem', color: '#64748b', marginBottom: '10px', display: 'block' }}>
+                  Primary sensory, behavioral, or transition focus areas to monitor during daily care.
+                </span>
+
+                {/* Challenges Chips */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '12px', minHeight: '32px' }}>
+                  {profile.active_challenges.length === 0 ? (
+                    <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontStyle: 'italic' }}>
+                      No active challenges added yet. Use the quick-add suggestions below or type a custom one.
+                    </span>
+                  ) : (
+                    profile.active_challenges.map((challenge, idx) => (
+                      <span
+                        key={idx}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          background: '#ffffff',
+                          border: '1px solid #cbd5e1',
+                          borderRadius: '20px',
+                          padding: '4px 10px',
+                          fontSize: '0.8rem',
+                          fontWeight: '700',
+                          color: '#1e293b',
+                          boxShadow: '0 1px 2px rgba(0,0,0,0.04)'
+                        }}
+                      >
+                        <span>⚡ {challenge}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveChallenge(idx)}
+                          style={{
+                            background: 'transparent',
+                            border: 'none',
+                            cursor: 'pointer',
+                            color: '#94a3b8',
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '2px',
+                            borderRadius: '50%'
+                          }}
+                          title="Remove challenge"
+                        >
+                          <X size={13} />
+                        </button>
+                      </span>
+                    ))
+                  )}
+                </div>
+
+                {/* Add Custom Challenge Form */}
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+                  <input
+                    type="text"
+                    value={newChallengeInput}
+                    onChange={(e) => setNewChallengeInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAddChallenge();
+                      }
+                    }}
+                    placeholder="Add custom challenge (e.g. Transitions, Auditory Fatigue)..."
+                    className="admin-input-styled"
+                    style={{ height: '40px', fontSize: '0.85rem' }}
+                    id="new-challenge-tag-input"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleAddChallenge()}
+                    className="btn btn-primary"
+                    style={{ height: '40px', padding: '0 16px', fontSize: '0.84rem', whiteSpace: 'nowrap' }}
+                    id="add-challenge-btn"
+                  >
+                    <Plus size={15} /> Add
+                  </button>
+                </div>
+
+                {/* Quick Add Suggestions */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '0.72rem', fontWeight: '800', color: '#64748b' }}>Quick Add:</span>
+                  {SUGGESTED_CHALLENGES.map((sug) => {
+                    const isAdded = profile.active_challenges.includes(sug);
+                    return (
+                      <button
+                        key={sug}
+                        type="button"
+                        onClick={() => handleAddChallenge(sug)}
+                        disabled={isAdded}
+                        style={{
+                          fontSize: '0.72rem',
+                          fontWeight: '600',
+                          padding: '3px 8px',
+                          borderRadius: '12px',
+                          border: isAdded ? '1px solid #e2e8f0' : '1px solid #cbd5e1',
+                          background: isAdded ? '#f1f5f9' : '#ffffff',
+                          color: isAdded ? '#94a3b8' : '#334155',
+                          cursor: isAdded ? 'default' : 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        {isAdded ? '✓ ' : '+ '}{sug}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Diagnostic Summary Textarea */}
+              <div className="admin-field-group">
+                <label className="admin-field-label">
+                  <FileText size={15} color="#0f766e" /> DIAGNOSTIC SUMMARY & CLINICAL CONTEXT
+                </label>
+                <textarea
+                  value={profile.diagnostic_summary}
+                  onChange={(e) => setProfile({ ...profile, diagnostic_summary: e.target.value })}
+                  placeholder="e.g., Level 2 Autism Spectrum Disorder (ASD) and ADHD Combined Type. Highly responsive to deep pressure compression, calm sensory pacing, noise-dampening earmuffs, and predictable visual task timers."
+                  rows={4}
+                  className="admin-input-styled"
+                  style={{ minHeight: '90px', resize: 'vertical', lineHeight: '1.5', padding: '10px 12px' }}
+                  id="profile-diagnostic-summary-input"
+                />
+                <span style={{ fontSize: '0.74rem', color: '#64748b', marginTop: '2px' }}>
+                  Clinical notes, IEP accommodations, and sensory profiles for care team alignment.
                 </span>
               </div>
 
