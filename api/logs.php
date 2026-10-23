@@ -11,6 +11,84 @@ $pdo = get_db_connection();
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
+    // If requesting all logs (for Parent History & Export)
+    if (isset($_GET['all']) || (isset($_GET['action']) && $_GET['action'] === 'all') || isset($_GET['export'])) {
+        require_api_role('parent'); // Parent only
+        
+        $limit = isset($_GET['limit']) ? max(1, min(5000, intval($_GET['limit']))) : 2000;
+        $stmt = $pdo->prepare("SELECT * FROM z_logs ORDER BY log_date DESC LIMIT :limit");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        
+        $logs = [];
+        foreach ($rows as $row) {
+            $logs[] = [
+                'id' => (int)$row['id'],
+                'log_date' => $row['log_date'],
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at'],
+                'overall_mood' => $row['overall_mood'] ?? '',
+                'sleep_hours' => (float)$row['sleep_hours'],
+                'is_menstruating' => !empty($row['is_menstruating']),
+                'flow_intensity' => !empty($row['is_menstruating']) ? ($row['flow_intensity'] ?: 'Medium') : '',
+                'medications' => json_decode($row['medications_json'] ?: '[]', true) ?: [],
+                'sensory_behaviors' => json_decode($row['sensory_behavior_json'] ?: '[]', true) ?: [],
+                'interventions' => json_decode($row['interventions_json'] ?: '[]', true) ?: [],
+                'activities' => json_decode($row['activities_json'] ?: '[]', true) ?: [],
+                'food' => json_decode($row['food_json'] ?: '[]', true) ?: [],
+                'notes' => $row['notes'] ?? '',
+                'exists' => true
+            ];
+        }
+
+        if (isset($_GET['export']) && $_GET['export'] === 'csv') {
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename="care_logs_' . date('Y-m-d') . '.csv"');
+            $out = fopen('php://output', 'w');
+            fputs($out, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
+            fputcsv($out, [
+                'Log Date',
+                'Day of Week',
+                'Sleep (Hours)',
+                'Overall Mood',
+                'Menstruating Today',
+                'Flow Intensity',
+                'Medications',
+                'Sensory Behaviors',
+                'Calming Interventions',
+                'Activities & Sports',
+                'Food & Nutrition',
+                'Comments & Observations',
+                'Created At',
+                'Updated At'
+            ], ',', '"', "\\");
+            foreach ($logs as $l) {
+                $dayName = date('l', strtotime($l['log_date']));
+                fputcsv($out, [
+                    $l['log_date'],
+                    $dayName,
+                    $l['sleep_hours'],
+                    $l['overall_mood'],
+                    $l['is_menstruating'] ? 'Yes' : 'No',
+                    $l['is_menstruating'] ? ($l['flow_intensity'] ?: 'Medium') : 'None',
+                    implode('; ', $l['medications']),
+                    implode('; ', $l['sensory_behaviors']),
+                    implode('; ', $l['interventions']),
+                    implode('; ', $l['activities']),
+                    implode('; ', $l['food']),
+                    $l['notes'],
+                    $l['created_at'],
+                    $l['updated_at']
+                ], ',', '"', "\\");
+            }
+            fclose($out);
+            exit;
+        }
+
+        json_response(['success' => true, 'data' => $logs, 'count' => count($logs)]);
+    }
+
     $date = $_GET['date'] ?? date('Y-m-d');
     
     // Validate date format YYYY-MM-DD
@@ -31,6 +109,8 @@ if ($method === 'GET') {
             'updated_at' => $row['updated_at'],
             'overall_mood' => $row['overall_mood'] ?? '',
             'sleep_hours' => (float)$row['sleep_hours'],
+            'is_menstruating' => !empty($row['is_menstruating']),
+            'flow_intensity' => !empty($row['is_menstruating']) ? ($row['flow_intensity'] ?: 'Medium') : 'Medium',
             'medications' => json_decode($row['medications_json'] ?: '[]', true) ?: [],
             'sensory_behaviors' => json_decode($row['sensory_behavior_json'] ?: '[]', true) ?: [],
             'interventions' => json_decode($row['interventions_json'] ?: '[]', true) ?: [],
@@ -47,6 +127,8 @@ if ($method === 'GET') {
             'updated_at' => null,
             'overall_mood' => '',
             'sleep_hours' => 0.0,
+            'is_menstruating' => false,
+            'flow_intensity' => 'Medium',
             'medications' => [],
             'sensory_behaviors' => [],
             'interventions' => [],
@@ -72,6 +154,9 @@ if ($method === 'POST') {
 
     $sleepHours = floatval($input['sleep_hours'] ?? 0);
     $overallMood = trim($input['overall_mood'] ?? '');
+
+    $isMenstruating = !empty($input['is_menstruating']) ? 1 : 0;
+    $flowIntensity = $isMenstruating ? (trim($input['flow_intensity'] ?? 'Medium') ?: 'Medium') : null;
 
     $medications = (array)($input['medications'] ?? []);
     $medicationsJson = json_encode(array_values(array_filter($medications)));
@@ -101,6 +186,8 @@ if ($method === 'POST') {
                 updated_at = CURRENT_TIMESTAMP,
                 overall_mood = ?,
                 sleep_hours = ?,
+                is_menstruating = ?,
+                flow_intensity = ?,
                 medications_json = ?,
                 sensory_behavior_json = ?,
                 interventions_json = ?,
@@ -113,6 +200,8 @@ if ($method === 'POST') {
         $stmt->execute([
             $overallMood,
             $sleepHours,
+            $isMenstruating,
+            $flowIntensity,
             $medicationsJson,
             $sensoryJson,
             $interventionsJson,
@@ -125,15 +214,17 @@ if ($method === 'POST') {
     } else {
         $insertSql = "
             INSERT INTO z_logs 
-                (log_date, overall_mood, sleep_hours, medications_json, sensory_behavior_json, interventions_json, activities_json, food_json, notes)
+                (log_date, overall_mood, sleep_hours, is_menstruating, flow_intensity, medications_json, sensory_behavior_json, interventions_json, activities_json, food_json, notes)
             VALUES 
-                (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ";
         $stmt = $pdo->prepare($insertSql);
         $stmt->execute([
             $date,
             $overallMood,
             $sleepHours,
+            $isMenstruating,
+            $flowIntensity,
             $medicationsJson,
             $sensoryJson,
             $interventionsJson,

@@ -1,0 +1,1904 @@
+/* ==========================================================================
+   Z-Life AI: Google for Startups Presentation & Simulator
+   Design System: Google Theme (Clean, Simple, Elegant, Light-First)
+   Following Google Design Language (Material 3 / Google Workspace / Google AI)
+   ========================================================================== */
+
+:root {
+  /* Google Brand Color Palette */
+  --google-blue: #1a73e8;
+  --google-blue-hover: #174ea6;
+  --google-blue-surface: #e8f0fe;
+  --google-blue-border: #aecbfa;
+
+  --google-red: #ea4335;
+  --google-red-hover: #d93025;
+  --google-red-surface: #fce8e6;
+  --google-red-border: #f28b82;
+
+  --google-yellow: #f9ab00;
+  --google-yellow-surface: #fef7e0;
+  --google-yellow-border: #fdd663;
+
+  --google-green: #34a853;
+  --google-green-hover: #1e8e3e;
+  --google-green-surface: #e6f4ea;
+  --google-green-border: #81c995;
+
+  /* Google Neutrals */
+  --google-grey-900: #202124; /* Primary High-Contrast Text */
+  --google-grey-800: #3c4043; /* Secondary Text / Headings */
+  --google-grey-700: #5f6368; /* Body & Subtitle Text */
+  --google-grey-500: #80868b; /* Captions / Icons */
+  --google-grey-300: #dadce0; /* Hairline Borders */
+  --google-grey-200: #e8eaed; /* Dividers */
+  --google-grey-100: #f1f3f4; /* Subtle Surface Background */
+  --google-grey-50:  #f8f9fa; /* Section Background */
+  --google-white:    #ffffff; /* Main Canvas */
+
+  /* Semantic Theme Mappings (Light-First Google Style) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-surface: #f1f3f4;
+  --border-subtle: #dadce0;
+  --border-light: #e8eaed;
+
+  --text-main: #202124;
+  --text-muted: #5f6368;
+  --text-dim: #80868b;
+
+  --teal-primary: #1a73e8; /* Mapping old teal tokens to Google Blue for consistency */
+  --coral-accent: #ea4335; /* Google Red */
+  --amber-warmth: #f9ab00; /* Google Yellow */
+  --indigo-ai: #1a73e8;    /* Google Blue */
+
+  /* Elevation Shadows (Google Material Standards) */
+  --shadow-xs: 0 1px 2px 0 rgba(60, 64, 67, 0.08);
+  --shadow-sm: 0 1px 3px 0 rgba(60, 64, 67, 0.12), 0 1px 2px 0 rgba(60, 64, 67, 0.06);
+  --shadow-md: 0 2px 6px 0 rgba(60, 64, 67, 0.15), 0 1px 2px 0 rgba(60, 64, 67, 0.1);
+  --shadow-card: 0 1px 3px 0 rgba(60, 64, 67, 0.15), 0 2px 8px 1px rgba(60, 64, 67, 0.06);
+  --shadow-hover: 0 4px 14px 0 rgba(60, 64, 67, 0.15), 0 1px 4px 0 rgba(60, 64, 67, 0.1);
+  --shadow-modal: 0 8px 28px 0 rgba(60, 64, 67, 0.28);
+
+  /* Radius (Google Rounded Geometric Standards) */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* Typography */
+  --font-heading: 'Google Sans', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Optional Dark Mode (Crisp Google Dark Style) */
+[data-theme="dark"] {
+  --bg-primary: #1f1f1f;
+  --bg-secondary: #282a2d;
+  --bg-card: #2d2f31;
+  --bg-surface: #35373b;
+  --border-subtle: #444746;
+  --border-light: #3c4043;
+
+  --text-main: #e3e3e3;
+  --text-muted: #c4c7c5;
+  --text-dim: #8e918f;
+
+  --google-blue-surface: rgba(138, 180, 248, 0.15);
+  --google-red-surface: rgba(242, 139, 130, 0.15);
+  --google-yellow-surface: rgba(253, 214, 99, 0.15);
+  --google-green-surface: rgba(129, 201, 149, 0.15);
+
+  --google-blue: #8ab4f8;
+  --google-red: #f28b82;
+  --google-yellow: #fdd663;
+  --google-green: #81c995;
+
+  --teal-primary: #8ab4f8;
+  --coral-accent: #f28b82;
+  --amber-warmth: #fdd663;
+  --indigo-ai: #8ab4f8;
+
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 4px 14px 0 rgba(0, 0, 0, 0.5);
+  --shadow-modal: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Google 4-Color Accent Strip at Very Top */
+.google-stripe {
+  height: 4px;
+  width: 100%;
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+
+.google-stripe span:nth-child(1) { background-color: #1a73e8; flex: 1; }
+.google-stripe span:nth-child(2) { background-color: #ea4335; flex: 1; }
+.google-stripe span:nth-child(3) { background-color: #fbbc04; flex: 1; }
+.google-stripe span:nth-child(4) { background-color: #34a853; flex: 1; }
+
+/* Subtle Ambient Gradient (No heavy glowing blobs) */
+.ambient-bg {
+  display: none; /* Removed heavy dark glowing blobs for Google simplicity */
+}
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Typography Standards */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-main);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+a {
+  color: var(--google-blue);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Google-Style Subtle Highlight Badges */
+.badge-blue {
+  background-color: var(--google-blue-surface);
+  color: var(--google-blue);
+}
+.badge-red {
+  background-color: var(--google-red-surface);
+  color: var(--google-red);
+}
+.badge-yellow {
+  background-color: var(--google-yellow-surface);
+  color: var(--google-yellow);
+}
+.badge-green {
+  background-color: var(--google-green-surface);
+  color: var(--google-green);
+}
+
+/* ==========================================================================
+   Navigation Bar (Google Style: Clean, White, Hairline Border)
+   ========================================================================== */
+.navbar {
+  position: sticky;
+  top: 4px;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+[data-theme="dark"] .navbar {
+  background-color: rgba(31, 31, 31, 0.95);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: 16px;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none !important;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background-color: var(--google-blue-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
+.brand-ai-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background-color: var(--google-blue-surface);
+  color: var(--google-blue);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.brand-tagline {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  list-style: none;
+}
+
+.nav-links li a {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 6px 4px;
+  position: relative;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.nav-links li a:hover {
+  color: var(--google-blue);
+  text-decoration: none;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-theme-toggle:hover {
+  background-color: var(--bg-surface);
+}
+
+/* ==========================================================================
+   Google-Style Buttons
+   ========================================================================== */
+.btn-primary, .btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--google-blue);
+  color: #ffffff !important;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none !important;
+  box-shadow: var(--shadow-xs);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.btn-primary:hover, .btn-google:hover {
+  background-color: var(--google-blue-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--bg-primary);
+  color: var(--google-blue) !important;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  text-decoration: none !important;
+  box-shadow: var(--shadow-xs);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--google-blue-surface);
+  border-color: var(--google-blue-border);
+}
+
+/* ==========================================================================
+   Hero Section (Google Clean Presentation)
+   ========================================================================== */
+.hero-section {
+  padding: 64px 0 54px;
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--google-blue-surface);
+  color: var(--google-blue);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 20px;
+  border: 1px solid var(--google-blue-border);
+}
+
+.google-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.g-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.g-dot.blue   { background-color: #1a73e8; }
+.g-dot.red    { background-color: #ea4335; }
+.g-dot.yellow { background-color: #fbbc04; }
+.g-dot.green  { background-color: #34a853; }
+
+.hero-content h1 {
+  font-size: 2.85rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 18px;
+  color: var(--text-main);
+}
+
+.hero-content h1 .text-google-blue {
+  color: var(--google-blue);
+}
+
+.hero-description {
+  font-size: 1.12rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  max-width: 580px;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+/* Hero Metrics Strip (Clean Google 4-Box Layout) */
+.hero-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.metric-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-val {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  color: var(--google-blue);
+}
+
+.metric-val.coral  { color: var(--google-red); }
+.metric-val.amber  { color: var(--google-yellow); }
+.metric-val.indigo { color: var(--google-green); }
+
+.metric-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Hero Visual Card (Clean Google Product Frame) */
+.hero-visual-card {
+  position: relative;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.hero-image-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.hero-floating-card {
+  padding: 16px 20px;
+  background-color: var(--bg-card);
+}
+
+.hfc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.hfc-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--google-blue);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hfc-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background-color: var(--google-green-surface);
+  color: var(--google-green);
+}
+
+.hfc-body {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Section Headers (Google Simplicity & Spacing)
+   ========================================================================== */
+section {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 48px;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--google-blue-surface);
+  color: var(--google-blue);
+  margin-bottom: 12px;
+}
+
+.section-tag.coral {
+  background-color: var(--google-red-surface);
+  color: var(--google-red);
+}
+
+.section-tag.amber {
+  background-color: var(--google-yellow-surface);
+  color: var(--google-yellow);
+}
+
+.section-tag.green {
+  background-color: var(--google-green-surface);
+  color: var(--google-green);
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Problem & Solution Cards (Google Comparison Cards)
+   ========================================================================== */
+.problem-solution-section {
+  background-color: var(--bg-secondary);
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.compare-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.compare-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.card-badge-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 16px;
+}
+
+.problem-card .card-badge-top {
+  background-color: var(--google-red-surface);
+  color: var(--google-red);
+}
+
+.solution-card .card-badge-top {
+  background-color: var(--google-green-surface);
+  color: var(--google-green);
+}
+
+.compare-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.compare-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.compare-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.compare-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.compare-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  background-color: var(--bg-surface);
+}
+
+.problem-card .compare-icon {
+  background-color: var(--google-red-surface);
+}
+
+.solution-card .compare-icon {
+  background-color: var(--google-green-surface);
+}
+
+.compare-text h4 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-main);
+}
+
+.compare-text p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Dual-Role System (Parent & Teacher Google Cards)
+   ========================================================================== */
+.dual-role-section {
+  background-color: var(--bg-primary);
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.role-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.role-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.role-avatar-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background-color: var(--google-blue-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.teacher-role .role-avatar-wrapper {
+  background-color: var(--google-yellow-surface);
+}
+
+.pin-chip {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+}
+
+.role-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.role-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.role-feature-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.r-tag {
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border-light);
+}
+
+.role-bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.role-bullet-list li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.bullet-icon {
+  color: var(--google-green);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   AI Spotlight Section (Google Clean 3-Pillar Grid)
+   ========================================================================== */
+.ai-spotlight-section {
+  background-color: var(--bg-secondary);
+}
+
+.ai-spotlight-banner {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-card);
+  margin-bottom: 36px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ai-spotlight-img {
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+.ai-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.ai-pillar-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ai-pillar-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.pillar-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background-color: var(--google-blue-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+.ai-pillar-card:nth-child(2) .pillar-icon-box {
+  background-color: var(--google-green-surface);
+}
+
+.ai-pillar-card:nth-child(3) .pillar-icon-box {
+  background-color: var(--google-yellow-surface);
+}
+
+.pillar-title {
+  font-size: 1.12rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.pillar-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   Live Gemini Simulator (Google AI Studio Inspired)
+   ========================================================================== */
+.simulator-section {
+  background-color: var(--bg-primary);
+}
+
+.sim-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.sim-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.sim-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sim-status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--google-green);
+  box-shadow: 0 0 0 3px var(--google-green-surface);
+}
+
+.sim-model-tag {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--google-blue);
+  background-color: var(--google-blue-surface);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.scenario-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sc-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.sc-chip {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sc-chip:hover {
+  border-color: var(--google-blue);
+  color: var(--google-blue);
+}
+
+.sc-chip.active {
+  background-color: var(--google-blue);
+  color: #ffffff;
+  border-color: var(--google-blue);
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+}
+
+.sim-workspace {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  min-height: 540px;
+}
+
+.sim-input-col {
+  padding: 28px;
+  border-right: 1px solid var(--border-subtle);
+  background-color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sim-col-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.sim-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sim-field-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.sim-range-val {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--google-blue);
+  font-weight: 600;
+}
+
+.sim-slider {
+  width: 100%;
+  accent-color: var(--google-blue);
+  cursor: pointer;
+  height: 6px;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-pill);
+}
+
+.sim-toggle-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sim-tag-toggle {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.sim-tag-toggle:hover {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+}
+
+.sim-tag-toggle.selected {
+  background-color: var(--google-blue-surface);
+  border-color: var(--google-blue-border);
+  color: var(--google-blue);
+  font-weight: 600;
+}
+
+.sim-tag-toggle.selected.coral {
+  background-color: var(--google-red-surface);
+  border-color: var(--google-red-border);
+  color: var(--google-red);
+}
+
+.sim-tag-toggle.selected.amber {
+  background-color: var(--google-yellow-surface);
+  border-color: var(--google-yellow-border);
+  color: var(--google-yellow);
+}
+
+.sim-notes-input {
+  width: 100%;
+  height: 72px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  resize: vertical;
+  transition: border-color 0.15s ease;
+}
+
+.sim-notes-input:focus {
+  outline: none;
+  border-color: var(--google-blue);
+  background-color: var(--bg-card);
+}
+
+.sim-run-btn-wrapper {
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.btn-run-ai {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--google-blue);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-run-ai:hover:not(:disabled) {
+  background-color: var(--google-blue-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-run-ai:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Right Column: AI Output */
+.sim-output-col {
+  padding: 28px;
+  background-color: var(--bg-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.ai-loading-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 14px;
+  text-align: center;
+}
+
+.ai-loading-state.active {
+  display: flex;
+}
+
+.spinner-orb {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--google-blue-surface);
+  border-top-color: var(--google-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.ai-output-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ai-card-result {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-xs);
+}
+
+.ai-card-result.urgent {
+  border-left: 4px solid var(--google-red);
+}
+
+.ai-card-result.plan {
+  border-left: 4px solid var(--google-green);
+}
+
+.ai-card-result.teacher {
+  border-left: 4px solid var(--google-yellow);
+}
+
+.ai-card-result.correlation {
+  border-left: 4px solid var(--google-blue);
+}
+
+.aic-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-main);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.aic-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.badge-risk-high {
+  background-color: var(--google-red-surface);
+  color: var(--google-red);
+}
+
+.badge-risk-med {
+  background-color: var(--google-yellow-surface);
+  color: var(--google-yellow);
+}
+
+.badge-risk-low {
+  background-color: var(--google-green-surface);
+  color: var(--google-green);
+}
+
+.aic-content {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.aic-bullet-list {
+  padding-left: 18px;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aic-bullet-list li {
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Interactive Diagrams & Tabs (Google Material Tabs)
+   ========================================================================== */
+.workflow-section {
+  background-color: var(--bg-secondary);
+}
+
+.diag-tabs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 2px;
+  flex-wrap: wrap;
+}
+
+.diag-tab-btn {
+  background: transparent;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 12px 20px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.diag-tab-btn:hover {
+  color: var(--google-blue);
+}
+
+.diag-tab-btn.active {
+  color: var(--google-blue);
+  border-bottom-color: var(--google-blue);
+}
+
+.diag-panel {
+  display: none;
+}
+
+.diag-panel.active {
+  display: block;
+}
+
+/* 24-Hour Loop Cards */
+.loop-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.loop-step-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.step-num-badge {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--google-blue);
+  margin-bottom: 12px;
+}
+
+.step-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.step-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Tech Spec Grid */
+.tech-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.tech-spec-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.tech-spec-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.tech-icon {
+  font-size: 24px;
+}
+
+.tech-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.tech-spec-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* SOS Ladder Grid */
+.sos-ladder-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.sos-ladder-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.15s ease;
+}
+
+.sos-ladder-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.sos-step-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--google-blue);
+  margin-bottom: 8px;
+}
+
+.sos-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.sos-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-main);
+}
+
+.sos-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   Google Synergy Section (Why Google for Startups)
+   ========================================================================== */
+.google-synergy-section {
+  background-color: var(--bg-primary);
+}
+
+.synergy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.synergy-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  border-top: 4px solid var(--google-blue);
+}
+
+.synergy-card.green {
+  border-top-color: var(--google-green);
+}
+
+.synergy-card.yellow {
+  border-top-color: var(--google-yellow);
+}
+
+.synergy-icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.synergy-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-main);
+}
+
+.synergy-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Non-Profit Mission & Founder Profile (Google.org Spirit)
+   ========================================================================== */
+.non-profit-section {
+  background-color: var(--bg-secondary);
+}
+
+.np-pledge-banner {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 36px;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--google-red);
+}
+
+.np-pledge-icon {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.np-pledge-text h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-main);
+}
+
+.np-pledge-text p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.np-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.np-pillar-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  box-shadow: var(--shadow-xs);
+}
+
+.npp-icon {
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+
+.npp-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-main);
+}
+
+.npp-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Founder Profile Card (Authentic & Clean) */
+.founder-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 36px;
+  align-items: center;
+  box-shadow: var(--shadow-card);
+}
+
+.founder-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.founder-photo-wrapper {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 16px;
+}
+
+.founder-photo-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--google-blue-surface);
+}
+
+.founder-photo-badge {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--google-blue);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.founder-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.founder-role-title {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.founder-contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-linkedin, .btn-email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  text-decoration: none !important;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  transition: all 0.15s ease;
+}
+
+.btn-linkedin:hover {
+  background-color: #0077b5;
+  color: #ffffff;
+  border-color: #0077b5;
+}
+
+.btn-email:hover {
+  background-color: var(--google-blue);
+  color: #ffffff;
+  border-color: var(--google-blue);
+}
+
+.founder-quote-box {
+  margin-bottom: 20px;
+}
+
+.founder-quote {
+  font-size: 1.08rem;
+  font-style: italic;
+  color: var(--text-main);
+  line-height: 1.7;
+  position: relative;
+  border-left: 3px solid var(--google-blue);
+  padding-left: 20px;
+}
+
+/* ==========================================================================
+   Call To Action Banner
+   ========================================================================== */
+.cta-banner-section {
+  background-color: var(--bg-primary);
+  text-align: center;
+  padding: 80px 0;
+}
+
+.pitch-banner-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pitch-banner-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin: 12px 0 16px;
+}
+
+.pitch-banner-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.pitch-banner-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Modal Dialog (Google Docs / Material Dialog Style)
+   ========================================================================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(32, 33, 36, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  max-width: 760px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: var(--shadow-modal);
+  border: 1px solid var(--border-subtle);
+  padding: 40px;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: var(--google-red-surface);
+  color: var(--google-red);
+}
+
+.modal-pitch-body h2 {
+  font-size: 1.85rem;
+  margin-bottom: 8px;
+}
+
+.modal-pitch-body h3 {
+  font-size: 1.2rem;
+  margin: 24px 0 8px;
+  color: var(--google-blue);
+}
+
+.modal-pitch-body p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.modal-pitch-body ul {
+  padding-left: 20px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-pitch-body li {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* Toast Notification */
+.copy-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: var(--google-grey-900);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: all 0.25s ease;
+  z-index: 3000;
+}
+
+.copy-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   Footer (Google Clean Minimalist Standard)
+   ========================================================================== */
+.footer {
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
+  padding: 44px 0 36px;
+  text-align: center;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.footer-copy {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  max-width: 680px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .hero-content h1 {
+    font-size: 2.3rem;
+  }
+  .sim-workspace {
+    grid-template-columns: 1fr;
+  }
+  .sim-input-col {
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .loop-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sos-ladder-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .ai-pillars-grid, .synergy-grid, .tech-spec-grid {
+    grid-template-columns: 1fr;
+  }
+  .founder-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .founder-quote {
+    border-left: none;
+    border-top: 2px solid var(--google-blue);
+    padding-left: 0;
+    padding-top: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .comparison-grid, .role-grid, .np-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-metrics-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sos-ladder-grid {
+    grid-template-columns: 1fr;
+  }
+  .modal-content {
+    padding: 24px;
+  }
+}

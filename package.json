@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "api": "php -S localhost:8000",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "node scripts/deploy.js",

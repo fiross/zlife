@@ -50,6 +50,7 @@ export const api = {
   },
   logs: {
     getByDate: (date) => apiFetch(`/logs.php?date=${date}`),
+    getAll: (limit = 1000) => apiFetch(`/logs.php?all=1&limit=${limit}`),
     save: (logData) => apiFetch('/logs.php', { method: 'POST', body: logData }),
   },
   passcodes: {

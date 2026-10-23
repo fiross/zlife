@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Moon, Pill, Smile, Sparkles, ShieldCheck,
   Music, Activity, Utensils, FileText, CheckCircle2,
-  Clock, Lock, Mic
+  Clock, Lock, Mic, Droplets
 } from 'lucide-react';
 
 // Comprehensive Glyph & Sub-Tag Dictionary for rich pediatric tactile buttons
@@ -309,6 +309,125 @@ export default function LogDashboard({
               </button>
             );
           })}
+        </div>
+      </section>
+
+      {/* 4. Cycle & Menstruation Tracking Card */}
+      <section className="card-section card-cycle" id="section-cycle">
+        <div className="section-header">
+          <div className="section-title-wrap">
+            <div className="section-icon-badge" style={{ background: 'linear-gradient(135deg, #f43f5e 0%, #be123c 100%)', color: '#ffffff' }}>
+              <Droplets size={20} />
+            </div>
+            <div>
+              <h2 className="section-title">Cycle & Menstruation</h2>
+              <p className="section-subtitle">Daily cycle monitoring & symptom awareness</p>
+            </div>
+          </div>
+          <span style={{
+            fontSize: '0.8rem',
+            fontWeight: '800',
+            color: log.is_menstruating ? '#9f1239' : '#475569',
+            background: log.is_menstruating ? '#ffe4e6' : '#f1f5f9',
+            padding: '3px 10px',
+            borderRadius: 'var(--radius-full)',
+            border: log.is_menstruating ? '1px solid #fecdd3' : '1px solid #e2e8f0'
+          }}>
+            {log.is_menstruating ? `🩸 Active (${log.flow_intensity || 'Medium'})` : 'Not Active'}
+          </span>
+        </div>
+
+        <div className="cycle-container">
+          {/* Toggle Row */}
+          <div className="cycle-toggle-row">
+            <div className="cycle-toggle-info">
+              <span className="cycle-toggle-title">Menstruating Today?</span>
+              <span className="cycle-toggle-sub">Track active period for comfort and accommodations</span>
+            </div>
+
+            <div className="cycle-pill-toggle" role="group" aria-label="Menstruating Today">
+              <button
+                type="button"
+                className={`cycle-toggle-btn ${!log.is_menstruating ? 'is-selected-no' : ''}`}
+                onClick={() => isParent && onUpdateField('is_menstruating', false)}
+                disabled={!isParent}
+                id="menstruation-toggle-no"
+              >
+                No
+              </button>
+              <button
+                type="button"
+                className={`cycle-toggle-btn ${log.is_menstruating ? 'is-selected-yes' : ''}`}
+                onClick={() => {
+                  if (isParent) {
+                    onUpdateField('is_menstruating', true);
+                    if (!log.flow_intensity) {
+                      onUpdateField('flow_intensity', 'Medium');
+                    }
+                  }
+                }}
+                disabled={!isParent}
+                id="menstruation-toggle-yes"
+              >
+                🩸 Yes
+              </button>
+            </div>
+          </div>
+
+          {/* Flow Intensity Dropdown & Preset Chips (When Menstruating is Yes) */}
+          {log.is_menstruating && (
+            <div className="cycle-flow-panel">
+              <div className="flow-control-group">
+                <label htmlFor="flow-intensity-select" className="flow-control-label">
+                  Flow Intensity:
+                </label>
+                <select
+                  id="flow-intensity-select"
+                  className="flow-dropdown-styled"
+                  value={log.flow_intensity || 'Medium'}
+                  onChange={(e) => isParent && onUpdateField('flow_intensity', e.target.value)}
+                  disabled={!isParent}
+                >
+                  <option value="Light">💧 Light Flow</option>
+                  <option value="Medium">🩸 Medium Flow (Default)</option>
+                  <option value="Heavy">🌊 Heavy Flow</option>
+                </select>
+              </div>
+
+              {/* Quick Tactile Preset Pills */}
+              <div className="flow-pills-row">
+                {[
+                  { value: 'Light', icon: '💧', label: 'Light' },
+                  { value: 'Medium', icon: '🩸', label: 'Medium' },
+                  { value: 'Heavy', icon: '🌊', label: 'Heavy' }
+                ].map((item) => {
+                  const isSelected = (log.flow_intensity || 'Medium') === item.value;
+                  return (
+                    <button
+                      key={item.value}
+                      type="button"
+                      className={`flow-pill-chip ${isSelected ? 'is-active' : ''}`}
+                      onClick={() => isParent && onUpdateField('flow_intensity', item.value)}
+                      disabled={!isParent}
+                    >
+                      <span>{item.icon}</span>
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Teacher Awareness Notice */}
+          {!isParent && log.is_menstruating && (
+            <div className="teacher-cycle-notice">
+              <span className="notice-icon">🩸</span>
+              <p>
+                <strong>School Care Note:</strong> Zeba is menstruating today ({log.flow_intensity || 'Medium'} flow). Please facilitate frequent bathroom breaks, heating pad access if requested, and sensory grace for cramp sensitivity.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

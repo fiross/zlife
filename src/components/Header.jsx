@@ -1,7 +1,7 @@
 import React from 'react';
-import { Settings, LogOut, HeartPulse, User } from 'lucide-react';
+import { Settings, LogOut, HeartPulse, User, FileSpreadsheet } from 'lucide-react';
 
-export default function Header({ settings, role, onOpenAdmin, onOpenSOS, onLogout }) {
+export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onOpenSOS, onLogout }) {
   const isParent = role === 'parent';
 
   return (
@@ -27,6 +27,19 @@ export default function Header({ settings, role, onOpenAdmin, onOpenSOS, onLogou
             <HeartPulse size={14} />
             SENSORY SOS
           </button>
+
+          {/* History & Export Quick Trigger (Parent Only) */}
+          {isParent && (
+            <button
+              type="button"
+              className="btn-icon"
+              onClick={onOpenHistory}
+              id="history-quick-btn"
+              title="View All Logs & Export CSV"
+            >
+              <FileSpreadsheet size={18} />
+            </button>
+          )}
 
           {/* Admin Configuration (Parent Only) */}
           {isParent && (

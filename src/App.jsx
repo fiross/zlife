@@ -24,6 +24,8 @@ export default function App() {
   const [log, setLog] = useState({
     sleep_hours: 0,
     overall_mood: '',
+    is_menstruating: false,
+    flow_intensity: 'Medium',
     medications: [],
     sensory_behaviors: [],
     interventions: [],
@@ -39,7 +41,13 @@ export default function App() {
 
   // Modals
   const [adminOpen, setAdminOpen] = useState(false);
+  const [adminTab, setAdminTab] = useState('history');
   const [sosOpen, setSosOpen] = useState(false);
+
+  const handleOpenAdmin = (tab = 'history') => {
+    setAdminTab(tab);
+    setAdminOpen(true);
+  };
 
   // Check initial session
   useEffect(() => {
@@ -155,6 +163,8 @@ export default function App() {
         log_date: selectedDate,
         sleep_hours: log.sleep_hours,
         overall_mood: log.overall_mood,
+        is_menstruating: Boolean(log.is_menstruating),
+        flow_intensity: log.is_menstruating ? (log.flow_intensity || 'Medium') : null,
         medications: log.medications,
         sensory_behaviors: log.sensory_behaviors,
         interventions: log.interventions,
@@ -211,7 +221,8 @@ export default function App() {
       <Header
         settings={settings}
         role={role}
-        onOpenAdmin={() => setAdminOpen(true)}
+        onOpenAdmin={() => handleOpenAdmin('lists')}
+        onOpenHistory={() => handleOpenAdmin('history')}
         onOpenSOS={() => setSosOpen(true)}
         onLogout={handleLogout}
       />
@@ -257,6 +268,11 @@ export default function App() {
         currentSettings={settings}
         onSettingsUpdated={setSettings}
         onListsUpdated={loadMasterData}
+        onSelectDate={(date) => {
+          setSelectedDate(date);
+          setAdminOpen(false);
+        }}
+        initialTab={adminTab}
       />,
       document.body
     )}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://zeehash.com/</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://zeehash.com/hero-ai-illustration.jpg</image:loc>
+      <image:title>Z-Life AI Neurocare Intelligence Platform</image:title>
+      <image:caption>AI-powered adaptive sensory regulation and daily routine intelligence for autism and ADHD</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://zeehash.com/llm-pipeline-illustration.jpg</image:loc>
+      <image:title>Google Gemini Care Reasoning Pipeline</image:title>
+      <image:caption>Daily multi-vector logs transformed into predictive sensory overload forecasts</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://zeehash.com/Firos.png</image:loc>
+      <image:title>Firos Shamsudeen with daughter Zeba</image:title>
+      <image:caption>Founder of Z-Life AI non-profit neurocare companion</image:caption>
+    </image:image>
+  </url>
+</urlset>

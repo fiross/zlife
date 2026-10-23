@@ -47,6 +47,8 @@ CREATE TABLE IF NOT EXISTS `z_logs` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `overall_mood` VARCHAR(100) NULL,
   `sleep_hours` DECIMAL(4,1) DEFAULT 0.0,
+  `is_menstruating` TINYINT(1) DEFAULT 0,
+  `flow_intensity` VARCHAR(20) NULL,
   `medications_json` TEXT NULL,
   `sensory_behavior_json` TEXT NULL,
   `interventions_json` TEXT NULL,
