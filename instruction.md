@@ -7,16 +7,16 @@ Use a warm, pediatric-friendly design system with oversized, high-contrast touch
 ## 🗄️ DATABASE REQUIREMENTS (MySQL / SQLite Fallback)
 Maintain a single database with the following tables:
 1. `users` (`id`, `passcode_hash`, `role` ENUM('parent', 'teacher'))
-2. `master_settings` (`id`, `z_name`, `z_age`, `z_class`, `z_school`)
+2. `master_settings` (`id`, `z_name`, `z_age`, `z_class`, `z_school`, `parent_email_1`, `parent_email_2`, `active_challenges`, `diagnostic_summary`)
 3. `master_lists` (`id`, `category` ENUM('mood', 'medication', 'food', 'behavior', 'intervention', 'exercise', 'activity'), `item_name`, `is_active` DEFAULT 1)
 4. `z_logs` (`id`, `log_date` DATE UNIQUE, `created_at`, `updated_at`, `overall_mood`, `sleep_hours` DECIMAL(4,1), `is_menstruating` TINYINT(1) DEFAULT 0, `flow_intensity` VARCHAR(20) DEFAULT NULL, `medications_json` TEXT, `sensory_behavior_json` TEXT, `interventions_json` TEXT, `activities_json` TEXT, `food_json` TEXT, `notes` TEXT)
 *(Includes automated non-destructive self-migration in `config.php` and standalone migration script `scripts/migrate_menstruation.sql`)*
 
 ### Initial Data Seeding:
 - **Default Passcodes:**
-  - Parent Passcode: `0023` (Full interactive access, log editing, calendar, master admin)
+  - Parent Passcode: `1234` (Full interactive access, log editing, calendar, master admin)
   - Teacher Passcode: `5678` (View-only summary of today's or any historical day's log, medications administered, strictly no edit/admin access)
-- **Profile Defaults (`master_settings`):** Name: 'Zeba', Age: 15, Class: 'Grade 9', School: 'Greenwood High'
+- **Profile Defaults (`master_settings`):** Name: 'Zeba', Age: 15, Class: 'Grade 9', School: 'Greenwood High', Active Challenges: `["Auditory Sensitivity", "Sensory Overload", "Transitions & Routine Changes", "Emotional Regulation"]`, Diagnostic Summary: clinical context.
 - **Master List Seed Items (`master_lists`):**
   - **Mood:** Calm, Happy, Aggressive, Anxiety, Hyperactive, Sensory Overload, Withdrawn
   - **Medication:** Focalin (Morning), Melatonin (Night) *(Extensible: parents can add, edit, or soft-delete any future prescription/supplement via Admin)*
@@ -33,8 +33,8 @@ Create lightweight, secure PHP endpoints under `/api/` returning UTF-8 JSON with
 1. `POST /api/auth.php`: Verify numeric passcode against `users` table via `password_verify()`. Sets session and returns role.
 2. `GET /api/auth.php`: Returns current authentication and role state (`{ authenticated: bool, role: 'parent' | 'teacher' }`).
 3. `POST /api/auth.php?action=logout`: Destroys session and clears cookie.
-4. `GET /api/settings.php`: Returns Zeba's profile (`z_name`, `z_age`, `z_class`, `z_school`).
-5. `POST /api/settings.php`: Updates profile (Parent role strictly required).
+4. `GET /api/settings.php`: Returns Zeba's profile (`z_name`, `z_age`, `z_class`, `z_school`, `parent_email_1`, `parent_email_2`, `active_challenges`, `diagnostic_summary`).
+5. `POST /api/settings.php`: Updates profile, parent notification emails, active challenges, and diagnostic summary (Parent role strictly required).
 6. `GET /api/lists.php`: Returns active master list items grouped by category. Accepts `?all=1` to include inactive items for Admin view.
 7. `POST /api/lists.php`: Add new item or toggle `is_active` soft-delete state (Parent role strictly required).
 8. `GET /api/logs.php?date=YYYY-MM-DD`: Fetches log for requested date, parsing JSON fields into native JSON arrays.

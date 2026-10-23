@@ -165,7 +165,7 @@ require_once __DIR__ . '/header.php';
             <span class="fs-4">👀</span>
             <div>
                 <div class="fw-bold">Teacher View-Only Mode</div>
-                <div class="x-small text-muted">You are viewing Zeba's daily summary. Logging and editing are reserved for parents.</div>
+                <div class="x-small text-muted">You are viewing <?= htmlspecialchars(!empty($settings['z_name']) ? $settings['z_name'] : 'the student') ?>'s daily summary. Logging and editing are reserved for parents.</div>
             </div>
         </div>
     <?php endif; ?>

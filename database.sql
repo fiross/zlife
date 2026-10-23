@@ -24,7 +24,11 @@ CREATE TABLE IF NOT EXISTS `master_settings` (
   `z_name` VARCHAR(100) NOT NULL,
   `z_age` INT NOT NULL,
   `z_class` VARCHAR(100) NOT NULL,
-  `z_school` VARCHAR(255) NOT NULL
+  `z_school` VARCHAR(255) NOT NULL,
+  `parent_email_1` VARCHAR(255) NULL,
+  `parent_email_2` VARCHAR(255) NULL,
+  `active_challenges` TEXT NULL,
+  `diagnostic_summary` TEXT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -62,16 +66,16 @@ CREATE TABLE IF NOT EXISTS `z_logs` (
 -- --------------------------------------------------------
 
 -- Default Passcodes:
--- Parent passcode: '0023' (verified bcrypt hash)
+-- Parent passcode: '1234' (verified bcrypt hash)
 -- Teacher passcode: '5678' (verified bcrypt hash)
 INSERT INTO `users` (`id`, `passcode_hash`, `role`) VALUES
-(1, '$2y$10$zt4QSLSRx5.bmNhdN1cM9ed4g/UZqizU2HbGW4lu.DnR4wp2UUFX2', 'parent'),
+(1, '$2y$12$WNsX4fxS3PHEZkyFqxJ10e6ihws9mbB0WUgD7A2Rrt16SCNk7YwhC', 'parent'),
 (2, '$2y$10$8p1pl02PzSIfzoiT5n0W4eqGXFzMabbraDFMyfHNGXGby1svz7A.m', 'teacher')
 ON DUPLICATE KEY UPDATE `id`=`id`;
 
 -- Default Student Settings
-INSERT INTO `master_settings` (`id`, `z_name`, `z_age`, `z_class`, `z_school`) VALUES
-(1, 'Zeba', 15, 'Grade 9', 'Greenwood High')
+INSERT INTO `master_settings` (`id`, `z_name`, `z_age`, `z_class`, `z_school`, `parent_email_1`, `parent_email_2`, `active_challenges`, `diagnostic_summary`) VALUES
+(1, 'Zeba', 15, 'Grade 9', 'Greenwood High', NULL, NULL, '["Auditory Sensitivity","Sensory Overload","Transitions & Routine Changes","Emotional Regulation"]', 'Level 2 Autism Spectrum Disorder (ASD) and ADHD Combined Type. Highly responsive to deep pressure compression, calm sensory pacing, noise-dampening earmuffs, and predictable visual task timers.')
 ON DUPLICATE KEY UPDATE `id`=`id`;
 
 -- Default Master Lists

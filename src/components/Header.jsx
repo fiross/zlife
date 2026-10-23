@@ -72,7 +72,7 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
         <div className="profile-meta">
           <User size={14} />
           <span>
-            <strong>{settings?.z_name || 'Zeba'}</strong> • {settings?.z_age || 15} yrs • {settings?.z_class || 'Grade 9'}
+            <strong>{settings?.z_name || 'Child'}</strong> • {settings?.z_age ? `${settings.z_age} yrs` : 'Profile'} • {settings?.z_class || ''}
           </span>
         </div>
         <div className={`role-badge ${isParent ? 'parent' : 'teacher'}`}>

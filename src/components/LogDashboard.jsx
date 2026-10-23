@@ -72,6 +72,7 @@ export default function LogDashboard({
   log,
   masterLists,
   role,
+  settings,
   onUpdateField,
   onToggleArrayItem,
   onSave,
@@ -79,6 +80,7 @@ export default function LogDashboard({
   lastSavedAt
 }) {
   const isParent = role === 'parent';
+  const childName = settings?.z_name?.trim() || 'The student';
 
   // Master lists
   const moods = masterLists?.mood || [];
@@ -424,7 +426,7 @@ export default function LogDashboard({
             <div className="teacher-cycle-notice">
               <span className="notice-icon">🩸</span>
               <p>
-                <strong>School Care Note:</strong> Zeba is menstruating today ({log.flow_intensity || 'Medium'} flow). Please facilitate frequent bathroom breaks, heating pad access if requested, and sensory grace for cramp sensitivity.
+                <strong>School Care Note:</strong> {childName} is menstruating today ({log.flow_intensity || 'Medium'} flow). Please facilitate frequent bathroom breaks, heating pad access if requested, and sensory grace for cramp sensitivity.
               </p>
             </div>
           )}

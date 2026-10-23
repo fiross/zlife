@@ -243,6 +243,7 @@ export default function App() {
           log={log}
           masterLists={masterLists}
           role={role}
+          settings={settings}
           onUpdateField={handleUpdateField}
           onToggleArrayItem={handleToggleArrayItem}
           onSave={handleSaveLog}
@@ -282,6 +283,7 @@ export default function App() {
       <SensorySOSModal
         isOpen={sosOpen}
         onClose={() => setSosOpen(false)}
+        childName={settings?.z_name || 'your child'}
       />,
       document.body
     )}

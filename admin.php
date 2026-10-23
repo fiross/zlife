@@ -22,11 +22,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $age = intval($_POST['z_age'] ?? 0);
     $class = trim($_POST['z_class'] ?? '');
     $school = trim($_POST['z_school'] ?? '');
+    $email1 = trim($_POST['parent_email_1'] ?? '');
+    $email2 = trim($_POST['parent_email_2'] ?? '');
 
-    if ($name !== '' && $age > 0) {
-        $stmt = $pdo->prepare("UPDATE master_settings SET z_name = ?, z_age = ?, z_class = ?, z_school = ? WHERE id = 1");
-        $stmt->execute([$name, $age, $class, $school]);
-        $flashSuccess = "Profile details updated successfully!";
+    // Active Challenges
+    $rawChallenges = $_POST['active_challenges'] ?? '[]';
+    $decodedChallenges = json_decode($rawChallenges, true);
+    if (!is_array($decodedChallenges)) {
+        $decodedChallenges = array_filter(array_map('trim', explode(',', $rawChallenges)));
+    }
+    $cleanChallenges = [];
+    foreach ($decodedChallenges as $c) {
+        $trimmed = trim(is_string($c) ? $c : '');
+        if ($trimmed !== '' && !in_array($trimmed, $cleanChallenges)) {
+            $cleanChallenges[] = $trimmed;
+        }
+    }
+    $challengesJson = json_encode(array_values($cleanChallenges), JSON_UNESCAPED_UNICODE);
+
+    // Diagnostic Summary
+    $diagnosticSummary = trim($_POST['diagnostic_summary'] ?? '');
+
+    if ($email1 !== '' && !filter_var($email1, FILTER_VALIDATE_EMAIL)) {
+        $flashError = "Parent Email 1 must be a valid email address.";
+    } elseif ($email2 !== '' && !filter_var($email2, FILTER_VALIDATE_EMAIL)) {
+        $flashError = "Parent Email 2 must be a valid email address.";
+    } elseif ($name !== '' && $age > 0) {
+        $stmt = $pdo->prepare("
+            UPDATE master_settings 
+            SET z_name = ?, z_age = ?, z_class = ?, z_school = ?, parent_email_1 = ?, parent_email_2 = ?, active_challenges = ?, diagnostic_summary = ? 
+            WHERE id = 1
+        ");
+        $stmt->execute([
+            $name,
+            $age,
+            $class,
+            $school,
+            $email1 ?: null,
+            $email2 ?: null,
+            $challengesJson,
+            $diagnosticSummary ?: null
+        ]);
+        $flashSuccess = "Profile details, active challenges, and diagnostic summary updated successfully!";
+        $settings = get_master_settings($pdo);
     } else {
         $flashError = "Name and Age are required.";
     }
@@ -291,9 +329,71 @@ require_once __DIR__ . '/header.php';
                         </div>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label class="form-label fw-bold text-secondary">School / Program</label>
                         <input type="text" name="z_school" class="form-control rounded-3 py-2 px-3" value="<?= htmlspecialchars($settings['z_school']) ?>" required>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary">Parent Email 1 (Primary)</label>
+                            <input type="email" name="parent_email_1" class="form-control rounded-3 py-2 px-3" value="<?= htmlspecialchars($settings['parent_email_1'] ?? '') ?>" placeholder="parent1@example.com">
+                            <div class="text-muted x-small mt-1">For future automated care alerts & daily reports.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary">Parent Email 2 (Secondary)</label>
+                            <input type="email" name="parent_email_2" class="form-control rounded-3 py-2 px-3" value="<?= htmlspecialchars($settings['parent_email_2'] ?? '') ?>" placeholder="parent2@example.com">
+                            <div class="text-muted x-small mt-1">Secondary parent or emergency contact.</div>
+                        </div>
+                    </div>
+
+                    <!-- Active Challenges Dynamic List -->
+                    <div class="mb-4 p-3 rounded-4 bg-light border">
+                        <label class="form-label fw-bold text-secondary d-flex align-items-center gap-2">
+                            <span>⚡</span> Active Challenges (Dynamic List)
+                        </label>
+                        <div class="text-muted x-small mb-2">
+                            Add primary neurodivergent focus areas and sensory sensitivities for personalized care logging.
+                        </div>
+
+                        <!-- Current Challenges Chips Container -->
+                        <div id="challenges-chip-container" class="d-flex flex-wrap gap-2 mb-3">
+                            <!-- Populated via JavaScript -->
+                        </div>
+
+                        <!-- Hidden Input holding JSON string -->
+                        <input type="hidden" name="active_challenges" id="active_challenges_input" value="<?= htmlspecialchars(json_encode($settings['active_challenges'] ?? [])) ?>">
+
+                        <!-- Add Challenge Input & Button -->
+                        <div class="input-group mb-2">
+                            <input type="text" id="new-challenge-input" class="form-control rounded-start-pill py-2 px-3" placeholder="Add custom challenge (e.g., Transitions, Impulsive Stimming)...">
+                            <button type="button" class="btn btn-primary rounded-end-pill px-4 fw-bold" onclick="addCustomChallenge()">
+                                + Add
+                            </button>
+                        </div>
+
+                        <!-- Quick-Add Suggestion Badges -->
+                        <div class="d-flex flex-wrap align-items-center gap-1 mt-2">
+                            <span class="x-small text-muted fw-bold me-1">Suggestions:</span>
+                            <?php 
+                            $suggestions = ['Auditory Sensitivity', 'Sensory Overload', 'Transitions & Changes', 'Executive Functioning', 'Impulsive Pacing', 'Emotional Dysregulation', 'Oral Sensory Seeking', 'Fine Motor Fatigue'];
+                            foreach ($suggestions as $s): ?>
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-0 px-2 x-small" onclick="addSuggestedChallenge('<?= addslashes($s) ?>')">
+                                    + <?= htmlspecialchars($s) ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
+                    <!-- Diagnostic Summary Textarea -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary d-flex align-items-center gap-2">
+                            <span>📋</span> Diagnostic Summary & Clinical Context
+                        </label>
+                        <textarea name="diagnostic_summary" rows="4" class="form-control rounded-3 py-2 px-3" placeholder="Enter clinical diagnoses, IEP notes, developmental pediatric assessments, sensory profile notes..."><?= htmlspecialchars($settings['diagnostic_summary'] ?? '') ?></textarea>
+                        <div class="text-muted x-small mt-1">
+                            Provides crucial clinical context for teachers, therapists, and substitute caregivers during classroom transitions or sensory meltdowns.
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm">
@@ -316,7 +416,7 @@ require_once __DIR__ . '/header.php';
 
                     <div class="mb-3">
                         <label class="form-label fw-bold text-secondary">New Parent Passcode (Numeric)</label>
-                        <input type="password" inputmode="numeric" pattern="[0-9]*" name="parent_passcode" class="form-control rounded-3 py-2 px-3" placeholder="Leave blank to keep current (default 0023)">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" name="parent_passcode" class="form-control rounded-3 py-2 px-3" placeholder="Leave blank to keep current (default 1234)">
                         <div class="text-muted x-small mt-1">Grants full editing, calendar, and admin configuration rights.</div>
                     </div>
 
@@ -362,7 +462,80 @@ require_once __DIR__ . '/header.php';
         if (window.location.hash === '#tab-medication') {
             switchCategoryTab('medication');
         }
+        initChallengesUI();
     });
+
+    // Dynamic Challenges Management
+    let currentChallenges = [];
+    try {
+        const rawVal = document.getElementById('active_challenges_input')?.value || '[]';
+        currentChallenges = JSON.parse(rawVal);
+        if (!Array.isArray(currentChallenges)) currentChallenges = [];
+    } catch(e) {
+        currentChallenges = [];
+    }
+
+    function initChallengesUI() {
+        renderChallenges();
+        const input = document.getElementById('new-challenge-input');
+        if (input) {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addCustomChallenge();
+                }
+            });
+        }
+    }
+
+    function renderChallenges() {
+        const container = document.getElementById('challenges-chip-container');
+        const hiddenInput = document.getElementById('active_challenges_input');
+        if (!container || !hiddenInput) return;
+
+        hiddenInput.value = JSON.stringify(currentChallenges);
+
+        if (currentChallenges.length === 0) {
+            container.innerHTML = '<span class="text-muted x-small fst-italic">No active challenges listed yet. Use the suggestions or add one above.</span>';
+            return;
+        }
+
+        container.innerHTML = currentChallenges.map((ch, idx) => `
+            <span class="badge bg-white text-dark border px-3 py-2 rounded-pill d-inline-flex align-items-center gap-2 shadow-sm">
+                <span class="fw-bold">${escapeHtml(ch)}</span>
+                <button type="button" class="btn-close btn-close-sm" style="font-size: 0.65rem;" onclick="removeChallenge(${idx})" title="Remove challenge"></button>
+            </span>
+        `).join('');
+    }
+
+    function addCustomChallenge() {
+        const input = document.getElementById('new-challenge-input');
+        if (!input) return;
+        const val = input.value.trim();
+        if (val && !currentChallenges.includes(val)) {
+            currentChallenges.push(val);
+            renderChallenges();
+            input.value = '';
+        }
+    }
+
+    function addSuggestedChallenge(text) {
+        if (text && !currentChallenges.includes(text)) {
+            currentChallenges.push(text);
+            renderChallenges();
+        }
+    }
+
+    function removeChallenge(idx) {
+        currentChallenges.splice(idx, 1);
+        renderChallenges();
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 </script>
 </body>
 </html>

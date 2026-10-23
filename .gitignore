@@ -18,6 +18,9 @@ tracker_local.sqlite
 .env.*.local
 .env.deploy
 .env*.deploy
+cron/.smtp_pass.php
+cron/.last_email_sent.json
+cron/*.html
 
 # Editor directories
 .vscode/
