@@ -1,0 +1,23 @@
+# Idea Website - Cache Prevention Configuration
+DirectoryIndex index.html
+
+# Prevent directory browsing
+Options -Indexes
+
+# Character encoding
+AddDefaultCharset UTF-8
+
+# Cache Control: Force browsers to immediately fetch updates
+<IfModule mod_headers.c>
+    # Never cache HTML / HTM files
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+
+    # Force revalidation for CSS and JavaScript files
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
