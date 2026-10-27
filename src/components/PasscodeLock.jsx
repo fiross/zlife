@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Lock, Delete, ShieldAlert, Sparkles, KeyRound } from 'lucide-react';
 import { api } from '../api';
+import logoImg from '../assets/logo.png';
 
 const KEYPAD_BUTTONS = [
   { digit: '1', letters: '—' },
@@ -78,14 +79,14 @@ export default function PasscodeLock({ onAuthenticated }) {
   return (
     <div className="lock-screen-overlay" id="passcode-lock-screen">
       <div className={`lock-card ${isShaking ? 'shake-anim' : ''}`}>
-        <div className="lock-icon-wrap">
-          <KeyRound size={28} />
+        <div className="lock-logo-wrap">
+          <img
+            src={logoImg}
+            alt="Z-Life Daily Tracker - Autism Care"
+            className="lock-brand-logo"
+          />
         </div>
-
-        <h2 style={{ fontSize: '1.45rem', fontWeight: '800', color: 'var(--slate-navy)', marginBottom: '4px' }}>
-          Daily Tracker Lock
-        </h2>
-        <p style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: '600' }}>
+        <p className="lock-prompt-text">
           Enter 4-digit passcode to unlock
         </p>
 

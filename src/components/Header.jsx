@@ -1,5 +1,6 @@
 import React from 'react';
 import { Settings, LogOut, HeartPulse, User, FileSpreadsheet } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onOpenSOS, onLogout }) {
   const isParent = role === 'parent';
@@ -7,12 +8,12 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
   return (
     <header className="app-header" id="main-header">
       <div className="header-top">
-        <div className="brand-wrapper">
-          <div className="brand-logo-icon">🌱</div>
-          <div className="brand-text">
-            <h1>Daily Tracker</h1>
-            <p>Neurodivergent Care Log</p>
-          </div>
+        <div className="brand-wrapper" title="Z-Life Daily Tracker - Autism Care">
+          <img
+            src={logoImg}
+            alt="Z-Life Daily Tracker - Autism Care"
+            className="brand-logo-img"
+          />
         </div>
 
         <div className="header-actions">
@@ -25,7 +26,7 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
             title="Emergency Calming & Sensory Protocols"
           >
             <HeartPulse size={14} />
-            SENSORY SOS
+            <span className="sos-btn-text">SENSORY SOS</span>
           </button>
 
           {/* History & Export Quick Trigger (Parent Only) */}

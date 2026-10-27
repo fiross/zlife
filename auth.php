@@ -116,7 +116,8 @@ function render_passcode_lock_screen($error = '') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Daily Tracker - Passcode Lock</title>
+    <title>Z-Life Daily Tracker - Passcode Lock</title>
+    <link rel="icon" type="image/png" href="assets/logo-icon.png">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -130,10 +131,7 @@ function render_passcode_lock_screen($error = '') {
     <div class="card border-0 shadow-lg rounded-4 p-4 text-center bg-white">
         <!-- Logo & Title -->
         <div class="mb-3">
-            <span class="badge rounded-pill bg-primary-soft text-primary px-3 py-2 fw-bold text-uppercase tracking-wider">
-                Daily Tracker
-            </span>
-            <h2 class="fw-bold mt-2 mb-1 text-slate">Welcome</h2>
+            <img src="assets/logo.png" alt="Z-Life Daily Tracker - Autism Care" class="img-fluid mb-2" style="max-height: 54px; width: auto; max-width: 220px; object-fit: contain;">
             <p class="text-muted small mb-0">Tracking for <?= htmlspecialchars($settings['z_name']) ?> &bull; <?= htmlspecialchars($settings['z_class']) ?></p>
         </div>
 

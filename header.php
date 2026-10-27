@@ -14,7 +14,8 @@ $role = get_user_role();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Daily Tracker - <?= htmlspecialchars($settings['z_name']) ?></title>
+    <title>Z-Life - Daily Tracker - <?= htmlspecialchars($settings['z_name']) ?></title>
+    <link rel="icon" type="image/png" href="assets/logo-icon.png">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -30,19 +31,14 @@ $role = get_user_role();
     <div class="container-fluid px-0 d-flex justify-content-between align-items-center">
         <!-- Brand & Student Badge -->
         <div class="d-flex align-items-center gap-2">
-            <a href="index.php" class="text-decoration-none">
-                <div class="d-flex align-items-center gap-2">
-                    <div class="bg-primary-soft rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
-                        <span class="fs-5">📋</span>
-                    </div>
-                    <div>
-                        <div class="fw-800 text-slate lh-1 fs-5">Daily Tracker</div>
-                        <div class="text-muted x-small mt-1">
-                            <strong><?= htmlspecialchars($settings['z_name']) ?></strong> (<?= htmlspecialchars($settings['z_age']) ?>y) &bull; <?= htmlspecialchars($settings['z_class']) ?>
-                        </div>
-                    </div>
-                </div>
+            <a href="index.php" class="text-decoration-none d-flex align-items-center">
+                <img src="assets/logo.png" alt="Z-Life Daily Tracker - Autism Care" class="app-navbar-logo">
             </a>
+            <div class="d-none d-md-block border-start ps-2 py-1">
+                <div class="text-muted x-small">
+                    <strong><?= htmlspecialchars($settings['z_name']) ?></strong> (<?= htmlspecialchars($settings['z_age']) ?>y) &bull; <?= htmlspecialchars($settings['z_class']) ?>
+                </div>
+            </div>
         </div>
 
         <!-- Action Buttons: Sensory SOS & Role Navigation -->

@@ -9,6 +9,7 @@ import AdminModal from './components/AdminModal';
 import SensorySOSModal from './components/SensorySOSModal';
 import { CheckCircle2 } from 'lucide-react';
 import { getLocalDateString } from './utils/date';
+import logoIcon from './assets/logo-icon.png';
 
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -197,14 +198,22 @@ export default function App() {
       <div style={{
         minHeight: '100vh',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         background: 'var(--bg-page)',
         fontFamily: 'var(--font-heading)',
         color: 'var(--navy-slate)',
-        fontSize: '1.2rem'
+        gap: '14px'
       }}>
-        🌱 Loading Daily Tracker...
+        <img
+          src={logoIcon}
+          alt="Z-Life"
+          style={{ width: '56px', height: '56px', animation: 'pulse-sos 2s infinite' }}
+        />
+        <div style={{ fontSize: '1.15rem', fontWeight: '700', letterSpacing: '-0.01em' }}>
+          Loading Z-Life Daily Tracker...
+        </div>
       </div>
     );
   }
