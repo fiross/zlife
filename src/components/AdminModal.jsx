@@ -69,7 +69,8 @@ export default function AdminModal({
   onSettingsUpdated,
   onListsUpdated,
   onSelectDate,
-  initialTab = 'history'
+  initialTab = 'history',
+  isDemo = false
 }) {
   const [activeTab, setActiveTab] = useState(initialTab || 'history');
   
@@ -158,6 +159,10 @@ export default function AdminModal({
 
   const handleSaveProfile = async (e) => {
     e.preventDefault();
+    if (isDemo) {
+      alert('Demo Mode: Profile settings cannot be modified.');
+      return;
+    }
     setProfileSaving(true);
     setProfileSuccess('');
     try {
@@ -176,6 +181,10 @@ export default function AdminModal({
 
   const handleSavePasscodes = async (e) => {
     e.preventDefault();
+    if (isDemo) {
+      setPassError('Demo Mode: Passcode management is locked.');
+      return;
+    }
     setPassSaving(true);
     setPassSuccess('');
     setPassError('');
@@ -198,6 +207,10 @@ export default function AdminModal({
   };
 
   const handleToggleItem = async (item) => {
+    if (isDemo) {
+      alert('Demo Mode: Master category lists are view-only.');
+      return;
+    }
     try {
       const nextActive = item.is_active ? 0 : 1;
       await api.lists.toggle(item.id, nextActive);
@@ -210,6 +223,10 @@ export default function AdminModal({
 
   const handleAddItem = async (e) => {
     e.preventDefault();
+    if (isDemo) {
+      alert('Demo Mode: Master category lists are view-only.');
+      return;
+    }
     if (!newItemName.trim()) return;
     try {
       await api.lists.add(selectedCategory, newItemName.trim());
@@ -631,14 +648,20 @@ export default function AdminModal({
                 </span>
               </div>
 
+              {isDemo && (
+                <div className="admin-demo-alert">
+                  ✨ <strong>Demo Mode:</strong> You are viewing the sample student profile for <strong>Alex</strong>. Saving changes is disabled.
+                </div>
+              )}
+
               {profileSuccess && (
                 <div style={{ color: '#059669', fontSize: '0.86rem', fontWeight: '700' }}>
                   ✓ {profileSuccess}
                 </div>
               )}
 
-              <button type="submit" className="btn btn-primary" disabled={profileSaving} style={{ height: '48px', marginTop: '6px' }}>
-                <Save size={18} /> {profileSaving ? 'Saving...' : 'Update Profile Details'}
+              <button type="submit" className="btn btn-primary" disabled={isDemo || profileSaving} style={{ height: '48px', marginTop: '6px' }}>
+                <Save size={18} /> {profileSaving ? 'Saving...' : isDemo ? 'Profile Locked (Demo Mode)' : 'Update Profile Details'}
               </button>
             </form>
           )}
@@ -646,6 +669,12 @@ export default function AdminModal({
           {/* TAB 3: PASSCODE MANAGEMENT */}
           {activeTab === 'passcodes' && (
             <form onSubmit={handleSavePasscodes} className="admin-form-card">
+              {isDemo && (
+                <div className="admin-demo-alert">
+                  🔒 <strong>Demo Mode:</strong> Passcode management is disabled in Demo Mode. (Fixed Demo PIN: 1234).
+                </div>
+              )}
+
               <p style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: '600' }}>
                 Change numeric passcodes for login access. Passcodes must be at least 4 digits.
               </p>
@@ -657,9 +686,10 @@ export default function AdminModal({
                 <input
                   type="password"
                   inputMode="numeric"
-                  placeholder="e.g. 1234"
+                  placeholder="e.g. 4321"
                   value={parentPasscode}
                   onChange={(e) => setParentPasscode(e.target.value)}
+                  disabled={isDemo}
                   className="admin-input-styled"
                   id="new-parent-passcode-input"
                 />
@@ -675,6 +705,7 @@ export default function AdminModal({
                   placeholder="e.g. 5678"
                   value={teacherPasscode}
                   onChange={(e) => setTeacherPasscode(e.target.value)}
+                  disabled={isDemo}
                   className="admin-input-styled"
                   id="new-teacher-passcode-input"
                 />
@@ -692,8 +723,8 @@ export default function AdminModal({
                 </div>
               )}
 
-              <button type="submit" className="btn btn-primary" disabled={passSaving} style={{ height: '48px', marginTop: '6px' }}>
-                <Key size={18} /> {passSaving ? 'Updating...' : 'Save New Passcodes'}
+              <button type="submit" className="btn btn-primary" disabled={isDemo || passSaving} style={{ height: '48px', marginTop: '6px' }}>
+                <Key size={18} /> {passSaving ? 'Updating...' : isDemo ? 'Passcodes Locked (Demo Mode)' : 'Save New Passcodes'}
               </button>
             </form>
           )}

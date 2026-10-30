@@ -27,19 +27,18 @@ The application enforces a strict role-based separation:
                       │   (Mobile-First Numeric Keypad)      │
                       └──────────────────┬───────────────────┘
                                          │
-                    ┌────────────────────┴────────────────────┐
-                    ▼                                         ▼
-      Parent Passcode: 1234                     Teacher Passcode: 5678
-      (Full Interactive Access)                 (View-Only Summary)
-  • Record sleep, mood, notes                • View morning sleep & mood
-  • Toggle medications & behaviors           • Verify morning meds administered
-  • Access All Logs History & CSV Export     • Access Emergency Sensory SOS
-  • Admin: add new medications/items         • Blocked from editing or admin
-  • Admin: update profile & passcodes
+                    ┌────────────────────┼────────────────────┐
+                    ▼                    ▼                    ▼
+      Demo Passcode: 1234       Parent Passcode: 4321     Teacher Passcode: 5678
+      (Interactive Preview)     (Full Interactive Access) (View-Only Summary)
+   • Sample student: Alex     • Record sleep & mood     • View morning sleep & mood
+   • Full interactive buttons • Toggle meds & behaviors • Verify morning meds
+   • Zero real logs queried   • History & CSV Export    • Emergency Sensory SOS
+   • Save option is disabled  • Admin & profile config  • Blocked from editing
 ```
 
 ### 1. Morning Routine (Parent at Home)
-- Parent enters passcode (`1234`).
+- Parent enters passcode (`4321`).
 - Logs previous night's sleep duration (stepper or quick chip).
 - Records morning emotional mood.
 - Toggles morning prescription medications (e.g., `Focalin (Morning)`).
@@ -60,16 +59,17 @@ The application enforces a strict role-based separation:
 
 ---
 
-## 🔑 Authentication & Default Passcodes
+## 🔑 Authentication & Passcodes
 
 The app uses a 3x4 numeric keypad with visual dot indicators and hardware keyboard support:
 
-| Role | Default Passcode | Permissions |
+| Role | Passcode | Permissions & Safety |
 | :--- | :--- | :--- |
-| **Parent** | `1234` | **Full Access:** Create, edit, and save daily logs; browse historical logs; export CSV; manage master lists, medications, profile, and passcodes. |
+| **Demo Account** | `1234` | **Fixed Demo Account:** Interactive parental preview for sample student **Alex**. All buttons and sliders are functional; **Save option is disabled** and **zero data is pulled from real logs** to protect daughter Zeba's privacy. |
+| **Parent** | `4321` | **Full Private Access:** Create, edit, and save daily logs; browse historical logs; export CSV; manage master lists, medications, profile, and passcodes. |
 | **Teacher** | `5678` | **View-Only Access:** View current and historical day summaries; access Sensory SOS emergency protocols. Editing, saving, admin settings, and CSV export are strictly blocked. |
 
-*Passcodes can be securely updated at any time by parents via **Admin Configuration (`⚙️`) > Passcodes**.*
+*Parent and Teacher passcodes can be securely updated at any time by parents via **Admin Configuration (`⚙️`) > Passcodes** (Demo PIN 1234 is fixed).*
 
 ---
 
@@ -371,8 +371,9 @@ npm run dev
 1. Open your browser to: **[http://localhost:5173](http://localhost:5173)**
 2. Vite automatically proxies all `/api/*` network requests to the PHP backend at `http://localhost:8000`.
 3. Log in with:
-   - **Parent PIN:** `1234`
-   - **Teacher PIN:** `5678`
+   - **Demo PIN:** `1234` (Interactive sample demo for Alex, saving disabled)
+   - **Parent PIN:** `4321` (Full private parental access)
+   - **Teacher PIN:** `5678` (View-only glance)
 
 ---
 

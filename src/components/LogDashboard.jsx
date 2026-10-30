@@ -80,6 +80,9 @@ export default function LogDashboard({
   lastSavedAt
 }) {
   const isParent = role === 'parent';
+  const isDemo = role === 'demo';
+  const isTeacher = role === 'teacher';
+  const canEdit = isParent || isDemo;
   const childName = settings?.z_name?.trim() || 'The student';
 
   // Master lists
@@ -94,7 +97,7 @@ export default function LogDashboard({
   const sleepPresets = [6, 7, 7.5, 8, 8.5, 9, 10];
 
   const handleSleepStep = (delta) => {
-    if (!isParent) return;
+    if (!canEdit) return;
     const current = Number(log.sleep_hours) || 0;
     const nextVal = Math.max(0, Math.min(24, Math.round((current + delta) * 10) / 10));
     onUpdateField('sleep_hours', nextVal);
@@ -108,7 +111,7 @@ export default function LogDashboard({
     <div className="dashboard-content" id="log-dashboard" style={{ paddingBottom: '30px' }}>
 
       {/* Teacher View-Only Notice */}
-      {!isParent && (
+      {isTeacher && (
         <div style={{
           margin: '12px 16px 0',
           padding: '12px 16px',
@@ -125,6 +128,19 @@ export default function LogDashboard({
         }}>
           <Lock size={18} />
           Teacher Mode: Viewing logged routine and medication summary (Read-Only).
+        </div>
+      )}
+
+      {/* Demo Mode Notice Banner */}
+      {isDemo && (
+        <div className="demo-notice-banner" id="demo-banner">
+          <div className="demo-notice-icon">✨</div>
+          <div className="demo-notice-content">
+            <div className="demo-notice-title">Interactive Parental Demo</div>
+            <div className="demo-notice-text">
+              Testing for <strong>{childName}</strong>. You can freely adjust sleep hours, tap moods, check medications, and toggle calming interventions. Database saving is disabled.
+            </div>
+          </div>
         </div>
       )}
 
@@ -155,12 +171,12 @@ export default function LogDashboard({
 
         <div className="sleep-celestial-box">
           <div className="sleep-display-row">
-            {isParent && (
+            {canEdit && (
               <button
                 type="button"
                 className="stepper-btn-celestial"
                 onClick={() => handleSleepStep(-0.5)}
-                disabled={!isParent || Number(log.sleep_hours) <= 0}
+                disabled={!canEdit || Number(log.sleep_hours) <= 0}
                 id="sleep-minus-btn"
                 title="Decrease 0.5 hours"
               >
@@ -173,12 +189,12 @@ export default function LogDashboard({
               <span>hrs</span>
             </div>
 
-            {isParent && (
+            {canEdit && (
               <button
                 type="button"
                 className="stepper-btn-celestial"
                 onClick={() => handleSleepStep(0.5)}
-                disabled={!isParent || Number(log.sleep_hours) >= 24}
+                disabled={!canEdit || Number(log.sleep_hours) >= 24}
                 id="sleep-plus-btn"
                 title="Increase 0.5 hours"
               >
@@ -187,8 +203,8 @@ export default function LogDashboard({
             )}
           </div>
 
-          {/* Quick presets (Parents only) */}
-          {isParent && (
+          {/* Quick presets (Parents or Demo) */}
+          {canEdit && (
             <div className="sleep-presets-row">
               {sleepPresets.map((val) => (
                 <button
@@ -244,9 +260,9 @@ export default function LogDashboard({
                   key={item.id}
                   type="button"
                   className={`gliffy-pill-btn category-medication ${isChecked ? 'is-selected' : ''}`}
-                  onClick={() => isParent && onToggleArrayItem('medications', item.item_name)}
-                  disabled={!isParent}
-                  style={{ cursor: isParent ? 'pointer' : 'default', opacity: !isParent && !isChecked ? 0.45 : 1 }}
+                  onClick={() => canEdit && onToggleArrayItem('medications', item.item_name)}
+                  disabled={!canEdit}
+                  style={{ cursor: canEdit ? 'pointer' : 'default', opacity: !canEdit && !isChecked ? 0.45 : 1 }}
                   id={`med-toggle-${item.id}`}
                 >
                   <span className="glyph-bubble">{glyph.icon}</span>
@@ -300,9 +316,9 @@ export default function LogDashboard({
                 key={item.id}
                 type="button"
                 className={`mood-card-rich ${isSelected ? 'is-selected' : ''}`}
-                onClick={() => isParent && onUpdateField('overall_mood', item.item_name)}
-                disabled={!isParent}
-                style={{ cursor: isParent ? 'pointer' : 'default', opacity: !isParent && !isSelected ? 0.45 : 1 }}
+                onClick={() => canEdit && onUpdateField('overall_mood', item.item_name)}
+                disabled={!canEdit}
+                style={{ cursor: canEdit ? 'pointer' : 'default', opacity: !canEdit && !isSelected ? 0.45 : 1 }}
                 id={`mood-btn-${item.id}`}
               >
                 <span className="mood-emoji-wrap">{moodInfo.emoji}</span>
@@ -351,8 +367,8 @@ export default function LogDashboard({
               <button
                 type="button"
                 className={`cycle-toggle-btn ${!log.is_menstruating ? 'is-selected-no' : ''}`}
-                onClick={() => isParent && onUpdateField('is_menstruating', false)}
-                disabled={!isParent}
+                onClick={() => canEdit && onUpdateField('is_menstruating', false)}
+                disabled={!canEdit}
                 id="menstruation-toggle-no"
               >
                 No
@@ -361,14 +377,14 @@ export default function LogDashboard({
                 type="button"
                 className={`cycle-toggle-btn ${log.is_menstruating ? 'is-selected-yes' : ''}`}
                 onClick={() => {
-                  if (isParent) {
+                  if (canEdit) {
                     onUpdateField('is_menstruating', true);
                     if (!log.flow_intensity) {
                       onUpdateField('flow_intensity', 'Medium');
                     }
                   }
                 }}
-                disabled={!isParent}
+                disabled={!canEdit}
                 id="menstruation-toggle-yes"
               >
                 🩸 Yes
@@ -387,8 +403,8 @@ export default function LogDashboard({
                   id="flow-intensity-select"
                   className="flow-dropdown-styled"
                   value={log.flow_intensity || 'Medium'}
-                  onChange={(e) => isParent && onUpdateField('flow_intensity', e.target.value)}
-                  disabled={!isParent}
+                  onChange={(e) => canEdit && onUpdateField('flow_intensity', e.target.value)}
+                  disabled={!canEdit}
                 >
                   <option value="Light">💧 Light Flow</option>
                   <option value="Medium">🩸 Medium Flow (Default)</option>
@@ -409,8 +425,8 @@ export default function LogDashboard({
                       key={item.value}
                       type="button"
                       className={`flow-pill-chip ${isSelected ? 'is-active' : ''}`}
-                      onClick={() => isParent && onUpdateField('flow_intensity', item.value)}
-                      disabled={!isParent}
+                      onClick={() => canEdit && onUpdateField('flow_intensity', item.value)}
+                      disabled={!canEdit}
                     >
                       <span>{item.icon}</span>
                       <span>{item.label}</span>
@@ -422,7 +438,7 @@ export default function LogDashboard({
           )}
 
           {/* Teacher Awareness Notice */}
-          {!isParent && log.is_menstruating && (
+          {isTeacher && log.is_menstruating && (
             <div className="teacher-cycle-notice">
               <span className="notice-icon">🩸</span>
               <p>
@@ -467,9 +483,9 @@ export default function LogDashboard({
                 key={item.id}
                 type="button"
                 className={`gliffy-pill-btn category-behavior ${isChecked ? 'is-selected' : ''}`}
-                onClick={() => isParent && onToggleArrayItem('sensory_behaviors', item.item_name)}
-                disabled={!isParent}
-                style={{ cursor: isParent ? 'pointer' : 'default', opacity: !isParent && !isChecked ? 0.45 : 1 }}
+                onClick={() => canEdit && onToggleArrayItem('sensory_behaviors', item.item_name)}
+                disabled={!canEdit}
+                style={{ cursor: canEdit ? 'pointer' : 'default', opacity: !canEdit && !isChecked ? 0.45 : 1 }}
                 id={`behavior-toggle-${item.id}`}
               >
                 <span className="glyph-bubble">{glyph.icon}</span>
@@ -520,9 +536,9 @@ export default function LogDashboard({
                 key={item.id}
                 type="button"
                 className={`gliffy-pill-btn category-intervention ${isChecked ? 'is-selected' : ''}`}
-                onClick={() => isParent && onToggleArrayItem('interventions', item.item_name)}
-                disabled={!isParent}
-                style={{ cursor: isParent ? 'pointer' : 'default', opacity: !isParent && !isChecked ? 0.45 : 1 }}
+                onClick={() => canEdit && onToggleArrayItem('interventions', item.item_name)}
+                disabled={!canEdit}
+                style={{ cursor: canEdit ? 'pointer' : 'default', opacity: !canEdit && !isChecked ? 0.45 : 1 }}
                 id={`intervention-toggle-${item.id}`}
               >
                 <span className="glyph-bubble">{glyph.icon}</span>
@@ -573,9 +589,9 @@ export default function LogDashboard({
                 key={item.id}
                 type="button"
                 className={`gliffy-pill-btn category-activity ${isChecked ? 'is-selected' : ''}`}
-                onClick={() => isParent && onToggleArrayItem('activities', item.item_name)}
-                disabled={!isParent}
-                style={{ cursor: isParent ? 'pointer' : 'default', opacity: !isParent && !isChecked ? 0.45 : 1 }}
+                onClick={() => canEdit && onToggleArrayItem('activities', item.item_name)}
+                disabled={!canEdit}
+                style={{ cursor: canEdit ? 'pointer' : 'default', opacity: !canEdit && !isChecked ? 0.45 : 1 }}
                 id={`activity-toggle-${item.id}`}
               >
                 <span className="glyph-bubble">{glyph.icon}</span>
@@ -626,9 +642,9 @@ export default function LogDashboard({
                 key={item.id}
                 type="button"
                 className={`gliffy-pill-btn category-exercise ${isChecked ? 'is-selected' : ''}`}
-                onClick={() => isParent && onToggleArrayItem('activities', item.item_name)}
-                disabled={!isParent}
-                style={{ cursor: isParent ? 'pointer' : 'default', opacity: !isParent && !isChecked ? 0.45 : 1 }}
+                onClick={() => canEdit && onToggleArrayItem('activities', item.item_name)}
+                disabled={!canEdit}
+                style={{ cursor: canEdit ? 'pointer' : 'default', opacity: !canEdit && !isChecked ? 0.45 : 1 }}
                 id={`exercise-toggle-${item.id}`}
               >
                 <span className="glyph-bubble">{glyph.icon}</span>
@@ -679,9 +695,9 @@ export default function LogDashboard({
                 key={item.id}
                 type="button"
                 className={`gliffy-pill-btn category-food ${isChecked ? 'is-selected' : ''}`}
-                onClick={() => isParent && onToggleArrayItem('food', item.item_name)}
-                disabled={!isParent}
-                style={{ cursor: isParent ? 'pointer' : 'default', opacity: !isParent && !isChecked ? 0.45 : 1 }}
+                onClick={() => canEdit && onToggleArrayItem('food', item.item_name)}
+                disabled={!canEdit}
+                style={{ cursor: canEdit ? 'pointer' : 'default', opacity: !canEdit && !isChecked ? 0.45 : 1 }}
                 id={`food-toggle-${item.id}`}
               >
                 <span className="glyph-bubble">{glyph.icon}</span>
@@ -716,12 +732,12 @@ export default function LogDashboard({
           <textarea
             className="notes-textarea-rich"
             value={log.notes || ''}
-            onChange={(e) => isParent && onUpdateField('notes', e.target.value)}
-            disabled={!isParent}
-            placeholder={isParent ? "Type daily observations... E.g., 'Calm morning, enjoyed music class. Needed noise earmuffs during cafeteria transition.'" : "No notes recorded for this date."}
+            onChange={(e) => canEdit && onUpdateField('notes', e.target.value)}
+            disabled={!canEdit}
+            placeholder={canEdit ? "Type daily observations... E.g., 'Calm morning, enjoyed music class. Needed noise earmuffs during cafeteria transition.'" : "No notes recorded for this date."}
             id="notes-input"
           />
-          {isParent && (
+          {canEdit && (
             <div className="notes-hints-bar">
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Mic size={13} color="#0f766e" /> Voice dictation supported via mobile keyboard
@@ -732,31 +748,52 @@ export default function LogDashboard({
         </div>
       </section>
 
-      {/* 10. Sticky Save Island (Parent Only) */}
-      {isParent && (
+      {/* 10. Sticky Save Island */}
+      {canEdit && (
         <div className="save-footer-island" id="save-footer">
-          <div className="save-status-badge-island">
-            {lastSavedAt ? (
-              <>
-                <Clock size={14} color="#10b981" />
-                <span>Saved at {lastSavedAt}</span>
-              </>
-            ) : log.exists ? (
-              <span>✓ Saved for this date</span>
-            ) : (
-              <span>● Unsaved changes</span>
-            )}
-          </div>
+          {isDemo ? (
+            <>
+              <div className="save-status-badge-island demo-status-badge">
+                <Lock size={14} color="#f59e0b" />
+                <span>Demo Mode • Saving is disabled</span>
+              </div>
 
-          <button
-            type="button"
-            className="btn save-btn-large-island"
-            onClick={onSave}
-            disabled={saving}
-            id="save-log-btn"
-          >
-            {saving ? 'Saving...' : '💾 Save Daily Log'}
-          </button>
+              <button
+                type="button"
+                className="btn save-btn-large-island demo-disabled-btn"
+                disabled
+                id="save-log-btn"
+                title="Saving is disabled in Demo Mode"
+              >
+                🔒 Save Daily Log (Disabled in Demo)
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="save-status-badge-island">
+                {lastSavedAt ? (
+                  <>
+                    <Clock size={14} color="#10b981" />
+                    <span>Saved at {lastSavedAt}</span>
+                  </>
+                ) : log.exists ? (
+                  <span>✓ Saved for this date</span>
+                ) : (
+                  <span>● Unsaved changes</span>
+                )}
+              </div>
+
+              <button
+                type="button"
+                className="btn save-btn-large-island"
+                onClick={onSave}
+                disabled={saving}
+                id="save-log-btn"
+              >
+                {saving ? 'Saving...' : '💾 Save Daily Log'}
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

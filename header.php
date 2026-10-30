@@ -6,8 +6,24 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/auth.php';
 
 $pdo = get_db_connection();
-$settings = get_master_settings($pdo);
 $role = get_user_role();
+$isDemo = ($role === 'demo');
+
+if ($isDemo) {
+    $settings = [
+        'id' => 9999,
+        'z_name' => 'Alex',
+        'z_age' => 15,
+        'z_class' => 'Grade 9',
+        'z_school' => 'Greenwood High (Demo)',
+        'parent_email_1' => '',
+        'parent_email_2' => '',
+        'active_challenges' => ['Auditory Sensitivity', 'Sensory Overload', 'Transitions & Routine Changes', 'Emotional Regulation'],
+        'diagnostic_summary' => 'Sample Profile: Level 2 Autism Spectrum Disorder (ASD). Responsive to deep pressure compression, calm sensory pacing, noise-dampening earmuffs, and predictable visual task timers.'
+    ];
+} else {
+    $settings = get_master_settings($pdo);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,6 +69,10 @@ $role = get_user_role();
                 <a href="admin.php" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1 fw-bold" title="Admin Settings">
                     ⚙️ <span class="d-none d-md-inline">Admin</span>
                 </a>
+            <?php elseif ($isDemo): ?>
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small fw-bold">
+                    Demo (Parental View)
+                </span>
             <?php else: ?>
                 <span class="badge bg-info-subtle text-info-emphasis rounded-pill px-2 py-1 small">
                     Teacher Mode

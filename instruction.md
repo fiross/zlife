@@ -14,7 +14,8 @@ Maintain a single database with the following tables:
 
 ### Initial Data Seeding:
 - **Default Passcodes:**
-  - Parent Passcode: `1234` (Full interactive access, log editing, calendar, master admin)
+  - Demo Passcode: `1234` (Fixed demo account: interactive parental view for sample student Alex, disabled saving, no real logs queried)
+  - Parent Passcode: `4321` (Full interactive access, real log editing, calendar, master admin)
   - Teacher Passcode: `5678` (View-only summary of today's or any historical day's log, medications administered, strictly no edit/admin access)
 - **Profile Defaults (`master_settings`):** Name: 'Zeba', Age: 15, Class: 'Grade 9', School: 'Greenwood High', Active Challenges: `["Auditory Sensitivity", "Sensory Overload", "Transitions & Routine Changes", "Emotional Regulation"]`, Diagnostic Summary: clinical context.
 - **Master List Seed Items (`master_lists`):**

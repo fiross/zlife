@@ -18,6 +18,7 @@ tracker_local.sqlite
 .env.*.local
 .env.deploy
 .env*.deploy
+.prompt_ai
 cron/.smtp_pass.php
 cron/.last_email_sent.json
 cron/*.html

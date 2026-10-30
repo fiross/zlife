@@ -157,6 +157,10 @@ export default function App() {
 
   // Save Log Handler
   const handleSaveLog = async () => {
+    if (role === 'demo') {
+      showToast('ℹ️ Save is disabled in Demo Mode.');
+      return;
+    }
     if (role !== 'parent') return;
     setSaving(true);
     try {
@@ -270,8 +274,8 @@ export default function App() {
       )}
     </div>
 
-    {/* Admin Modal (Parent Only) - Portaled to document.body for true viewport centering */}
-    {role === 'parent' && adminOpen && createPortal(
+    {/* Admin & History Modal - Portaled to document.body for true viewport centering */}
+    {(role === 'parent' || role === 'demo') && adminOpen && createPortal(
       <AdminModal
         isOpen={adminOpen}
         onClose={() => setAdminOpen(false)}
@@ -283,6 +287,7 @@ export default function App() {
           setAdminOpen(false);
         }}
         initialTab={adminTab}
+        isDemo={role === 'demo'}
       />,
       document.body
     )}

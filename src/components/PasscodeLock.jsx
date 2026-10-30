@@ -160,6 +160,21 @@ export default function PasscodeLock({ onAuthenticated }) {
             <Delete size={22} />
           </button>
         </div>
+
+        {/* Demo PIN Quick Access & Information Chip */}
+        <div className="lock-keypad-footer-hints">
+          <button
+            type="button"
+            className="lock-demo-chip-btn"
+            onClick={() => attemptLogin('1234')}
+            disabled={loading}
+            title="Enter Demo Mode with PIN 1234"
+            id="quick-demo-unlock-btn"
+          >
+            <span className="demo-pin-pill">DEMO PIN: 1234</span>
+            <span className="demo-pin-label">Interactive Parental Preview</span>
+          </button>
+        </div>
       </div>
     </div>
   );

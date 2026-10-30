@@ -43,6 +43,17 @@ if ($method === 'POST') {
         json_response(['success' => false, 'error' => 'Passcode is required.'], 400);
     }
 
+    // Fixed Demo Account: PIN 1234 (Anonymized preview, no real logs, save disabled)
+    if ($passcode === '1234') {
+        $_SESSION['user_id'] = 'demo';
+        $_SESSION['role'] = 'demo';
+        json_response([
+            'success' => true,
+            'role' => 'demo',
+            'message' => 'Welcome to Demo Mode!'
+        ]);
+    }
+
     // Verify passcode against users table
     $stmt = $pdo->query("SELECT id, passcode_hash, role FROM users");
     $users = $stmt->fetchAll();

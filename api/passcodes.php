@@ -11,6 +11,12 @@ $pdo = get_db_connection();
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'POST') {
+    if (is_api_demo()) {
+        json_response(['success' => false, 'error' => 'Passcodes cannot be modified in Demo Mode.'], 403);
+    }
+
+    require_api_role('parent'); // Parent access only
+
     $input = get_json_input();
 
     $parentPass = trim($input['parent_passcode'] ?? '');
@@ -19,6 +25,9 @@ if ($method === 'POST') {
     $messages = [];
 
     if ($parentPass !== '') {
+        if ($parentPass === '1234') {
+            json_response(['success' => false, 'error' => 'Passcode 1234 is reserved for the Demo account. Please choose a different PIN.'], 400);
+        }
         if (!ctype_digit($parentPass) || strlen($parentPass) < 4) {
             json_response(['success' => false, 'error' => 'Parent passcode must be at least 4 digits (numeric only).'], 400);
         }
@@ -28,6 +37,9 @@ if ($method === 'POST') {
     }
 
     if ($teacherPass !== '') {
+        if ($teacherPass === '1234') {
+            json_response(['success' => false, 'error' => 'Passcode 1234 is reserved for the Demo account. Please choose a different PIN.'], 400);
+        }
         if (!ctype_digit($teacherPass) || strlen($teacherPass) < 4) {
             json_response(['success' => false, 'error' => 'Teacher passcode must be at least 4 digits (numeric only).'], 400);
         }

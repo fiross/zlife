@@ -4,6 +4,7 @@ import logoImg from '../assets/logo.png';
 
 export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onOpenSOS, onLogout }) {
   const isParent = role === 'parent';
+  const isDemo = role === 'demo';
 
   return (
     <header className="app-header" id="main-header">
@@ -29,8 +30,8 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
             <span className="sos-btn-text">SENSORY SOS</span>
           </button>
 
-          {/* History & Export Quick Trigger (Parent Only) */}
-          {isParent && (
+          {/* History & Export Quick Trigger (Parent or Demo) */}
+          {(isParent || isDemo) && (
             <button
               type="button"
               className="btn-icon"
@@ -76,8 +77,8 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
             <strong>{settings?.z_name || 'Child'}</strong> • {settings?.z_age ? `${settings.z_age} yrs` : 'Profile'} • {settings?.z_class || ''}
           </span>
         </div>
-        <div className={`role-badge ${isParent ? 'parent' : 'teacher'}`}>
-          {isParent ? 'Parent (Full Access)' : 'Teacher (View Only)'}
+        <div className={`role-badge ${isDemo ? 'demo' : isParent ? 'parent' : 'teacher'}`}>
+          {isDemo ? '✨ Demo (Parental View)' : isParent ? 'Parent (Full Access)' : 'Teacher (View Only)'}
         </div>
       </div>
     </header>
