@@ -6,15 +6,32 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/auth.php';
 
 $pdo = get_db_connection();
-$settings = get_master_settings($pdo);
 $role = get_user_role();
+$isDemo = ($role === 'demo');
+
+if ($isDemo) {
+    $settings = [
+        'id' => 9999,
+        'z_name' => 'Alex',
+        'z_age' => 15,
+        'z_class' => 'Grade 9',
+        'z_school' => 'Greenwood High (Demo)',
+        'parent_email_1' => '',
+        'parent_email_2' => '',
+        'active_challenges' => ['Auditory Sensitivity', 'Sensory Overload', 'Transitions & Routine Changes', 'Emotional Regulation'],
+        'diagnostic_summary' => 'Sample Profile: Level 2 Autism Spectrum Disorder (ASD). Responsive to deep pressure compression, calm sensory pacing, noise-dampening earmuffs, and predictable visual task timers.'
+    ];
+} else {
+    $settings = get_master_settings($pdo);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Daily Tracker - <?= htmlspecialchars($settings['z_name']) ?></title>
+    <title>Z-Life - Daily Tracker - <?= htmlspecialchars($settings['z_name']) ?></title>
+    <link rel="icon" type="image/png" href="assets/logo-icon.png">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -30,19 +47,14 @@ $role = get_user_role();
     <div class="container-fluid px-0 d-flex justify-content-between align-items-center">
         <!-- Brand & Student Badge -->
         <div class="d-flex align-items-center gap-2">
-            <a href="index.php" class="text-decoration-none">
-                <div class="d-flex align-items-center gap-2">
-                    <div class="bg-primary-soft rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
-                        <span class="fs-5">📋</span>
-                    </div>
-                    <div>
-                        <div class="fw-800 text-slate lh-1 fs-5">Daily Tracker</div>
-                        <div class="text-muted x-small mt-1">
-                            <strong><?= htmlspecialchars($settings['z_name']) ?></strong> (<?= htmlspecialchars($settings['z_age']) ?>y) &bull; <?= htmlspecialchars($settings['z_class']) ?>
-                        </div>
-                    </div>
-                </div>
+            <a href="index.php" class="text-decoration-none d-flex align-items-center">
+                <img src="assets/logo.png" alt="Z-Life Daily Tracker - Autism Care" class="app-navbar-logo">
             </a>
+            <div class="d-none d-md-block border-start ps-2 py-1">
+                <div class="text-muted x-small">
+                    <strong><?= htmlspecialchars($settings['z_name']) ?></strong> (<?= htmlspecialchars($settings['z_age']) ?>y) &bull; <?= htmlspecialchars($settings['z_class']) ?>
+                </div>
+            </div>
         </div>
 
         <!-- Action Buttons: Sensory SOS & Role Navigation -->
@@ -57,6 +69,10 @@ $role = get_user_role();
                 <a href="admin.php" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1 fw-bold" title="Admin Settings">
                     ⚙️ <span class="d-none d-md-inline">Admin</span>
                 </a>
+            <?php elseif ($isDemo): ?>
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-1 small fw-bold">
+                    Demo (Parental View)
+                </span>
             <?php else: ?>
                 <span class="badge bg-info-subtle text-info-emphasis rounded-pill px-2 py-1 small">
                     Teacher Mode

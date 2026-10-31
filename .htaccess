@@ -20,6 +20,22 @@ Options -Indexes
 # Character encoding
 AddDefaultCharset UTF-8
 
+# Cache Control: Prevent stale browser caching so users always get fresh updates
+<IfModule mod_headers.c>
+    # Never cache HTML / HTM files - force browser to fetch latest version
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+
+    # Ensure CSS and JS files always revalidate against server
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+
 # Rewrite Rules for Single Page App & API
 <IfModule mod_rewrite.c>
     RewriteEngine On

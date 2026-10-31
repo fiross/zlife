@@ -62,6 +62,13 @@ function is_api_parent(): bool {
 }
 
 /**
+ * Check if authenticated user is demo
+ */
+function is_api_demo(): bool {
+    return is_api_authenticated() && $_SESSION['role'] === 'demo';
+}
+
+/**
  * Enforce role authentication for API endpoints
  */
 function require_api_role(?string $requiredRole = null) {

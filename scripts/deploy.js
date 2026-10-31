@@ -126,6 +126,13 @@ async function deploy() {
       console.log('   ✔ .htaccess');
     }
 
+    // B2. Upload .env (secure environment variables protected by .htaccess)
+    const localEnv = path.join(ROOT_DIR, '.env');
+    if (fs.existsSync(localEnv)) {
+      await client.uploadFrom(localEnv, '.env');
+      console.log('   ✔ .env (environment settings & Gemini API keys)');
+    }
+
     // C. Upload config.php if required
     if (uploadConfigFile) {
       const localConfig = path.join(ROOT_DIR, 'config.php');
@@ -151,11 +158,45 @@ async function deploy() {
       console.log('   ✔ api/ (PHP REST API: auth, settings, lists, logs, passcodes)');
     }
 
-    // F. Upload cron/ -> cron/
+    // F. Upload cron/ -> cron/ (protecting remote cron/config.php so Hostinger SMTP password is never overwritten)
     const localCronDir = path.join(ROOT_DIR, 'cron');
     if (fs.existsSync(localCronDir)) {
       await client.cd(REMOTE_DIR);
-      await client.uploadFromDir(localCronDir, 'cron');
+      await client.ensureDir('cron');
+
+      const remoteCronList = await client.list();
+      const remoteCronNames = remoteCronList.map(f => f.name);
+
+      let uploadCronConfigFile = false;
+      if (remoteCronNames.includes('config.php')) {
+        if (overwriteConfig) {
+          console.log('\x1b[33m   [CONFIG] Overwriting remote cron/config.php (--config flag passed)...\x1b[0m');
+          uploadCronConfigFile = true;
+        } else {
+          console.log('\x1b[32m   ✔ Preserved existing remote cron/config.php (SMTP password intact on Hostinger).\x1b[0m');
+        }
+      } else {
+        console.log('   Remote cron/config.php not found. Uploading initial cron/config.php...');
+        uploadCronConfigFile = true;
+      }
+
+      const cronFiles = fs.readdirSync(localCronDir);
+      for (const file of cronFiles) {
+        if (file === 'config.php' && !uploadCronConfigFile) {
+          continue; // Preserve Hostinger SMTP password in cron/config.php
+        }
+        if (file === '.last_email_sent.json' || file === '.last_ai_forecast_sent.json' || file === '.smtp_pass.php') {
+          continue; // Skip local lock files / secret files
+        }
+        const localPath = path.join(localCronDir, file);
+        const stat = fs.statSync(localPath);
+        if (stat.isFile()) {
+          await client.uploadFrom(localPath, file);
+        } else if (stat.isDirectory()) {
+          await client.uploadFromDir(localPath, file);
+        }
+      }
+      await client.cd(REMOTE_DIR);
       console.log('   ✔ cron/ (PHP Cron Jobs: daily_reminder, SmtpMailer, EmailTemplate)');
     }
 

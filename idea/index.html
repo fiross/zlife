@@ -2,8 +2,23 @@
 <html lang="en" data-theme="light">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-43HW4LBN5B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-43HW4LBN5B');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Cache Control: Force Browser to Always Pull Newest Updates -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
   <!-- Primary SEO Title & Search Presence -->
   <title>Z-Life AI | Free Adaptive Care Intelligence & Meltdown Prevention for Autism & ADHD</title>
@@ -58,8 +73,9 @@
         "url": "https://zeehash.com/",
         "applicationCategory": "HealthApplication",
         "operatingSystem": "All, Web, PWA, iOS, Android",
-        "browserRequirements": "Requires JavaScript. Requires HTML5.",
         "description": "Adaptive care companion for neurodivergent individuals and autism that turns continuous sleep, medication, and sensory logs into proactive meltdown prevention using Google Gemini.",
+        "codeRepository": "https://github.com/fiross/zlife.git",
+        "downloadUrl": "https://github.com/fiross/zlife/archive/refs/heads/main.zip",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -206,7 +222,7 @@
     rel="stylesheet">
 
   <!-- Custom Google Theme Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=1.0.1">
 </head>
 
 <body>
@@ -239,15 +255,23 @@
         <li><a href="#simulator">Live Demo</a></li>
         <li><a href="#workflows">Protocols</a></li>
         <li><a href="#non-profit">Non-Profit Vision</a></li>
+        <li><a href="#open-source">Open Source</a></li>
         <li><a href="#google-synergy">Google Alignment</a></li>
       </ul>
 
       <div class="nav-actions">
+        <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-nav-github" title="View Source & Download on GitHub" aria-label="View Source on GitHub">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span class="nav-github-text">GitHub</span>
+        </a>
         <button class="btn-theme-toggle" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
           ☀️
         </button>
         <button class="btn-primary" id="openPitchModalBtn">
-          <span>Executive Pitch</span>
+          <span class="pitch-text-full">Executive Pitch</span>
+          <span class="pitch-text-mobile">Pitch</span>
         </button>
       </div>
     </div>
@@ -283,8 +307,14 @@
               <span>⚡ Try Live Gemini Demo</span>
               <span>→</span>
             </a>
+            <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-github-pill" title="View Source & Download on GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <span>GitHub Repo</span>
+            </a>
             <button class="btn-secondary" id="openPitchModalBtn2">
-              <span>📋 View Executive Pitch</span>
+              <span>📋 View Pitch Deck</span>
             </button>
           </div>
 
@@ -315,7 +345,7 @@
             alt="Z-Life AI Neurocare Platform visualization showing child with calming headphones and glowing sensory vital monitors"
             class="hero-image-img" loading="eager">
 
-          <div class="hero-floating-card">
+          <div class="hero-floating-card hide-on-mobile">
             <div class="hfc-header">
               <div class="hfc-title">
                 <span>🤖 Gemini 1.5 Care Intelligence</span>
@@ -367,7 +397,7 @@
                 <p>Ear covering, pacing, and stimming are mislabeled as "defiance" rather than natural physiological sensory overload.</p>
               </div>
             </li>
-            <li class="compare-item">
+            <li class="compare-item hide-on-mobile">
               <div class="compare-icon">📉</div>
               <div class="compare-text">
                 <h4>Caregiver Cognitive Fatigue</h4>
@@ -400,7 +430,7 @@
                 <p>Instead of static charts, Gemini correlates signals to tell caregivers exactly what accommodations to provide today.</p>
               </div>
             </li>
-            <li class="compare-item">
+            <li class="compare-item hide-on-mobile">
               <div class="compare-icon">🛡️</div>
               <div class="compare-text">
                 <h4>Evidence-Based Sensory SOS Guardrails</h4>
@@ -435,7 +465,7 @@
           <h3 class="role-title">Parent Interactive Command</h3>
           <p class="role-subtitle">Comprehensive tracking, longitudinal trends, and personalized Gemini guidance.</p>
 
-          <div class="role-feature-tags">
+          <div class="role-feature-tags hide-on-mobile">
             <span class="r-tag">Sleep Steppers & Chips</span>
             <span class="r-tag">Dynamic Medications</span>
             <span class="r-tag">Hormonal Cycle</span>
@@ -447,7 +477,7 @@
           <ul class="role-bullet-list">
             <li><span class="bullet-icon">✓</span> <strong>Morning Routine (7:30 AM):</strong> Log sleep hours, morning emotional baseline, and prescription meds (e.g., Focalin).</li>
             <li><span class="bullet-icon">✓</span> <strong>Evening Routine (8:30 PM):</strong> Record afternoon enrichment (speech, piano), sensory behaviors observed, and evening melatonin.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Doctor Ready:</strong> 1-click export of structured UTF-8 CSV logs with emojis for neurologist and pediatrician appointments.</li>
+            <li class="hide-on-mobile"><span class="bullet-icon">✓</span> <strong>Doctor Ready:</strong> 1-click export of structured UTF-8 CSV logs with emojis for neurologist and pediatrician appointments.</li>
           </ul>
         </div>
 
@@ -461,7 +491,7 @@
           <h3 class="role-title">Teacher Glance & Sensory SOS</h3>
           <p class="role-subtitle">Zero data-entry burden. High-contrast safety glance and emergency calming.</p>
 
-          <div class="role-feature-tags">
+          <div class="role-feature-tags hide-on-mobile">
             <span class="r-tag">Read-Only Glance</span>
             <span class="r-tag">Medication Verification</span>
             <span class="r-tag">Cycle Awareness Alert</span>
@@ -491,7 +521,7 @@
       </div>
 
       <!-- Spotlight Visual Pipeline Graphic -->
-      <div class="ai-spotlight-banner">
+      <div class="ai-spotlight-banner hide-on-mobile">
         <img src="llm-pipeline-illustration.jpg"
           alt="Z-Life AI data stream pipeline showing daily logs flowing into Gemini AI reasoning engine and emerging as personalized care recommendations"
           class="ai-spotlight-img">
@@ -859,7 +889,7 @@
       </div>
 
       <!-- 4 Pillars of Non-Profit Ethos -->
-      <div class="np-pillars-grid">
+      <div class="np-pillars-grid hide-on-mobile">
         <div class="np-pillar-card">
           <div class="npp-icon">🎁</div>
           <h4 class="npp-title">Free for Needy Families</h4>
@@ -895,6 +925,12 @@
           <h3 class="founder-name">Firos Shamsudeen</h3>
           <span class="founder-role-title">Father of Zeba • Founder & Lead Architect</span>
           <div class="founder-contact-actions">
+            <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-github">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <span>GitHub: fiross/zlife</span>
+            </a>
             <a href="https://www.linkedin.com/in/firos/" target="_blank" rel="noopener noreferrer" class="btn-linkedin">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
@@ -914,7 +950,9 @@
             </p>
           </div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:0.9rem;">
-            <span style="color:var(--text-muted);">Direct Contact & Partnerships:</span>
+            <span style="color:var(--text-muted);">Direct Contact &amp; Code:</span>
+            <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" style="color:var(--google-blue);font-weight:600;">github.com/fiross/zlife</a>
+            <span style="color:var(--border-subtle);">•</span>
             <a href="mailto:info@zeehash.com" style="color:var(--google-blue);font-weight:600;">info@zeehash.com</a>
             <span style="color:var(--border-subtle);">•</span>
             <a href="https://www.linkedin.com/in/firos/" target="_blank" rel="noopener noreferrer" style="color:var(--google-blue);font-weight:600;">linkedin.com/in/firos</a>
@@ -922,6 +960,132 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- SECTION: 100% OPEN SOURCE & GITHUB REPOSITORY -->
+  <section class="open-source-section" id="open-source">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag green">🔓 100% Free & Open Source</span>
+        <h2 class="section-title">Download, Deploy &amp; Self-Host the Full Repository</h2>
+        <p class="section-subtitle">
+          Z-Life is completely open-sourced on GitHub. Anyone—parents, special education schools, occupational therapists, researchers, and developers worldwide—can freely clone, download, deploy on private servers, or customize the complete platform for their own children and students.
+        </p>
+      </div>
+
+      <div class="repo-showcase-card">
+        <div class="repo-header-row">
+          <div class="repo-title-block">
+            <div class="repo-icon-wrap" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="repo-badge-bar">
+                <span class="repo-status-pill">Public Repository</span>
+                <span class="repo-license-pill">Free &amp; Open Access</span>
+              </div>
+              <h3 class="repo-name">
+                <a href="https://github.com/fiross/zlife" target="_blank" rel="noopener noreferrer">fiross / zlife</a>
+              </h3>
+              <p class="repo-desc">
+                Tactile dual-role daily neurocare tracker, dynamic multi-signal logs, emergency Sensory SOS ladders, and Google Gemini AI predictive meltdown analysis.
+              </p>
+            </div>
+          </div>
+
+          <div class="repo-action-buttons">
+            <a href="https://github.com/fiross/zlife" target="_blank" rel="noopener noreferrer" class="btn-primary btn-repo-star">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.399 8.168-7.333-3.856-7.333 3.856 1.399-8.168-5.934-5.784 8.2-1.192zm0 5.702l-2.223 4.505-4.972.723 3.598 3.507-.849 4.953 4.446-2.338 4.446 2.338-.849-4.953 3.598-3.507-4.972-.723z"/>
+              </svg>
+              <span>View Repository on GitHub</span>
+            </a>
+            <a href="https://github.com/fiross/zlife/archive/refs/heads/main.zip" class="btn-secondary btn-repo-download" title="Download ZIP">
+              <span>📥 Download ZIP</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Terminal Clone Box with 1-click Copy -->
+        <div class="repo-clone-box">
+          <div class="clone-box-label">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="clone-box-title">Terminal Git Clone</span>
+          </div>
+          <div class="clone-command-row">
+            <code class="clone-code" id="gitCloneCmd">git clone https://github.com/fiross/zlife.git</code>
+            <button class="btn-copy-clone" id="copyCloneBtn" title="Copy git clone command">
+              <span id="copyCloneBtnText">📋 Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Highlights Grid for Self-Hosters -->
+        <div class="repo-highlights-grid hide-on-mobile">
+          <div class="repo-feature-pill">
+            <span class="rf-icon">🚀</span>
+            <div>
+              <strong>Quick Local Run</strong>
+              <span>Runs with standard PHP 8 &amp; MySQL on Mac, Linux, or Windows PCs</span>
+            </div>
+          </div>
+          <div class="repo-feature-pill">
+            <span class="rf-icon">🌐</span>
+            <div>
+              <strong>Deploy Anywhere</strong>
+              <span>Ready for Hostinger, cPanel, Apache, Nginx, or private home lab server</span>
+            </div>
+          </div>
+          <div class="repo-feature-pill">
+            <span class="rf-icon">🔒</span>
+            <div>
+              <strong>100% Private Health Data</strong>
+              <span>Self-hosted on your own hardware with zero third-party commercial data leaks</span>
+            </div>
+          </div>
+          <div class="repo-feature-pill">
+            <span class="rf-icon">🤖</span>
+            <div>
+              <strong>Google Gemini Ready</strong>
+              <span>Direct prompts &amp; pipeline ready to connect Google Gemini 1.5/2.0 API</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick 3-Step Setup Instructions -->
+        <div class="repo-quickstart hide-on-mobile">
+          <h4 class="quickstart-title">⚡ 3-Step Quick Start</h4>
+          <div class="quickstart-steps">
+            <div class="qs-step">
+              <span class="qs-num">1</span>
+              <div>
+                <strong>Clone the Repository:</strong>
+                <code>git clone https://github.com/fiross/zlife.git</code>
+              </div>
+            </div>
+            <div class="qs-step">
+              <span class="qs-num">2</span>
+              <div>
+                <strong>Database &amp; Config:</strong>
+                <span>Import <code>database.sql</code> into MySQL and configure <code>config.php</code></span>
+              </div>
+            </div>
+            <div class="qs-step">
+              <span class="qs-num">3</span>
+              <div>
+                <strong>Launch Application:</strong>
+                <span>Run <code>php -S localhost:8000</code> and open in any desktop or mobile browser</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -936,7 +1100,13 @@
         </p>
 
         <div class="pitch-banner-actions">
-          <button class="btn-primary" id="openPitchModalBtn3"
+          <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span>Download on GitHub</span>
+          </a>
+          <button class="btn-secondary" id="openPitchModalBtn3"
             onclick="document.getElementById('openPitchModalBtn').click()">
             <span>📄 View Complete Executive Pitch</span>
             <span>→</span>
@@ -975,6 +1145,8 @@
         <h3>Founder & Contact Information</h3>
         <ul>
           <li><strong>Founder & Lead Architect:</strong> Firos Shamsudeen (Father of Zeba)</li>
+          <li><strong>Open Source Repository:</strong> <a href="https://github.com/fiross/zlife.git" target="_blank"
+              rel="noopener noreferrer" style="color:var(--google-blue);font-weight:600;">https://github.com/fiross/zlife.git</a> (100% Free for all families)</li>
           <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/firos/" target="_blank"
               rel="noopener noreferrer" style="color:var(--google-blue);font-weight:600;">https://www.linkedin.com/in/firos/</a>
           </li>
@@ -1030,6 +1202,12 @@
         </ul>
 
         <div style="margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span>Get Code on GitHub</span>
+          </a>
           <button class="btn-primary" id="copyPitchDeckBtn">
             <span>📋 Copy Pitch Summary Text</span>
           </button>
@@ -1064,6 +1242,14 @@
           Founded by <strong>Firos Shamsudeen</strong> (Father of Zeba)
         </span>
         <span style="color:var(--border-subtle);">•</span>
+        <a href="https://github.com/fiross/zlife.git" target="_blank" rel="noopener noreferrer"
+          style="color:var(--google-blue);font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span>GitHub Repo</span>
+        </a>
+        <span style="color:var(--border-subtle);">•</span>
         <a href="https://www.linkedin.com/in/firos/" target="_blank" rel="noopener noreferrer"
           style="color:var(--google-blue);font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -1084,7 +1270,7 @@
   </footer>
 
   <!-- Interactive Script -->
-  <script src="app.js"></script>
+  <script src="app.js?v=1.0.1"></script>
 </body>
 
 </html>

@@ -77,7 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $parentPass = trim($_POST['parent_passcode'] ?? '');
     $teacherPass = trim($_POST['teacher_passcode'] ?? '');
 
-    if ($parentPass !== '') {
+    if ($parentPass === '1234' || $teacherPass === '1234') {
+        $flashError = "Passcode 1234 is reserved for the Demo account. Please choose a different PIN.";
+    } elseif ($parentPass !== '') {
         if (!ctype_digit($parentPass) || strlen($parentPass) < 4) {
             $flashError = "Parent passcode must be at least 4 digits.";
         } else {
@@ -416,8 +418,8 @@ require_once __DIR__ . '/header.php';
 
                     <div class="mb-3">
                         <label class="form-label fw-bold text-secondary">New Parent Passcode (Numeric)</label>
-                        <input type="password" inputmode="numeric" pattern="[0-9]*" name="parent_passcode" class="form-control rounded-3 py-2 px-3" placeholder="Leave blank to keep current (default 1234)">
-                        <div class="text-muted x-small mt-1">Grants full editing, calendar, and admin configuration rights.</div>
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" name="parent_passcode" class="form-control rounded-3 py-2 px-3" placeholder="Leave blank to keep current (default 4321)">
+                        <div class="text-muted x-small mt-1">Grants full editing, calendar, and admin configuration rights. (Note: PIN 1234 is reserved for Demo).</div>
                     </div>
 
                     <div class="mb-4">

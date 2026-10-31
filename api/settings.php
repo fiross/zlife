@@ -11,11 +11,39 @@ $pdo = get_db_connection();
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
+    // In Demo Mode: Serve anonymized sample student profile (Alex)
+    if (is_api_demo()) {
+        json_response([
+            'success' => true,
+            'data' => [
+                'id' => 9999,
+                'z_name' => 'Alex',
+                'z_age' => 15,
+                'z_class' => 'Grade 9',
+                'z_school' => 'Greenwood High (Demo)',
+                'parent_email_1' => '',
+                'parent_email_2' => '',
+                'active_challenges' => [
+                    'Auditory Sensitivity',
+                    'Sensory Overload',
+                    'Transitions & Routine Changes',
+                    'Emotional Regulation'
+                ],
+                'diagnostic_summary' => 'Sample Profile: Level 2 Autism Spectrum Disorder (ASD) and ADHD Combined Type. Highly responsive to deep pressure compression, calm sensory pacing, noise-dampening earmuffs, and predictable visual task timers.'
+            ],
+            'is_demo' => true
+        ]);
+    }
+
     $settings = get_master_settings($pdo);
     json_response(['success' => true, 'data' => $settings]);
 }
 
 if ($method === 'POST') {
+    if (is_api_demo()) {
+        json_response(['success' => false, 'error' => 'Profile settings cannot be modified in Demo Mode.'], 403);
+    }
+
     require_api_role('parent'); // Parent only
     $input = get_json_input();
 

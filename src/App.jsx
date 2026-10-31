@@ -7,13 +7,16 @@ import DateNavigator from './components/DateNavigator';
 import LogDashboard from './components/LogDashboard';
 import AdminModal from './components/AdminModal';
 import SensorySOSModal from './components/SensorySOSModal';
-import { CheckCircle2 } from 'lucide-react';
+import ForecastDashboard from './components/ForecastDashboard';
+import { CheckCircle2, Sparkles, Calendar } from 'lucide-react';
 import { getLocalDateString } from './utils/date';
+import logoIcon from './assets/logo-icon.png';
 
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [role, setRole] = useState(null); // 'parent' | 'teacher'
   const [loadingSession, setLoadingSession] = useState(true);
+  const [activeView, setActiveView] = useState('logger'); // 'logger' | 'forecast'
 
   // Settings & Lists
   const [settings, setSettings] = useState(null);
@@ -156,6 +159,10 @@ export default function App() {
 
   // Save Log Handler
   const handleSaveLog = async () => {
+    if (role === 'demo') {
+      showToast('ℹ️ Save is disabled in Demo Mode.');
+      return;
+    }
     if (role !== 'parent') return;
     setSaving(true);
     try {
@@ -197,14 +204,22 @@ export default function App() {
       <div style={{
         minHeight: '100vh',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         background: 'var(--bg-page)',
         fontFamily: 'var(--font-heading)',
         color: 'var(--navy-slate)',
-        fontSize: '1.2rem'
+        gap: '14px'
       }}>
-        🌱 Loading Daily Tracker...
+        <img
+          src={logoIcon}
+          alt="Z-Life"
+          style={{ width: '56px', height: '56px', animation: 'pulse-sos 2s infinite' }}
+        />
+        <div style={{ fontSize: '1.15rem', fontWeight: '700', letterSpacing: '-0.01em' }}>
+          Loading Z-Life Daily Tracker...
+        </div>
       </div>
     );
   }
@@ -221,35 +236,71 @@ export default function App() {
       <Header
         settings={settings}
         role={role}
+        activeView={activeView}
+        onToggleForecast={() => setActiveView((v) => (v === 'forecast' ? 'logger' : 'forecast'))}
         onOpenAdmin={() => handleOpenAdmin('lists')}
         onOpenHistory={() => handleOpenAdmin('history')}
         onOpenSOS={() => setSosOpen(true)}
         onLogout={handleLogout}
       />
 
-      {/* Date Navigation */}
-      <DateNavigator
-        selectedDate={selectedDate}
-        onDateChange={setSelectedDate}
-      />
+      {/* View Switcher Tabs: Daily Logger vs AI Forecast */}
+      <div className="view-mode-tabs" role="tablist" aria-label="Dashboard Views">
+        <button
+          type="button"
+          onClick={() => setActiveView('logger')}
+          className={`tab-pill-btn ${activeView === 'logger' ? 'is-active' : ''}`}
+          id="view-tab-logger"
+          role="tab"
+          aria-selected={activeView === 'logger'}
+        >
+          <Calendar size={15} />
+          <span>Daily Care Log</span>
+        </button>
 
-      {/* Main Logging Dashboard */}
-      {logLoading ? (
-        <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--text-muted)' }}>
-          Loading log for {selectedDate}...
-        </div>
+        <button
+          type="button"
+          onClick={() => setActiveView('forecast')}
+          className={`tab-pill-btn ${activeView === 'forecast' ? 'is-active' : ''}`}
+          id="view-tab-forecast"
+          role="tab"
+          aria-selected={activeView === 'forecast'}
+        >
+          <Sparkles size={15} />
+          <span>AI Behavioral Forecast</span>
+          <span className="badge-new-glow">AI</span>
+        </button>
+      </div>
+
+      {activeView === 'forecast' ? (
+        <ForecastDashboard childName={settings?.z_name || 'Zeba'} />
       ) : (
-        <LogDashboard
-          log={log}
-          masterLists={masterLists}
-          role={role}
-          settings={settings}
-          onUpdateField={handleUpdateField}
-          onToggleArrayItem={handleToggleArrayItem}
-          onSave={handleSaveLog}
-          saving={saving}
-          lastSavedAt={lastSavedAt}
-        />
+        <>
+          {/* Date Navigation */}
+          <DateNavigator
+            selectedDate={selectedDate}
+            onDateChange={setSelectedDate}
+          />
+
+          {/* Main Logging Dashboard */}
+          {logLoading ? (
+            <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--text-muted)' }}>
+              Loading log for {selectedDate}...
+            </div>
+          ) : (
+            <LogDashboard
+              log={log}
+              masterLists={masterLists}
+              role={role}
+              settings={settings}
+              onUpdateField={handleUpdateField}
+              onToggleArrayItem={handleToggleArrayItem}
+              onSave={handleSaveLog}
+              saving={saving}
+              lastSavedAt={lastSavedAt}
+            />
+          )}
+        </>
       )}
 
       {/* Toast Feedback */}
@@ -261,8 +312,8 @@ export default function App() {
       )}
     </div>
 
-    {/* Admin Modal (Parent Only) - Portaled to document.body for true viewport centering */}
-    {role === 'parent' && adminOpen && createPortal(
+    {/* Admin & History Modal - Portaled to document.body for true viewport centering */}
+    {(role === 'parent' || role === 'demo') && adminOpen && createPortal(
       <AdminModal
         isOpen={adminOpen}
         onClose={() => setAdminOpen(false)}
@@ -274,6 +325,7 @@ export default function App() {
           setAdminOpen(false);
         }}
         initialTab={adminTab}
+        isDemo={role === 'demo'}
       />,
       document.body
     )}

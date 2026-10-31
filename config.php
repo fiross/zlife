@@ -249,10 +249,22 @@ function init_database(PDO $pdo, $driver = null) {
         // Silently continue if columns already exist or altered
     }
 
-    // 2. Seed Default Passcodes if empty
+    // Auto-migration 4: Migrate legacy parent passcode away from fixed Demo PIN 1234 to 4321
+    try {
+        $parentRow = $pdo->query("SELECT id, passcode_hash FROM users WHERE role = 'parent' LIMIT 1")->fetch();
+        if ($parentRow && password_verify('1234', $parentRow['passcode_hash'])) {
+            $newParentHash = password_hash('4321', PASSWORD_DEFAULT);
+            $migStmt = $pdo->prepare("UPDATE users SET passcode_hash = ? WHERE id = ?");
+            $migStmt->execute([$newParentHash, $parentRow['id']]);
+        }
+    } catch (Exception $e) {
+        // Silently continue
+    }
+
+    // 2. Seed Default Passcodes if empty (Parent: 4321, Teacher: 5678, Demo: 1234 fixed)
     $checkUsers = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
     if ($checkUsers == 0) {
-        $parentHash = password_hash('1234', PASSWORD_DEFAULT);
+        $parentHash = password_hash('4321', PASSWORD_DEFAULT);
         $teacherHash = password_hash('5678', PASSWORD_DEFAULT);
         
         $stmt = $pdo->prepare("INSERT INTO users (passcode_hash, role) VALUES (?, ?)");

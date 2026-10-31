@@ -1,18 +1,20 @@
 import React from 'react';
-import { Settings, LogOut, HeartPulse, User, FileSpreadsheet } from 'lucide-react';
+import { Settings, LogOut, HeartPulse, User, FileSpreadsheet, Sparkles } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
-export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onOpenSOS, onLogout }) {
+export default function Header({ settings, role, activeView, onToggleForecast, onOpenAdmin, onOpenHistory, onOpenSOS, onLogout }) {
   const isParent = role === 'parent';
+  const isDemo = role === 'demo';
 
   return (
     <header className="app-header" id="main-header">
       <div className="header-top">
-        <div className="brand-wrapper">
-          <div className="brand-logo-icon">🌱</div>
-          <div className="brand-text">
-            <h1>Daily Tracker</h1>
-            <p>Neurodivergent Care Log</p>
-          </div>
+        <div className="brand-wrapper" title="Z-Life Daily Tracker - Autism Care">
+          <img
+            src={logoImg}
+            alt="Z-Life Daily Tracker - Autism Care"
+            className="brand-logo-img"
+          />
         </div>
 
         <div className="header-actions">
@@ -25,11 +27,11 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
             title="Emergency Calming & Sensory Protocols"
           >
             <HeartPulse size={14} />
-            SENSORY SOS
+            <span className="sos-btn-text">SENSORY SOS</span>
           </button>
 
-          {/* History & Export Quick Trigger (Parent Only) */}
-          {isParent && (
+          {/* History & Export Quick Trigger (Parent or Demo) */}
+          {(isParent || isDemo) && (
             <button
               type="button"
               className="btn-icon"
@@ -54,6 +56,17 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
             </button>
           )}
 
+          {/* AI Behavioral Forecast Trigger */}
+          <button
+            type="button"
+            className={`btn-icon ${activeView === 'forecast' ? 'is-active' : ''}`}
+            onClick={onToggleForecast}
+            id="ai-forecast-quick-btn"
+            title="AI Behavioral & Mood Forecast (7-Day Trends)"
+          >
+            <Sparkles size={18} />
+          </button>
+
           {/* Logout / Lock Button */}
           <button
             type="button"
@@ -75,8 +88,8 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
             <strong>{settings?.z_name || 'Child'}</strong> • {settings?.z_age ? `${settings.z_age} yrs` : 'Profile'} • {settings?.z_class || ''}
           </span>
         </div>
-        <div className={`role-badge ${isParent ? 'parent' : 'teacher'}`}>
-          {isParent ? 'Parent (Full Access)' : 'Teacher (View Only)'}
+        <div className={`role-badge ${isDemo ? 'demo' : isParent ? 'parent' : 'teacher'}`}>
+          {isDemo ? '✨ Demo (Parental View)' : isParent ? 'Parent (Full Access)' : 'Teacher (View Only)'}
         </div>
       </div>
     </header>

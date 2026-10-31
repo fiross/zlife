@@ -11,9 +11,121 @@ $pdo = get_db_connection();
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
-    // If requesting all logs (for Parent History & Export)
+    $isDemo = is_api_demo();
+
+    // If requesting all logs (for History & Export)
     if (isset($_GET['all']) || (isset($_GET['action']) && $_GET['action'] === 'all') || isset($_GET['export'])) {
-        require_api_role('parent'); // Parent only
+        if ($isDemo) {
+            // Return sample demonstration logs for Alex - ZERO data from real database
+            $today = date('Y-m-d');
+            $yesterday = date('Y-m-d', strtotime('-1 day'));
+            $twoDaysAgo = date('Y-m-d', strtotime('-2 days'));
+            $threeDaysAgo = date('Y-m-d', strtotime('-3 days'));
+
+            $demoLogs = [
+                [
+                    'id' => 901,
+                    'log_date' => $today,
+                    'created_at' => date('Y-m-d 08:30:00'),
+                    'updated_at' => date('Y-m-d 08:30:00'),
+                    'overall_mood' => 'Calm',
+                    'sleep_hours' => 8.5,
+                    'is_menstruating' => false,
+                    'flow_intensity' => '',
+                    'medications' => ['Focalin (Morning)'],
+                    'sensory_behaviors' => ['Sound Sensitivity'],
+                    'interventions' => ['Earmuffs (Walker\'s Electronics)', 'Joint Compression'],
+                    'activities' => ['Music Class'],
+                    'food' => ['High-Protein/High-Fat'],
+                    'notes' => 'Sample demo log: Serene morning transition. Responded very positively to earmuffs during hall transition.',
+                    'exists' => true,
+                    'is_demo' => true
+                ],
+                [
+                    'id' => 902,
+                    'log_date' => $yesterday,
+                    'created_at' => date('Y-m-d 20:15:00', strtotime('-1 day')),
+                    'updated_at' => date('Y-m-d 20:15:00', strtotime('-1 day')),
+                    'overall_mood' => 'Happy',
+                    'sleep_hours' => 8.0,
+                    'is_menstruating' => false,
+                    'flow_intensity' => '',
+                    'medications' => ['Focalin (Morning)', 'Melatonin (Night)'],
+                    'sensory_behaviors' => ['Self-Regulation (Stimming)'],
+                    'interventions' => ['Walk', 'Visual Timer'],
+                    'activities' => ['Keyboard', 'Pickleball'],
+                    'food' => ['General Meal'],
+                    'notes' => 'Sample demo log: Excellent engagement in keyboard practice and gross motor sports.',
+                    'exists' => true,
+                    'is_demo' => true
+                ],
+                [
+                    'id' => 903,
+                    'log_date' => $twoDaysAgo,
+                    'created_at' => date('Y-m-d 19:40:00', strtotime('-2 days')),
+                    'updated_at' => date('Y-m-d 19:40:00', strtotime('-2 days')),
+                    'overall_mood' => 'Sensory Overload',
+                    'sleep_hours' => 7.0,
+                    'is_menstruating' => false,
+                    'flow_intensity' => '',
+                    'medications' => ['Focalin (Morning)'],
+                    'sensory_behaviors' => ['Ear Covering', 'Impulsive Pacing'],
+                    'interventions' => ['Joint Compression', 'Neutral Warmth', 'Earmuffs (Walker\'s Electronics)'],
+                    'activities' => ['Speech'],
+                    'food' => ['Salty/Crunchy'],
+                    'notes' => 'Sample demo log: High noise during cafeteria transition caused sensory overload. Successfully regulated using deep pressure compression.',
+                    'exists' => true,
+                    'is_demo' => true
+                ],
+                [
+                    'id' => 904,
+                    'log_date' => $threeDaysAgo,
+                    'created_at' => date('Y-m-d 21:00:00', strtotime('-3 days')),
+                    'updated_at' => date('Y-m-d 21:00:00', strtotime('-3 days')),
+                    'overall_mood' => 'Calm',
+                    'sleep_hours' => 9.0,
+                    'is_menstruating' => false,
+                    'flow_intensity' => '',
+                    'medications' => ['Focalin (Morning)', 'Melatonin (Night)'],
+                    'sensory_behaviors' => ['Cover with Blanket (Cocooning)'],
+                    'interventions' => ['Visual Board Prompt', 'Neutral Warmth'],
+                    'activities' => ['Yoga'],
+                    'food' => ['High-Protein/High-Fat'],
+                    'notes' => 'Sample demo log: Peaceful evening routine. Slept deeply after sensory yoga.',
+                    'exists' => true,
+                    'is_demo' => true
+                ]
+            ];
+
+            if (isset($_GET['export']) && $_GET['export'] === 'csv') {
+                header('Content-Type: text/csv; charset=utf-8');
+                header('Content-Disposition: attachment; filename="sample_demo_care_logs_' . date('Y-m-d') . '.csv"');
+                $out = fopen('php://output', 'w');
+                fputs($out, "\xEF\xBB\xBF");
+                fputcsv($out, [
+                    'Log Date', 'Day of Week', 'Sleep (Hours)', 'Overall Mood',
+                    'Menstruating Today', 'Flow Intensity', 'Medications',
+                    'Sensory Behaviors', 'Calming Interventions', 'Activities & Sports',
+                    'Food & Nutrition', 'Comments & Observations', 'Created At', 'Updated At'
+                ], ',', '"', "\\");
+                foreach ($demoLogs as $l) {
+                    $dayName = date('l', strtotime($l['log_date']));
+                    fputcsv($out, [
+                        $l['log_date'], $dayName, $l['sleep_hours'], $l['overall_mood'],
+                        $l['is_menstruating'] ? 'Yes' : 'No', $l['flow_intensity'] ?: 'None',
+                        implode('; ', $l['medications']), implode('; ', $l['sensory_behaviors']),
+                        implode('; ', $l['interventions']), implode('; ', $l['activities']),
+                        implode('; ', $l['food']), $l['notes'], $l['created_at'], $l['updated_at']
+                    ], ',', '"', "\\");
+                }
+                fclose($out);
+                exit;
+            }
+
+            json_response(['success' => true, 'data' => $demoLogs, 'count' => count($demoLogs), 'is_demo' => true]);
+        }
+
+        require_api_role('parent'); // Real logs require Parent role
         
         $limit = isset($_GET['limit']) ? max(1, min(5000, intval($_GET['limit']))) : 2000;
         $stmt = $pdo->prepare("SELECT * FROM z_logs ORDER BY log_date DESC LIMIT :limit");
@@ -97,6 +209,29 @@ if ($method === 'GET') {
         $date = date('Y-m-d');
     }
 
+    // In Demo Mode: Serve clean interactive starter log without querying real database (z_logs)
+    if ($isDemo) {
+        $sampleLog = [
+            'id' => null,
+            'log_date' => $date,
+            'created_at' => null,
+            'updated_at' => null,
+            'overall_mood' => 'Calm',
+            'sleep_hours' => 8.0,
+            'is_menstruating' => false,
+            'flow_intensity' => 'Medium',
+            'medications' => ['Focalin (Morning)'],
+            'sensory_behaviors' => ['Sound Sensitivity'],
+            'interventions' => ['Earmuffs (Walker\'s Electronics)', 'Joint Compression'],
+            'activities' => ['Music Class'],
+            'food' => ['High-Protein/High-Fat'],
+            'notes' => 'Sample demo observation: Alex had a calm morning routine. Buttons and steppers can be clicked freely in this demo. Saving is disabled.',
+            'exists' => false,
+            'is_demo' => true
+        ];
+        json_response(['success' => true, 'data' => $sampleLog, 'is_demo' => true]);
+    }
+
     $stmt = $pdo->prepare("SELECT * FROM z_logs WHERE log_date = ? LIMIT 1");
     $stmt->execute([$date]);
     $row = $stmt->fetch();
@@ -143,6 +278,14 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
+    if (is_api_demo()) {
+        json_response([
+            'success' => false,
+            'error' => 'Saving is disabled in Demo Mode. Interactive options are for demonstration only.',
+            'is_demo' => true
+        ], 403);
+    }
+
     require_api_role('parent'); // Only parents can modify logs
     $input = get_json_input();
 

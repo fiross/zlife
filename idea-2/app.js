@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWorkflowTabs();
   initPitchModal();
   initSmoothScroll();
+  initGitCloneCopy();
 });
 
 /* ==========================================================================
@@ -18,7 +19,7 @@ function initThemeToggle() {
   const themeBtn = document.getElementById('themeToggleBtn');
   if (!themeBtn) return;
 
-  const currentTheme = localStorage.getItem('zlife-theme') || 'dark';
+  const currentTheme = localStorage.getItem('zlife-theme') || 'light';
   document.documentElement.setAttribute('data-theme', currentTheme);
   updateThemeIcon(themeBtn, currentTheme);
 
@@ -294,7 +295,7 @@ function renderAIResults(data, animate = false) {
     <div class="ai-card-result plan">
       <div class="aic-title">
         <span>🎯 Immediate Personalized Action Plan (Caregiver)</span>
-        <span class="aic-badge" style="background:rgba(20,184,166,0.2);color:#2dd4bf;">Actionable Steps</span>
+        <span class="aic-badge badge-green">Actionable Steps</span>
       </div>
       <div class="aic-content">
         <ul class="aic-bullet-list">
@@ -307,9 +308,9 @@ function renderAIResults(data, animate = false) {
     <div class="ai-card-result teacher">
       <div class="aic-title">
         <span>🏫 Automated Teacher Morning Handoff</span>
-        <span class="aic-badge" style="background:rgba(245,158,11,0.2);color:#fbbf24;">30-Sec Briefing</span>
+        <span class="aic-badge badge-yellow">30-Sec Briefing</span>
       </div>
-      <div class="aic-content" style="font-style: italic; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 8px; border-left: 2px solid #f59e0b;">
+      <div class="aic-content" style="font-style: italic; background: var(--bg-surface); padding: 12px 14px; border-radius: 8px; border-left: 3px solid var(--google-yellow); color: var(--text-main);">
         "${data.teacherBrief}"
       </div>
     </div>
@@ -318,7 +319,7 @@ function renderAIResults(data, animate = false) {
     <div class="ai-card-result correlation">
       <div class="aic-title">
         <span>🧬 Discovered Longitudinal Pattern Insight</span>
-        <span class="aic-badge" style="background:rgba(99,102,241,0.2);color:#818cf8;">Gemini RAG Synthesis</span>
+        <span class="aic-badge badge-blue">Gemini RAG Synthesis</span>
       </div>
       <div class="aic-content">
         ${data.correlation}
@@ -410,6 +411,7 @@ Google for Startups Application Pitch Summary
 
 FOUNDER & CONTACT:
 - Founder & Lead Architect: Firos Shamsudeen (Father of Zeba)
+- GitHub Repository (Open Source): https://github.com/fiross/zlife.git
 - LinkedIn: https://www.linkedin.com/in/firos/
 - Contact Email: info@zeehash.com
 
@@ -481,4 +483,35 @@ function initSmoothScroll() {
       }
     });
   });
+}
+
+/* ==========================================================================
+   6. Git Clone One-Click Copy
+   ========================================================================== */
+function initGitCloneCopy() {
+  const cloneBtn = document.getElementById('copyCloneBtn');
+  const cloneCmd = document.getElementById('gitCloneCmd');
+  const cloneText = document.getElementById('copyCloneBtnText');
+  const toast = document.getElementById('copyToast');
+
+  if (cloneBtn && cloneCmd) {
+    cloneBtn.addEventListener('click', () => {
+      const textToCopy = cloneCmd.textContent.trim();
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        cloneBtn.classList.add('copied');
+        if (cloneText) cloneText.textContent = '✓ Copied!';
+        if (toast) {
+          toast.textContent = 'Git clone command copied to clipboard! 📋';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2800);
+        }
+        setTimeout(() => {
+          cloneBtn.classList.remove('copied');
+          if (cloneText) cloneText.textContent = '📋 Copy';
+        }, 3000);
+      }).catch(() => {
+        if (cloneText) cloneText.textContent = '✓ Copied!';
+      });
+    });
+  }
 }

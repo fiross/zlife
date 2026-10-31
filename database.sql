@@ -66,10 +66,11 @@ CREATE TABLE IF NOT EXISTS `z_logs` (
 -- --------------------------------------------------------
 
 -- Default Passcodes:
--- Parent passcode: '1234' (verified bcrypt hash)
+-- Demo passcode: '1234' (Fixed demo account with simulated parental view, disabled saving, no data from log, sample student Alex)
+-- Parent passcode: '4321' (verified bcrypt hash)
 -- Teacher passcode: '5678' (verified bcrypt hash)
 INSERT INTO `users` (`id`, `passcode_hash`, `role`) VALUES
-(1, '$2y$12$WNsX4fxS3PHEZkyFqxJ10e6ihws9mbB0WUgD7A2Rrt16SCNk7YwhC', 'parent'),
+(1, '$2y$12$nfRlwldu3xk0LJOvbX3YFe6IOClcFZE6glfGcm3s7HxCM/5RgCx6C', 'parent'),
 (2, '$2y$10$8p1pl02PzSIfzoiT5n0W4eqGXFzMabbraDFMyfHNGXGby1svz7A.m', 'teacher')
 ON DUPLICATE KEY UPDATE `id`=`id`;
 

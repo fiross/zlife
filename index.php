@@ -12,7 +12,23 @@ require_login();
 
 $pdo = get_db_connection();
 $role = get_user_role();
-$settings = get_master_settings($pdo);
+$isDemo = ($role === 'demo');
+
+if ($isDemo) {
+    $settings = [
+        'id' => 9999,
+        'z_name' => 'Alex',
+        'z_age' => 15,
+        'z_class' => 'Grade 9',
+        'z_school' => 'Greenwood High (Demo)',
+        'parent_email_1' => '',
+        'parent_email_2' => '',
+        'active_challenges' => ['Auditory Sensitivity', 'Sensory Overload', 'Transitions & Routine Changes', 'Emotional Regulation'],
+        'diagnostic_summary' => 'Sample Profile: Level 2 Autism Spectrum Disorder (ASD). Responsive to deep pressure compression, calm sensory pacing, noise-dampening earmuffs, and predictable visual task timers.'
+    ];
+} else {
+    $settings = get_master_settings($pdo);
+}
 
 // -------------------------------------------------------------
 // Date Selection & Navigation
@@ -37,6 +53,10 @@ $flashMessage = '';
 $flashType = 'success';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_log') {
+    if ($isDemo) {
+        http_response_code(403);
+        die("Unauthorized: Saving is disabled in Demo Mode.");
+    }
     if (!is_parent()) {
         http_response_code(403);
         die("Unauthorized: Only parents can edit or submit daily logs.");
@@ -127,9 +147,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 // -------------------------------------------------------------
 // Fetch Existing Log for Selected Date
 // -------------------------------------------------------------
-$logStmt = $pdo->prepare("SELECT * FROM z_logs WHERE log_date = ?");
-$logStmt->execute([$selectedDate]);
-$currentLog = $logStmt->fetch() ?: [];
+if ($isDemo) {
+    // In Demo Mode: Never pull real data from database; provide clean sample demonstration log
+    $currentLog = [
+        'id' => 999,
+        'log_date' => $selectedDate,
+        'overall_mood' => 'Calm',
+        'sleep_hours' => 8.0,
+        'is_menstruating' => 0,
+        'flow_intensity' => 'Medium',
+        'medications_json' => json_encode(['Focalin (Morning)']),
+        'sensory_behavior_json' => json_encode(['Sound Sensitivity']),
+        'interventions_json' => json_encode(['Earmuffs (Walker\'s Electronics)', 'Joint Compression']),
+        'activities_json' => json_encode(['Music Class']),
+        'food_json' => json_encode(['High-Protein/High-Fat']),
+        'notes' => 'Sample demo log for Alex. All interactive controls are functional in this preview. Database saving is disabled.'
+    ];
+} else {
+    $logStmt = $pdo->prepare("SELECT * FROM z_logs WHERE log_date = ?");
+    $logStmt->execute([$selectedDate]);
+    $currentLog = $logStmt->fetch() ?: [];
+}
 
 // Decode stored JSON payloads
 $selectedMood = $currentLog['overall_mood'] ?? '';
@@ -156,6 +194,16 @@ require_once __DIR__ . '/header.php';
             <span class="fs-5">✅</span>
             <div class="fw-bold"><?= $flashMessage ?></div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <!-- Demo Mode Notice Banner -->
+    <?php if ($isDemo): ?>
+        <div class="alert alert-warning border-0 rounded-4 shadow-sm mb-4 d-flex align-items-center gap-3">
+            <span class="fs-4">✨</span>
+            <div>
+                <strong>Demo Mode Active:</strong> You are exploring an interactive parental preview for <strong><?= htmlspecialchars($settings['z_name']) ?></strong>. All buttons, steppers, and medication selections are interactive. Database saving is disabled.
+            </div>
         </div>
     <?php endif; ?>
 
@@ -511,9 +559,15 @@ require_once __DIR__ . '/header.php';
 
             <!-- Sticky Save Button Bar -->
             <div class="sticky-save-bar">
-                <button type="submit" class="btn btn-save-main w-100 shadow">
-                    💾 Save Daily Log (<?= $displayDate ?>)
-                </button>
+                <?php if ($isDemo): ?>
+                    <button type="button" class="btn btn-secondary w-100 shadow py-3 rounded-pill fw-bold" disabled title="Saving is disabled in Demo Mode">
+                        🔒 Save Daily Log (Disabled in Demo Mode)
+                    </button>
+                <?php else: ?>
+                    <button type="submit" class="btn btn-save-main w-100 shadow">
+                        💾 Save Daily Log (<?= $displayDate ?>)
+                    </button>
+                <?php endif; ?>
             </div>
         </form>
 

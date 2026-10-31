@@ -363,6 +363,14 @@ a:hover {
   transform: translateY(-1px);
 }
 
+.pitch-text-mobile {
+  display: none !important;
+}
+
+.pitch-text-full {
+  display: inline !important;
+}
+
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -1632,7 +1640,7 @@ section {
   width: 100%;
 }
 
-.btn-linkedin, .btn-email {
+.btn-linkedin, .btn-email, .btn-github {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1658,6 +1666,18 @@ section {
   background-color: var(--google-blue);
   color: #ffffff;
   border-color: var(--google-blue);
+}
+
+.btn-github:hover {
+  background-color: #24292e;
+  color: #ffffff;
+  border-color: #24292e;
+}
+
+[data-theme="dark"] .btn-github:hover {
+  background-color: #f0f6fc;
+  color: #1f2328;
+  border-color: #f0f6fc;
 }
 
 .founder-quote-box {
@@ -1885,20 +1905,766 @@ section {
   }
 }
 
+/* ==========================================================================
+   Mobile-Only Visibility Utility Classes
+   ========================================================================== */
+.show-on-mobile-only {
+  display: none !important;
+}
+
 @media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+  .show-on-mobile-only {
+    display: block !important;
+  }
+
+  /* Tighter, modern compact mobile padding */
+  .hero-section {
+    padding: 28px 0 20px;
+  }
+  .problem-solution-section,
+  .dual-role-section,
+  .ai-spotlight-section,
+  .simulator-section,
+  .workflow-section,
+  .google-synergy-section,
+  .non-profit-section,
+  .open-source-section,
+  .cta-banner-section {
+    padding: 36px 0;
+  }
+
+  /* ==========================================================================
+     Top Header & Navigation (Ultra-Clean, Perfectly Aligned on Mobile)
+     ========================================================================== */
+  .navbar {
+    height: 56px;
+    padding: 0;
+  }
+
+  .nav-inner {
+    height: 56px;
+    padding: 0 12px;
+    gap: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
   .nav-links {
     display: none;
   }
-  .comparison-grid, .role-grid, .np-pillars-grid {
-    grid-template-columns: 1fr;
+
+  /* Left: Brand / Logo */
+  .brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
+  }
+
+  /* Hide subtitle and extra badges on mobile to keep navbar ultra-clean */
+  .brand-ai-badge {
+    display: none !important;
+  }
+
+  .brand-tagline {
+    display: none !important;
+  }
+
+  /* Right: Actions Toolbar */
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  /* 1. GitHub Button: Circular Icon Button */
+  .btn-nav-github {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .btn-nav-github svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  .nav-github-text {
+    display: none !important;
+  }
+
+  /* 2. Theme Toggle Switch: Circular Icon Button */
+  .btn-theme-toggle {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    font-size: 14px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box;
+  }
+
+  /* 3. Blue Button: Sleek Pill Button */
+  .btn-primary#openPitchModalBtn {
+    height: 34px !important;
+    padding: 0 12px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    border-radius: var(--radius-pill) !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    box-shadow: none !important;
+    letter-spacing: 0.2px;
+  }
+
+  .pitch-text-full {
+    display: none !important;
+  }
+
+  .pitch-text-mobile {
+    display: inline !important;
+  }
+
+  .section-header {
+    margin-bottom: 20px;
+  }
+  .section-tag {
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 1.55rem;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .section-subtitle {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  /* Hero Section */
+  .hero-content h1 {
+    font-size: 1.95rem;
+    line-height: 1.22;
+    margin-bottom: 12px;
+  }
+  .hero-description {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .hero-cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .hero-cta-group a,
+  .hero-cta-group button {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 0.88rem;
+  }
+  .hero-image-img {
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    width: 100%;
+  }
+  .hero-visual-card {
+    margin-top: 8px;
   }
   .hero-metrics-strip {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px 12px;
+    margin-top: 18px;
+  }
+  .metric-item {
+    padding: 4px;
+  }
+  .metric-item .metric-val {
+    font-size: 1.25rem;
+  }
+  .metric-item .metric-label {
+    font-size: 0.72rem;
+  }
+
+  /* Cards & Grids */
+  .comparison-grid, .role-grid, .np-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .compare-card, .role-card {
+    padding: 20px 16px;
+    border-radius: var(--radius-lg);
+  }
+  .compare-title, .role-title {
+    font-size: 1.2rem;
+  }
+  .compare-item {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .compare-text h4 {
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+  .compare-text p {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+  .role-bullet-list {
+    gap: 10px;
+  }
+  .role-bullet-list li {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  /* Simulator Section */
+  .sim-workspace {
+    border-radius: var(--radius-lg);
+  }
+  .sim-input-col {
+    padding: 18px 16px;
+  }
+  .sim-output-col {
+    padding: 18px 16px;
+  }
+  .scenario-btn-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .scenario-btn {
+    padding: 8px 12px;
+  }
+
+  /* AI Pillars */
+  .ai-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .ai-pillar-card {
+    padding: 18px 16px;
   }
   .sos-ladder-grid {
     grid-template-columns: 1fr;
   }
+
+  /* Non-Profit & Founder */
+  .np-pledge-banner {
+    padding: 18px 16px;
+    border-radius: var(--radius-lg);
+    gap: 12px;
+  }
+  .np-pledge-text h3 {
+    font-size: 1.15rem;
+  }
+  .np-pledge-text p {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+  .founder-card {
+    padding: 22px 16px;
+    gap: 18px;
+    border-radius: var(--radius-lg);
+  }
+  .founder-quote {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .founder-contact-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .founder-contact-actions a {
+    width: 100%;
+  }
+
+  /* Open Source */
+  .repo-showcase-card {
+    padding: 20px 16px;
+    border-radius: var(--radius-lg);
+    margin-top: 16px;
+  }
+  .repo-name {
+    font-size: 1.25rem;
+  }
+  .repo-desc {
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  .repo-clone-box {
+    padding: 12px 14px;
+    margin: 16px 0 14px;
+  }
+  .clone-code {
+    font-size: 0.82rem;
+  }
+  .btn-copy-clone {
+    padding: 5px 10px;
+    font-size: 0.78rem;
+  }
+
+  /* CTA Banner */
+  .pitch-banner-card {
+    padding: 0 10px;
+  }
+  .pitch-banner-title {
+    font-size: 1.55rem;
+    line-height: 1.25;
+  }
+  .pitch-banner-subtitle {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .pitch-banner-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .pitch-banner-actions a,
+  .pitch-banner-actions button {
+    width: 100%;
+    justify-content: center;
+  }
   .modal-content {
-    padding: 24px;
+    padding: 20px 18px;
+  }
+}
+
+/* ==========================================================================
+   Open Source & GitHub Showcase Section
+   ========================================================================== */
+.open-source-section {
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  padding: 80px 0;
+}
+
+.repo-showcase-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  box-shadow: var(--shadow-card);
+  margin-top: 28px;
+}
+
+.repo-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.repo-title-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 680px;
+}
+
+.repo-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+
+.repo-badge-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.repo-status-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: var(--google-green-surface);
+  color: var(--google-green);
+  border: 1px solid var(--google-green-border);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.repo-license-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: var(--google-blue-surface);
+  color: var(--google-blue);
+  border: 1px solid var(--google-blue-border);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.repo-name {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+}
+
+.repo-name a {
+  color: var(--text-main);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.repo-name a:hover {
+  color: var(--google-blue);
+  text-decoration: underline;
+}
+
+.repo-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.repo-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-repo-star, .btn-repo-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none !important;
+}
+
+/* Terminal Clone Box */
+.repo-clone-box {
+  background-color: #1e1e1e;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin: 24px 0 20px;
+  border: 1px solid #333333;
+}
+
+.clone-box-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.terminal-dot.red { background-color: #ff5f56; }
+.terminal-dot.yellow { background-color: #ffbd2e; }
+.terminal-dot.green { background-color: #27c93f; }
+
+.clone-box-title {
+  font-size: 0.76rem;
+  color: #888888;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.clone-command-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.clone-code {
+  color: #58a6ff;
+  font-family: var(--font-mono);
+  font-size: 0.96rem;
+  font-weight: 500;
+  word-break: break-all;
+  user-select: all;
+}
+
+.btn-copy-clone {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.btn-copy-clone:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+
+.btn-copy-clone.copied {
+  background-color: #238636 !important;
+  border-color: #2ea043 !important;
+  color: #ffffff !important;
+}
+
+/* Feature Pills Grid */
+.repo-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.repo-feature-pill {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.rf-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.repo-feature-pill strong {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.repo-feature-pill span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Quickstart 3 steps */
+.repo-quickstart {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+}
+
+.quickstart-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 14px 0;
+}
+
+.quickstart-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.qs-step {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.qs-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--google-blue);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.qs-step strong {
+  display: block;
+  font-size: 0.84rem;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.qs-step span, .qs-step code {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.qs-step code {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1px 4px;
+  border-radius: 4px;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  display: inline-block;
+  margin-top: 2px;
+}
+
+[data-theme="dark"] .qs-step code {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Nav & Hero GitHub Buttons */
+.btn-nav-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  text-decoration: none !important;
+  transition: all 0.15s ease;
+}
+
+.btn-nav-github:hover {
+  background-color: #24292e;
+  color: #ffffff;
+  border-color: #24292e;
+}
+
+[data-theme="dark"] .btn-nav-github:hover {
+  background-color: #f0f6fc;
+  color: #1f2328;
+  border-color: #f0f6fc;
+}
+
+.btn-github-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  background-color: var(--bg-card);
+  text-decoration: none !important;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.15s ease;
+}
+
+.btn-github-pill:hover {
+  background-color: #24292e;
+  color: #ffffff;
+  border-color: #24292e;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .btn-github-pill:hover {
+  background-color: #f0f6fc;
+  color: #1f2328;
+  border-color: #f0f6fc;
+}
+
+@media (max-width: 992px) {
+  .repo-highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .quickstart-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .repo-highlights-grid {
+    grid-template-columns: 1fr;
+  }
+  .repo-header-row {
+    flex-direction: column;
+  }
+  .repo-action-buttons {
+    width: 100%;
+  }
+  .btn-repo-star, .btn-repo-download {
+    flex: 1;
+    justify-content: center;
+  }
+  .nav-github-text {
+    display: none;
   }
 }

@@ -26,6 +26,10 @@ function is_logged_in() {
     return !empty($_SESSION['user_id']) && !empty($_SESSION['role']);
 }
 
+function is_demo() {
+    return is_logged_in() && $_SESSION['role'] === 'demo';
+}
+
 function is_parent() {
     return is_logged_in() && $_SESSION['role'] === 'parent';
 }
@@ -49,7 +53,7 @@ function require_login() {
 }
 
 /**
- * Require Parent - Denies teachers access to admin/configuration
+ * Require Parent - Denies teachers and demo users access to real admin/configuration
  */
 function require_parent() {
     require_login();
@@ -61,7 +65,7 @@ function require_parent() {
             <div class="card border-0 shadow-sm rounded-4 p-4 mx-auto" style="max-width: 450px;">
                 <div class="display-1 text-warning mb-3">🔒</div>
                 <h3 class="fw-bold text-dark">Parent Access Only</h3>
-                <p class="text-muted">Teacher mode has view-only permissions and cannot access settings or configuration.</p>
+                <p class="text-muted"><?= is_demo() ? 'Demo Mode is view/preview only and cannot access configuration or settings.' : 'Teacher mode has view-only permissions and cannot access settings or configuration.' ?></p>
                 <a href="index.php" class="btn btn-primary rounded-pill px-4 py-2 mt-3 fw-bold">Return to Dashboard</a>
             </div>
         </div>
@@ -76,16 +80,24 @@ $loginError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'verify_passcode') {
     $passcode = trim($_POST['passcode'] ?? '');
     if ($passcode !== '') {
-        $pdo = get_db_connection();
-        $users = $pdo->query("SELECT id, passcode_hash, role FROM users")->fetchAll();
         $authenticated = false;
 
-        foreach ($users as $user) {
-            if (password_verify($passcode, $user['passcode_hash'])) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['role'] = $user['role'];
-                $authenticated = true;
-                break;
+        // Fixed Demo Account: PIN 1234
+        if ($passcode === '1234') {
+            $_SESSION['user_id'] = 'demo';
+            $_SESSION['role'] = 'demo';
+            $authenticated = true;
+        } else {
+            $pdo = get_db_connection();
+            $users = $pdo->query("SELECT id, passcode_hash, role FROM users")->fetchAll();
+
+            foreach ($users as $user) {
+                if (password_verify($passcode, $user['passcode_hash'])) {
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['role'] = $user['role'];
+                    $authenticated = true;
+                    break;
+                }
             }
         }
 
@@ -116,7 +128,8 @@ function render_passcode_lock_screen($error = '') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Daily Tracker - Passcode Lock</title>
+    <title>Z-Life Daily Tracker - Passcode Lock</title>
+    <link rel="icon" type="image/png" href="assets/logo-icon.png">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -130,11 +143,8 @@ function render_passcode_lock_screen($error = '') {
     <div class="card border-0 shadow-lg rounded-4 p-4 text-center bg-white">
         <!-- Logo & Title -->
         <div class="mb-3">
-            <span class="badge rounded-pill bg-primary-soft text-primary px-3 py-2 fw-bold text-uppercase tracking-wider">
-                Daily Tracker
-            </span>
-            <h2 class="fw-bold mt-2 mb-1 text-slate">Welcome</h2>
-            <p class="text-muted small mb-0">Tracking for <?= htmlspecialchars($settings['z_name']) ?> &bull; <?= htmlspecialchars($settings['z_class']) ?></p>
+            <img src="assets/logo.png" alt="Z-Life Daily Tracker - Autism Care" class="img-fluid mb-2" style="max-height: 54px; width: auto; max-width: 220px; object-fit: contain;">
+            <p class="text-muted small mb-0">Daily Care & Autism Routine Tracker</p>
         </div>
 
         <?php if ($errorMessage): ?>
@@ -181,7 +191,11 @@ function render_passcode_lock_screen($error = '') {
         </form>
 
         <div class="mt-4 pt-2 border-top">
-            <p class="text-muted x-small mb-1">Enter <strong>Parent Passcode</strong> for full access</p>
+            <div class="mb-2 p-2 rounded-3 bg-light border">
+                <span class="badge bg-primary text-white fw-bold px-2 py-1 me-1">DEMO PIN: 1234</span>
+                <span class="text-muted x-small">Interactive Parental Preview</span>
+            </div>
+            <p class="text-muted x-small mb-1">Enter <strong>Parent Passcode</strong> for full tracking</p>
             <p class="text-muted x-small mb-0">Enter <strong>Teacher Passcode</strong> for view-only summary</p>
         </div>
     </div>
