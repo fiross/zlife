@@ -126,6 +126,13 @@ async function deploy() {
       console.log('   ✔ .htaccess');
     }
 
+    // B2. Upload .env (secure environment variables protected by .htaccess)
+    const localEnv = path.join(ROOT_DIR, '.env');
+    if (fs.existsSync(localEnv)) {
+      await client.uploadFrom(localEnv, '.env');
+      console.log('   ✔ .env (environment settings & Gemini API keys)');
+    }
+
     // C. Upload config.php if required
     if (uploadConfigFile) {
       const localConfig = path.join(ROOT_DIR, 'config.php');
@@ -178,7 +185,7 @@ async function deploy() {
         if (file === 'config.php' && !uploadCronConfigFile) {
           continue; // Preserve Hostinger SMTP password in cron/config.php
         }
-        if (file === '.last_email_sent.json' || file === '.smtp_pass.php') {
+        if (file === '.last_email_sent.json' || file === '.last_ai_forecast_sent.json' || file === '.smtp_pass.php') {
           continue; // Skip local lock files / secret files
         }
         const localPath = path.join(localCronDir, file);

@@ -87,12 +87,39 @@ return 'YourActualHostingerEmailPassword';
 
 ## 🧪 Local Testing & Email Preview
 
-You can test the script locally anytime from terminal:
+You can test either script locally anytime from terminal:
 
+### 1. Test AI Behavioral & Mood Forecast Email:
 ```bash
-# Force run and generate email preview
+# Force run AI forecast cron and generate preview
+php cron/daily_forecast_cron.php --test --force
+
+# Preview the rendered AI forecast email in your browser
+open cron/preview_ai_forecast_email.html
+```
+
+### 2. Test Evening Care Reminder Email:
+```bash
+# Force run reminder email and generate preview
 php cron/daily_reminder.php --force
 
-# Preview the generated HTML email in your browser
+# Preview the rendered reminder email in your browser
 open cron/preview_latest_email.html
 ```
+
+---
+
+## 🤖 AI Daily Forecast Cron Job (`daily_forecast_cron.php`)
+
+Sends automated daily AI care forecast emails synthesizing 30 days of longitudinal logs, active challenges, and the student's pediatric diagnostic profile.
+
+### Hostinger Cron Setup (e.g. 7:00 AM CST)
+- **Schedule:** `0 7 * * *` (Daily at 7:00 AM)
+- **Command (CLI):**
+  ```bash
+  /usr/bin/php /home/USERNAME/public_html/cron/daily_forecast_cron.php >> /home/USERNAME/public_html/cron/cron_forecast.log 2>&1
+  ```
+- **Web Cron Trigger:**
+  ```
+  https://zeba.zeehash.com/cron/daily_forecast_cron.php?token=zeehash_care_cron_2026
+  ```

@@ -56,5 +56,8 @@ export const api = {
   passcodes: {
     update: ({ parent_passcode, teacher_passcode }) =>
       apiFetch('/passcodes.php', { method: 'POST', body: { parent_passcode, teacher_passcode } }),
+  },
+  forecast: {
+    get: (refresh = false) => apiFetch(`/get_app_forecast.php${refresh ? '?refresh=1' : ''}`),
   }
 };
