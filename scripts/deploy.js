@@ -185,7 +185,7 @@ async function deploy() {
         if (file === 'config.php' && !uploadCronConfigFile) {
           continue; // Preserve Hostinger SMTP password in cron/config.php
         }
-        if (file === '.last_email_sent.json' || file === '.smtp_pass.php') {
+        if (file === '.last_email_sent.json' || file === '.last_ai_forecast_sent.json' || file === '.smtp_pass.php') {
           continue; // Skip local lock files / secret files
         }
         const localPath = path.join(localCronDir, file);

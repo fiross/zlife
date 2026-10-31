@@ -214,7 +214,14 @@ if (count($logs) < 7) {
 
 // 4. Cache management (10 minute cache, bypass with ?refresh=1 or force=true)
 $forceRefresh = isset($_GET['refresh']) || isset($_GET['force']);
-$cacheFile = sys_get_temp_dir() . '/zlife_gemini_forecast_30d_cache.json';
+$cacheScope = $isDemo ? 'demo_alex' : ('real_' . preg_replace('/[^a-zA-Z0-9_-]/', '_', $childName));
+$cacheFile = sys_get_temp_dir() . '/zlife_gemini_forecast_30d_' . $cacheScope . '.json';
+
+// Invalidate legacy unsegregated cache if present
+$legacyCache = sys_get_temp_dir() . '/zlife_gemini_forecast_30d_cache.json';
+if (file_exists($legacyCache)) {
+    @unlink($legacyCache);
+}
 
 if (!$forceRefresh && file_exists($cacheFile)) {
     $cacheAge = time() - filemtime($cacheFile);
@@ -222,9 +229,15 @@ if (!$forceRefresh && file_exists($cacheFile)) {
         $cachedContent = file_get_contents($cacheFile);
         $cachedJson = json_decode($cachedContent, true);
         if ($cachedJson && isset($cachedJson['current_analysis']) && isset($cachedJson['mood_forecast'])) {
-            header('X-Forecast-Source: cache');
-            echo json_encode($cachedJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-            exit;
+            // Guard: ensure demo sample name "Alex" never bleeds over into a real parent session
+            if (!$isDemo && stripos($cachedJson['current_analysis'], 'Alex') !== false) {
+                // Invalidate stale demo cache and re-fetch real student synthesis
+                @unlink($cacheFile);
+            } else {
+                header('X-Forecast-Source: cache');
+                echo json_encode($cachedJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                exit;
+            }
         }
     }
 }

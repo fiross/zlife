@@ -21,6 +21,7 @@ tracker_local.sqlite
 .prompt_ai
 cron/.smtp_pass.php
 cron/.last_email_sent.json
+cron/.last_ai_forecast_sent.json
 cron/*.html
 
 # Editor directories
