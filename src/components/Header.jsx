@@ -1,8 +1,8 @@
 import React from 'react';
-import { Settings, LogOut, HeartPulse, User, FileSpreadsheet } from 'lucide-react';
+import { Settings, LogOut, HeartPulse, User, FileSpreadsheet, Sparkles } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
-export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onOpenSOS, onLogout }) {
+export default function Header({ settings, role, activeView, onToggleForecast, onOpenAdmin, onOpenHistory, onOpenSOS, onLogout }) {
   const isParent = role === 'parent';
   const isDemo = role === 'demo';
 
@@ -55,6 +55,17 @@ export default function Header({ settings, role, onOpenAdmin, onOpenHistory, onO
               <Settings size={18} />
             </button>
           )}
+
+          {/* AI Behavioral Forecast Trigger */}
+          <button
+            type="button"
+            className={`btn-icon ${activeView === 'forecast' ? 'is-active' : ''}`}
+            onClick={onToggleForecast}
+            id="ai-forecast-quick-btn"
+            title="AI Behavioral & Mood Forecast (7-Day Trends)"
+          >
+            <Sparkles size={18} />
+          </button>
 
           {/* Logout / Lock Button */}
           <button

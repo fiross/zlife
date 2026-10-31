@@ -126,6 +126,13 @@ async function deploy() {
       console.log('   ✔ .htaccess');
     }
 
+    // B2. Upload .env (secure environment variables protected by .htaccess)
+    const localEnv = path.join(ROOT_DIR, '.env');
+    if (fs.existsSync(localEnv)) {
+      await client.uploadFrom(localEnv, '.env');
+      console.log('   ✔ .env (environment settings & Gemini API keys)');
+    }
+
     // C. Upload config.php if required
     if (uploadConfigFile) {
       const localConfig = path.join(ROOT_DIR, 'config.php');
